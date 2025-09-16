@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham-Black.otf">
+            <string>Gotham-Black</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReportarViewController" customModule="Comando" customModuleProvider="target">
+            <connections>
+                <outlet property="acidente_but" destination="rku-ZT-IQ4" id="Vwo-Kt-hT4"/>
+                <outlet property="alagamento_but" destination="9ZM-Km-tdZ" id="eNb-oR-bo4"/>
+                <outlet property="arvore_but" destination="wEI-OS-Dua" id="OlC-ad-GLz"/>
+                <outlet property="desli_but" destination="moD-ae-Kie" id="JMg-AZ-gAV"/>
+                <outlet property="eventos_but" destination="FBc-2H-IJj" id="hrk-G6-sAl"/>
+                <outlet property="obs_but" destination="uqq-nT-0LY" id="5uE-yH-LxX"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdY-kN-we2">
+                    <rect key="frame" x="8" y="8" width="398" height="256"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <string key="text">Se houver um incidente no local onde se encontra agora, escolha o tipo de ocorrência nos botões e confirme.  
+ A localização do seu aparelho ajudará o COR a localizar a ocorrência.</string>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="17"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="uqq-nT-0LY">
+                    <rect key="frame" x="215" y="584" width="183" height="136"/>
+                    <color key="backgroundColor" red="0.18823529410000001" green="0.4941176471" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="uqq-nT-0LY" secondAttribute="height" multiplier="74:55" id="14S-lF-K6o"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="17"/>
+                    <state key="normal" image="fire">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="transbut:" destination="-1" eventType="touchUpInside" id="BOX-gD-Bd2"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="moD-ae-Kie">
+                    <rect key="frame" x="16" y="584" width="183" height="136"/>
+                    <color key="backgroundColor" red="0.18823529410000001" green="0.4941176471" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="moD-ae-Kie" secondAttribute="height" multiplier="74:55" id="io0-ep-v9S"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="17"/>
+                    <state key="normal" image="landslidebut">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="deslibut:" destination="-1" eventType="touchUpInside" id="dFv-Lu-5Dn"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rku-ZT-IQ4">
+                    <rect key="frame" x="16" y="432" width="183" height="136"/>
+                    <color key="backgroundColor" red="0.18823529410000001" green="0.4941176471" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="rku-ZT-IQ4" secondAttribute="height" multiplier="74:55" id="GOB-Nn-2Yy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="17"/>
+                    <state key="normal" image="accidentbut">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="acidenbut:" destination="-1" eventType="touchUpInside" id="P3K-nW-OGe"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="wEI-OS-Dua">
+                    <rect key="frame" x="16" y="280" width="183" height="136"/>
+                    <color key="backgroundColor" red="0.18823529410000001" green="0.4941176471" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="wEI-OS-Dua" secondAttribute="height" multiplier="74:55" id="84c-tJ-2ft"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="17"/>
+                    <state key="normal" image="lightningbut">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="quedabut:" destination="-1" eventType="touchUpInside" id="euv-Ga-FJf"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="FBc-2H-IJj">
+                    <rect key="frame" x="215" y="432" width="183" height="136"/>
+                    <color key="backgroundColor" red="0.18823529410000001" green="0.4941176471" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="FBc-2H-IJj" secondAttribute="height" multiplier="74:55" id="3zw-kY-7Nh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="17"/>
+                    <state key="normal" image="calendarbut">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="evenbut:" destination="-1" eventType="touchUpInside" id="UTN-5y-gI2"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="9ZM-Km-tdZ">
+                    <rect key="frame" x="215" y="280" width="183" height="136"/>
+                    <color key="backgroundColor" red="0.18823529410000001" green="0.4941176471" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="9ZM-Km-tdZ" secondAttribute="height" multiplier="74:55" id="R7T-hX-raU"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="17"/>
+                    <state key="normal" image="floodbut">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="alabut:" destination="-1" eventType="touchUpInside" id="xPp-6s-Djb"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deslizamentos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BNr-Op-Lnm">
+                    <rect key="frame" x="16" y="680" width="183" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="eye-UY-ACB"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acidentes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txE-cs-thV">
+                    <rect key="frame" x="16" y="528" width="183" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="R7J-GJ-tKh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Queda de árvore" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7A7-zJ-MBe">
+                    <rect key="frame" x="16" y="376" width="183" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="76k-2p-vjM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alagamentos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PXa-va-X8C">
+                    <rect key="frame" x="215" y="376" width="183" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="bJb-fN-cNn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fogo em vegetação" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JxY-r0-gbC">
+                    <rect key="frame" x="215" y="680" width="183" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="bjY-2R-7rE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Eventos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H2w-Om-zNc">
+                    <rect key="frame" x="215" y="528" width="183" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Wi7-4v-Dto"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="uqq-nT-0LY" firstAttribute="width" secondItem="moD-ae-Kie" secondAttribute="width" id="08S-0n-Sb1"/>
+                <constraint firstItem="wEI-OS-Dua" firstAttribute="top" secondItem="sdY-kN-we2" secondAttribute="bottom" constant="16" id="1t4-03-4Om"/>
+                <constraint firstItem="H2w-Om-zNc" firstAttribute="width" secondItem="txE-cs-thV" secondAttribute="width" id="2Yk-ln-3VZ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="sdY-kN-we2" secondAttribute="trailing" constant="8" id="3Rs-ZT-g03"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="moD-ae-Kie" secondAttribute="bottom" constant="16" id="49L-jK-Kvu"/>
+                <constraint firstItem="moD-ae-Kie" firstAttribute="top" secondItem="txE-cs-thV" secondAttribute="bottom" constant="16" id="4Lr-w6-TfZ"/>
+                <constraint firstItem="FBc-2H-IJj" firstAttribute="width" secondItem="rku-ZT-IQ4" secondAttribute="width" id="5ob-kQ-Jye"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uqq-nT-0LY" secondAttribute="trailing" constant="16" id="67m-MW-Dba"/>
+                <constraint firstItem="9ZM-Km-tdZ" firstAttribute="leading" secondItem="wEI-OS-Dua" secondAttribute="trailing" constant="16" id="7pA-Se-m8b"/>
+                <constraint firstItem="sdY-kN-we2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="Euw-4w-Tj6"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="H2w-Om-zNc" secondAttribute="trailing" constant="16" id="F5s-Nt-eyv"/>
+                <constraint firstItem="rku-ZT-IQ4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Foc-av-GoV"/>
+                <constraint firstItem="moD-ae-Kie" firstAttribute="top" secondItem="rku-ZT-IQ4" secondAttribute="bottom" constant="16" id="IQ3-vw-5sc"/>
+                <constraint firstItem="BNr-Op-Lnm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Kc7-1l-W62"/>
+                <constraint firstItem="wEI-OS-Dua" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Kpo-f6-Rdz"/>
+                <constraint firstItem="7A7-zJ-MBe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="MFC-Gs-dT8"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="FBc-2H-IJj" secondAttribute="trailing" constant="16" id="MYm-gt-F1M"/>
+                <constraint firstItem="uqq-nT-0LY" firstAttribute="leading" secondItem="moD-ae-Kie" secondAttribute="trailing" constant="16" id="Mxc-Do-E3k"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="PXa-va-X8C" secondAttribute="trailing" constant="16" id="NMM-nU-Pxd"/>
+                <constraint firstItem="9ZM-Km-tdZ" firstAttribute="width" secondItem="wEI-OS-Dua" secondAttribute="width" id="O7h-FC-aEz"/>
+                <constraint firstItem="PXa-va-X8C" firstAttribute="width" secondItem="7A7-zJ-MBe" secondAttribute="width" id="PyA-j0-2YS"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9ZM-Km-tdZ" secondAttribute="trailing" constant="16" id="RFS-uu-4Ih"/>
+                <constraint firstItem="FBc-2H-IJj" firstAttribute="leading" secondItem="rku-ZT-IQ4" secondAttribute="trailing" constant="16" id="Wvi-k0-oEe"/>
+                <constraint firstItem="FBc-2H-IJj" firstAttribute="top" secondItem="PXa-va-X8C" secondAttribute="bottom" constant="16" id="Ye3-An-cPv"/>
+                <constraint firstItem="FBc-2H-IJj" firstAttribute="top" secondItem="9ZM-Km-tdZ" secondAttribute="bottom" constant="16" id="Yz6-yN-gfl"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="BNr-Op-Lnm" secondAttribute="bottom" constant="16" id="ZJr-dP-s4R"/>
+                <constraint firstItem="txE-cs-thV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Zhf-XA-JMD"/>
+                <constraint firstItem="uqq-nT-0LY" firstAttribute="top" secondItem="H2w-Om-zNc" secondAttribute="bottom" constant="16" id="be0-3U-CyS"/>
+                <constraint firstItem="rku-ZT-IQ4" firstAttribute="top" secondItem="7A7-zJ-MBe" secondAttribute="bottom" constant="16" id="cHm-qW-IRr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="JxY-r0-gbC" secondAttribute="trailing" constant="16" id="cde-hk-eA0"/>
+                <constraint firstItem="sdY-kN-we2" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="diD-cQ-rJX"/>
+                <constraint firstItem="FBc-2H-IJj" firstAttribute="leading" secondItem="txE-cs-thV" secondAttribute="trailing" constant="16" id="dll-CA-KSz"/>
+                <constraint firstItem="uqq-nT-0LY" firstAttribute="leading" secondItem="BNr-Op-Lnm" secondAttribute="trailing" constant="16" id="fEC-WM-TWo"/>
+                <constraint firstItem="rku-ZT-IQ4" firstAttribute="top" secondItem="wEI-OS-Dua" secondAttribute="bottom" constant="16" id="gMZ-xp-ACt"/>
+                <constraint firstItem="uqq-nT-0LY" firstAttribute="top" secondItem="FBc-2H-IJj" secondAttribute="bottom" constant="16" id="iPW-aI-zQo"/>
+                <constraint firstItem="moD-ae-Kie" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="j5b-q4-G8V"/>
+                <constraint firstItem="9ZM-Km-tdZ" firstAttribute="leading" secondItem="7A7-zJ-MBe" secondAttribute="trailing" constant="16" id="pLe-qn-O58"/>
+                <constraint firstItem="JxY-r0-gbC" firstAttribute="width" secondItem="BNr-Op-Lnm" secondAttribute="width" id="ql4-Ic-fHY"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="JxY-r0-gbC" secondAttribute="bottom" constant="16" id="xvR-nH-sM5"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="uqq-nT-0LY" secondAttribute="bottom" constant="16" id="zjb-QY-1zk"/>
+            </constraints>
+            <point key="canvasLocation" x="138.75" y="103.52112676056338"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="accidentbut" width="36.666667938232422" height="36.666667938232422"/>
+        <image name="calendarbut" width="36.666667938232422" height="36.666667938232422"/>
+        <image name="fire" width="42.666667938232422" height="42.666667938232422"/>
+        <image name="floodbut" width="36.666667938232422" height="36.666667938232422"/>
+        <image name="landslidebut" width="36.666667938232422" height="36.666667938232422"/>
+        <image name="lightningbut" width="36.666667938232422" height="36.666667938232422"/>
+    </resources>
+</document>

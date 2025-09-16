@@ -1,0 +1,429 @@
+/* GENERAL */
+"app_title" = "Rio Operations Center";
+"ok" = "OK";
+"cancel" = "Cancel";
+"confirm" = "Confirm";
+"delete" = "Delete";
+"edit" = "Edit";
+"save" = "Save";
+"done" = "Done";
+"back" = "Back";
+"search" = "Search";
+"filter" = "Filter";
+"sort" = "Sort";
+"ascending" = "Ascending";
+"descending" = "Descending";
+"retry" = "Try again";
+"refresh" = "Refresh";
+"pull_to_refresh" = "Pull to refresh";
+
+/* STATES AND ERRORS */
+"loading" = "Loading...";
+"error" = "Error loading data";
+"error_generic" = "An error occurred";
+"no_connection" = "No connection";
+"unknown_error" = "Unknown error";
+"empty_state" = "No data available";
+"no_data" = "Data unavailable";
+"data_unavailable" = "Data Unavailable";
+"not_available" = "N/A";
+"not_available_short" = "N/A";
+"unavailable" = "Unavailable";
+
+/* TIME */
+"now" = "Now";
+"today" = "Today";
+"tomorrow" = "Tomorrow";
+"yesterday" = "Yesterday";
+"last_updated" = "Last updated: %@";
+
+/* BUTTONS AND ACTIONS */
+"see_more" = "See more";
+"close" = "Close";
+"share" = "Share";
+"view_on_map" = "View on map";
+"expand_map" = "Expand map";
+"touch_for_details" = "Tap for more details";
+"expand" = "Expand";
+"collapse" = "Collapse";
+"more_info" = "More Info";
+"view_details" = "View details";
+"get_directions" = "Get Directions";
+"center_on_my_location" = "Center on my location";
+"center_on_location" = "Center on location";
+"center_on_map" = "Center on map";
+
+/* ACCESSIBILITY */
+"double_tap_to_open" = "Double tap to open";
+"swipe_to_dismiss" = "Swipe to dismiss";
+"button" = "Button";
+"image" = "Image";
+"selected" = "Selected";
+"not_selected" = "Not selected";
+"expanded" = "Expanded";
+"collapsed" = "Collapsed";
+
+/* WEATHER CONDITIONS */
+"weather_conditions" = "Weather Conditions";
+"temperature" = "Temperature";
+"humidity" = "Humidity";
+"wind" = "Wind";
+"rain" = "Rain";
+"heat_level" = "Heat Level";
+"thermal_sensation" = "Feels Like: %@";
+"climate_conditions" = "Weather Conditions";
+"climate_details_title" = "Weather Details for %@";
+"climate_pages_title" = "Heat Level Details Page";
+"updating_data" = "Updating data...";
+
+/* RAIN VALUES */
+"rain_none" = "-";
+"rain_light" = "Light";
+"rain_moderate" = "Moderate";
+"rain_heavy" = "Heavy";
+
+/* RAIN GAUGES */
+"rain_gauges" = "Rain Gauges";
+"rain_legend" = "Rain legend";
+"rain_legend_1h" = "Rain Legend (1h)";
+"rain_gauge_station" = "Rain Gauge Station";
+"last_reading" = "Last Reading";
+"rain_last_hour" = "Rain in Last Hour";
+"rain_accumulated_4h" = "4h Accumulation";
+"rain_accumulated_24h" = "24h Accumulation";
+"rain_accumulated_96h" = "96h Accumulation";
+"rain_accumulated_30d" = "30 Day Accumulation";
+
+/* WEATHER STATIONS */
+"weather_stations" = "Weather Stations";
+"weather_station" = "Weather Station";
+"wind_legend" = "Wind Legend";
+"average_temperature" = "Average Temperature";
+"average_humidity" = "Average Humidity";
+"wind_speed" = "Wind Speed";
+"wind_direction" = "Wind Direction";
+"wind_strong" = "Strong (≥ 61 km/h)";
+"wind_moderate" = "Moderate (≥ 38 km/h)";
+"wind_weak" = "Weak (≥ 19 km/h)";
+"wind_calm" = "Calm (< 19 km/h)";
+
+/* REPORTS */
+"weather_reports" = "Weather Reports";
+"loading_forecasts" = "Loading forecasts...";
+"no_weather_info" = "No weather information at this time";
+"report_unavailable" = "Report unavailable";
+"traffic_reports" = "Traffic Reports";
+"loading_reports" = "Loading reports...";
+"no_traffic_reports" = "No traffic reports at this time";
+
+/* EVENTS */
+"city_events" = "City Events";
+"loading_events" = "Loading events...";
+"no_events" = "No scheduled events";
+"other_events" = "others";
+"other_events_title" = "Other Events";
+"x_of_y" = "%d of %d";
+"event" = "Event";
+"important" = "IMPORTANT";
+"important_event" = "Important Event";
+"expected_public" = "Expected attendance";
+"expected_public_format" = "Expected attendance: %@";
+"event_details" = "Event Details";
+"about_event" = "About the event";
+"event_source" = "Source";
+"source_format" = "Source: %@";
+"source" = "Source";
+"image_unavailable" = "Image unavailable";
+"date_at_time" = "%@ at %@";
+"from_time_to_time" = "From %@ to %@";
+"events_available" = "events available";
+
+/* CRITICALITY */
+"criticality_high" = "High";
+"criticality_medium" = "Medium";
+"criticality_normal" = "Normal";
+
+/* ZONES */
+"zone_south" = "South Zone";
+"zone_north" = "North Zone";
+"zone_west" = "West Zone";
+"zone_center" = "Downtown";
+
+/* EVENT TYPES */
+"event_type_congress" = "Congress";
+"event_type_cultural" = "Cultural";
+"event_type_sports" = "Sports";
+"event_type_fair" = "Fair";
+"event_type_musical" = "Musical";
+"event_type_protest" = "Protest";
+"event_type_religious" = "Religious";
+"event_type_new_year" = "New Year's Eve";
+"event_type_carnival_neighborhood" = "Neighborhood Carnival";
+"event_type_carnival_parades" = "Carnival: Parades";
+"event_type_carnival_rehearsals" = "Carnival: Technical Rehearsals";
+"event_type_carnival_blocks" = "Carnival: Blocks";
+"event_type_carnival_stages" = "Carnival: Stages";
+"event_type_unofficial_blocks" = "Unofficial blocks";
+"event_type_simulation" = "Simulation";
+"event_type_academic" = "Academic";
+"event_type_corporate" = "Corporate";
+"event_type_political" = "Political";
+"event_type_gastronomic" = "Gastronomic";
+"event_type_educational" = "Educational";
+"event_type_other" = "Other";
+
+/* EVENT GROUPS */
+"event_group_carnival" = "Carnival";
+"event_group_business" = "Business";
+"event_group_education" = "Education";
+
+/* ALERTS */
+"alerts" = "Alerts";
+"loading_alerts" = "Loading alerts...";
+"no_alerts" = "No alerts at this time";
+"alert_no_title" = "Alert without title";
+"alert_details" = "Details";
+"date" = "Date";
+"message" = "Message";
+"share_alert" = "Share Alert";
+"alert_prefix" = "Alert:";
+"audio" = "Audio";
+"view_all_alerts" = "View all alerts";
+"alerts_available" = "alerts available";
+"details" = "Details";
+"siren_status_mobilized" = "Mobilized";
+"siren_status_demobilized" = "Demobilized";
+"siren_status_all" = "All";
+"filter_by_community" = "Filter by community:";
+/* ALERT HIGHLIGHT WORDS */
+"highlight_attention" = "attention";
+"highlight_risk" = "risk";
+"highlight_closed" = "closed";
+"highlight_evacuate" = "evacuate";
+"highlight_danger" = "danger";
+"highlight_warning" = "warning";
+"highlight_avoid" = "avoid";
+"highlight_forecast" = "forecast";
+"highlight_traffic" = "traffic";
+"highlight_strong" = "strong";
+"highlight_moderate" = "moderate";
+"highlight_stage" = "stage";
+"social_networks" = "Social Networks";
+"traffic_normal" = "Normal traffic";
+"for_the_time" = "for the time";
+/* CITY STAGES */
+"city_stage" = "City Stage";
+"city_in" = "City in";
+"stage_when" = "When:";
+"stage_impact" = "Impact:";
+"stage_operational" = "OPERATIONAL";
+
+/* STAGE DESCRIPTIONS */
+"stage_1_title" = "Stage 1";
+"stage_1_status" = "NORMAL";
+"stage_1_description" = "No occurrences that cause significant changes to daily life.";
+"stage_1_when" = "No occurrences that cause significant changes to daily life. No short-term risk factors have been identified that impact the city's routine.";
+"stage_1_impact" = "Little or no impact on traffic flow and city infrastructure and logistics operations.";
+
+"stage_2_title" = "Stage 2";
+"stage_2_status" = "ATTENTION";
+"stage_2_description" = "Risk of high-impact occurrences in the city.";
+"stage_2_when" = "Risk of high-impact occurrences in the city, due to a predicted event or based on analysis of data from specialists. There is an occurrence with high potential for worsening.";
+"stage_2_impact" = "There are no impacts on the city's routine yet, but citizens should stay informed.";
+"share_event" = "Share Event";
+
+"stage_3_title" = "Stage 3";
+"stage_3_status" = "MOBILIZATION";
+"stage_3_description" = "One or more occurrences are impacting the city.";
+"stage_3_when" = "One or more occurrences are impacting the city. There is certainty that a high-impact occurrence will happen in the short term.";
+"stage_3_impact" = "At least one region of the city is impacted, causing relevant effects on urban infrastructure and logistics, and directly affecting the routine of the population (or part of it).";
+
+"stage_4_title" = "Stage 4";
+"stage_4_status" = "ALERT";
+"stage_4_description" = "One or more serious occurrences impact the city.";
+"stage_4_when" = "One or more serious occurrences impact the city or there is simultaneous incidence of various medium and high impact problems in different regions of the city. The multiple damages and impacts begin to exceed the immediate response capacity of city teams.";
+"stage_4_impact" = "One or more regions are impacted, causing serious/important effects on urban infrastructure and logistics, and severely affecting the routine of the population (or part of it).";
+
+"stage_5_title" = "Stage 5";
+"stage_5_status" = "CRISIS";
+"stage_5_description" = "Multiple serious occurrences exceed response capacity.";
+"stage_5_when" = "One or more serious occurrences impact the city or there is simultaneous incidence of various medium and high impact problems in different regions of the city. The multiple damages and impacts significantly exceed the immediate response capacity of city teams.";
+"stage_5_impact" = "One or more regions are impacted, causing serious/important effects on urban infrastructure and logistics, and severely affecting the routine of the population (or part of it).";
+
+/* TRAFFIC AND ROAD CLOSURES */
+"traffic_info" = "Traffic Information";
+"interdictions" = "Road Closures";
+"scheduled" = "scheduled";
+"scheduled_interdictions" = "Scheduled road closures";
+"loading_interdictions" = "Loading road closures...";
+"no_interdictions" = "No scheduled road closures at this time";
+"check_interdicted_roads" = "Check which roads will be closed";
+"interdiction_number" = "Closure %d";
+
+/* CAMERAS */
+"cameras" = "Cameras";
+"camera" = "Camera";
+"cameras_count" = "%d cameras";
+"cameras_cluster" = "%d cameras";
+"camera_no_name" = "Unnamed camera";
+"view_favorites" = "View favorites";
+"favorites" = "Favorites";
+"search_in_favorites" = "Search in favorites...";
+"add_to_favorites" = "Add to favorites";
+"remove_from_favorites" = "Remove from Favorites";
+"remove_camera_from_favorites_message" = "Do you want to remove '%@' from favorites?";
+"no_favorite_cameras" = "No favorite cameras";
+"tap_star_to_add_favorite" = "Tap the star when viewing a camera to add it to favorites";
+"invalid_camera_id" = "Invalid camera ID";
+"search_address" = "Search address...";
+"clear_search" = "Clear search";
+"tap_to_view_details" = "Tap to view details";
+"tap_to_zoom_in" = "Tap to zoom in";
+"tap_to_expand" = "Tap to expand";
+
+/* ALARM SYSTEM AND SIRENS */
+"alarm_system" = "Alarm System";
+"sirens" = "Sirens";
+"siren" = "Siren";
+"no_sirens" = "No sirens";
+"no_sirens_active" = "activated at the moment";
+"sirens_active" = "Active sirens";
+"sirens_active_subtitle" = "Check locations";
+"sirens_active_count" = "%d sirens activated";
+"sirens_status_accessibility" = "Sirens status: No sirens activated at the moment";
+"sirens_status_active_accessibility" = "Sirens status: %d sirens activated";
+"sirens_status_inactive_accessibility" = "Sirens status: No sirens activated at the moment";
+
+/* SIREN STATUS */
+"status" = "Status";
+"status_active" = "Active";
+"status_test" = "Testing";
+"status_normal" = "Normal";
+"status_unknown" = "Unknown";
+"siren_status_normal" = "Normal";
+"siren_status_alert" = "Alert";
+"siren_status_danger" = "Danger";
+"siren_status_all" = "All";
+
+/* SUPPORT POINTS */
+"support_points" = "Support Points";
+"support_point" = "Support Point";
+"support_point_open" = "Open";
+"support_point_closed" = "Closed";
+"support_point_all" = "All";
+"situation" = "Status";
+"filter_by_community" = "Filter by community:";
+"all_communities" = "All";
+"community" = "Community";
+"distance" = "Distance";
+"address" = "Address";
+
+/* HEALTH UNITS */
+"health_units" = "Municipal Health Units";
+"unknown_unit" = "Unknown Unit";
+"search_unit_placeholder" = "Search unit...";
+"search_unit" = "Search health unit";
+"units_found" = "%d units found";
+"health_unit" = "Health Unit";
+
+/* COOLING POINTS */
+"cooling_health_points" = "Cooling and Health Points";
+"cooling_point" = "Cooling Point";
+"we_are_in" = "We are in";
+"recommendations" = "Recommendations";
+"recommendations_for" = "Recommendations for";
+"current_situation" = "Current Situation";
+"essential_care" = "Essential Care";
+"heat_level_accessibility" = "Heat level: %@. Tap to see recommendations";
+"info_and_legend" = "Information and legend";
+"map_legend" = "Map Legend";
+"search_points" = "Search points...";
+"search_points_field" = "Search points field";
+"no_points_found_for" = "No points found for '%@'";
+"close_map" = "Close map";
+
+/* TOURIST SPOTS */
+"tourist_spots" = "Tourist Spots";
+"search_tourist_spots" = "Search tourist spots...";
+"loading_tourist_spots" = "Loading tourist spots...";
+"no_tourist_spots_available" = "No tourist spots available";
+"no_results_found_for" = "No results found for '%@'";
+"points_found" = "%d points found";
+"view_all_on_map" = "View all on map";
+"share_list" = "Share list";
+"tourist_spots_rio" = "Tourist Spots of Rio de Janeiro";
+"no_name" = "No name";
+"tourist_spot" = "Tourist Spot";
+"all_points" = "All Points";
+
+/* TOURIST SPOT CATEGORIES */
+"category_all" = "All";
+"category_heritage" = "Heritage";
+"category_beach" = "Beach";
+"category_park" = "Park";
+"category_museum" = "Museum";
+"category_culture" = "Culture";
+"category_sports" = "Sports";
+"category_art" = "Art";
+"category_library" = "Library";
+"category_viewpoint" = "Viewpoint";
+
+/* TOURIST SPOT INFORMATION */
+"hours" = "Hours";
+"ticket" = "Ticket";
+"map" = "Map";
+"call" = "Call";
+"website" = "Website";
+"opening_hours" = "Opening Hours";
+"entrance_fee" = "Entrance Fee";
+"description" = "Description";
+"location" = "Location";
+
+/* RADAR */
+"radar" = "Radar";
+"expand_radar" = "Expand radar";
+"loading_radar" = "Loading radar...";
+"invalid_radar_url" = "Invalid radar URL.";
+"radar_load_error" = "Failed to load radar";
+"try_again" = "Try Again";
+
+/* LOCATION */
+"getting_location" = "Getting your location...";
+"locating_you" = "Locating you...";
+"location_permission_needed" = "Please allow location access in Settings";
+
+/* NETWORK ERRORS */
+"error_loading" = "Error loading";
+"error_no_internet" = "No internet connection";
+"error_timeout" = "Connection timeout";
+"error_server_unavailable" = "Server unavailable";
+"error_network_generic" = "Connection error";
+
+/* UNITS */
+"km_per_hour" = "%@ km/h";
+"celsius" = "%@°C";
+"percent" = "%@%%";
+"people_count" = "%@ people";
+
+/* FINAL BUTTONS */
+"call_civil_defense" = "Call\nCivil Defense";
+"settings" = "Settings";
+
+/* SEARCH AND FILTERS */
+"no_results_found" = "No results found";
+"remove" = "Remove";
+"scheduled" = "Scheduled";
+
+/* HeaderView */
+"language_selector" = "Language selector";
+"change_language_hint" = "Tap to change app language";
+"events_count_hint" = "%d events available. Tap to view";
+"alerts_count_hint" = "%d active alerts. Tap to view";
+"emergency_status" = "Emergency status";
+
+/* Short stage descriptions */
+"stage_1_short" = "Normal operation";
+"stage_2_short" = "Active monitoring";
+"stage_3_short" = "Mobilization in progress";
+"stage_4_short" = "Emergency response";
+"stage_5_short" = "Crisis in progress";

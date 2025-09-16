@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham-Light.otf">
+            <string>Gotham-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PraiasViewController" customModule="Comando" customModuleProvider="target">
+            <connections>
+                <outlet property="mapa" destination="WMi-OP-o3m" id="0Xx-QA-EzX"/>
+                <outlet property="mares" destination="s8K-MN-COP" id="7DL-A0-buc"/>
+                <outlet property="table" destination="cwj-2z-3ak" id="S64-op-9nI"/>
+                <outlet property="uvlabel" destination="Uar-qW-m9R" id="C1X-eU-BXO"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cwj-2z-3ak">
+                    <rect key="frame" x="16" y="92" width="343" height="455"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="s8K-MN-COP">
+                    <rect key="frame" x="16" y="607" width="343" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Eyu-6N-G4j"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="20"/>
+                    <state key="normal" title="Marés e Ondas"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="WMi-OP-o3m">
+                    <rect key="frame" x="16" y="557" width="343" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="EAg-Md-yLE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="20"/>
+                    <state key="normal" title="Mapa"/>
+                    <connections>
+                        <action selector="mapa_open:" destination="-1" eventType="touchUpInside" id="FEc-eg-S1H"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UV Alto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uar-qW-m9R">
+                    <rect key="frame" x="16" y="36" width="343" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="IZr-Dy-fec"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="30"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="s8K-MN-COP" secondAttribute="bottom" constant="20" id="8Tv-M9-GAN"/>
+                <constraint firstItem="Uar-qW-m9R" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="8Ui-rA-VaK"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WMi-OP-o3m" secondAttribute="trailing" constant="16" id="BYP-Xl-HPB"/>
+                <constraint firstItem="WMi-OP-o3m" firstAttribute="top" secondItem="cwj-2z-3ak" secondAttribute="bottom" constant="10" id="EVC-O6-9Ak"/>
+                <constraint firstItem="cwj-2z-3ak" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Rik-gi-fcs"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Uar-qW-m9R" secondAttribute="trailing" constant="16" id="UZu-dY-0HL"/>
+                <constraint firstItem="WMi-OP-o3m" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="blW-2B-Trz"/>
+                <constraint firstItem="s8K-MN-COP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="e72-TT-rif"/>
+                <constraint firstItem="s8K-MN-COP" firstAttribute="top" secondItem="WMi-OP-o3m" secondAttribute="bottom" constant="10" id="pIV-mz-bdA"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="s8K-MN-COP" secondAttribute="trailing" constant="16" id="qP6-aA-NgU"/>
+                <constraint firstItem="Uar-qW-m9R" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="qry-WA-ktr"/>
+                <constraint firstItem="cwj-2z-3ak" firstAttribute="top" secondItem="Uar-qW-m9R" secondAttribute="bottom" constant="16" id="yow-iN-fYD"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="cwj-2z-3ak" secondAttribute="trailing" constant="16" id="zRb-fk-kiP"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="138.40000000000001" y="139.880059970015"/>
+        </view>
+    </objects>
+</document>

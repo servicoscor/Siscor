@@ -1,0 +1,429 @@
+/* GENERAL */
+"app_title" = "Centro de Operaciones Río";
+"ok" = "OK";
+"cancel" = "Cancelar";
+"confirm" = "Confirmar";
+"delete" = "Eliminar";
+"edit" = "Editar";
+"save" = "Guardar";
+"done" = "Listo";
+"back" = "Volver";
+"search" = "Buscar";
+"filter" = "Filtrar";
+"sort" = "Ordenar";
+"ascending" = "Ascendente";
+"descending" = "Descendente";
+"retry" = "Intentar de nuevo";
+"refresh" = "Actualizar";
+"pull_to_refresh" = "Desliza para actualizar";
+"social_networks" = "Redes Sociales";
+"traffic_normal" = "Tráfico normal";
+"for_the_time" = "para la hora";
+/* ESTADOS Y ERRORES */
+"loading" = "Cargando...";
+"error" = "Error al cargar datos";
+"error_generic" = "Se produjo un error";
+"no_connection" = "Sin conexión";
+"unknown_error" = "Error desconocido";
+"empty_state" = "No hay datos disponibles";
+"no_data" = "Datos no disponibles";
+"data_unavailable" = "Datos No Disponibles";
+"not_available" = "N/D";
+"not_available_short" = "N/D";
+"unavailable" = "No disponible";
+"siren_status_mobilized" = "Movilizada";
+"siren_status_demobilized" = "Desmovilizada";
+"siren_status_all" = "Todas";
+"filter_by_community" = "Filtrar por comunidad:";
+/* TIEMPO */
+"now" = "Ahora";
+"today" = "Hoy";
+"tomorrow" = "Mañana";
+"yesterday" = "Ayer";
+"last_updated" = "Última actualización: %@";
+"share_event" = "Compartir Evento";
+
+/* BOTONES Y ACCIONES */
+"see_more" = "Ver más";
+"close" = "Cerrar";
+"share" = "Compartir";
+"view_on_map" = "Ver en el mapa";
+"expand_map" = "Expandir mapa";
+"touch_for_details" = "Toque para más detalles";
+"expand" = "Expandir";
+"collapse" = "Colapsar";
+"more_info" = "Más Info";
+"view_details" = "Ver detalles";
+"get_directions" = "Trazar Ruta";
+"center_on_my_location" = "Centrar en mi ubicación";
+"center_on_location" = "Centrar en ubicación";
+"center_on_map" = "Centrar en el mapa";
+
+/* ACCESIBILIDAD */
+"double_tap_to_open" = "Toca dos veces para abrir";
+"swipe_to_dismiss" = "Desliza para descartar";
+"button" = "Botón";
+"image" = "Imagen";
+"selected" = "Seleccionado";
+"not_selected" = "No seleccionado";
+"expanded" = "Expandido";
+"collapsed" = "Contraído";
+
+/* CONDICIONES DEL TIEMPO */
+"weather_conditions" = "Condiciones del Tiempo";
+"temperature" = "Temperatura";
+"humidity" = "Humedad";
+"wind" = "Viento";
+"rain" = "Lluvia";
+"heat_level" = "Nivel de Calor";
+"thermal_sensation" = "Sensación Térmica: %@";
+"climate_conditions" = "Condiciones Climáticas";
+"climate_details_title" = "Detalles del Clima para %@";
+"climate_pages_title" = "Página de Detalles del Nivel de Calor";
+"updating_data" = "Actualizando datos...";
+
+/* VALORES DE LLUVIA */
+"rain_none" = "-";
+"rain_light" = "Ligera";
+"rain_moderate" = "Moderada";
+"rain_heavy" = "Fuerte";
+
+/* PLUVIÓMETROS */
+"rain_gauges" = "Pluviómetros";
+"rain_legend" = "Leyenda de lluvia";
+"rain_legend_1h" = "Leyenda de Lluvia (1h)";
+"rain_gauge_station" = "Estación Pluviométrica";
+"last_reading" = "Última Lectura";
+"rain_last_hour" = "Lluvia en la Última Hora";
+"rain_accumulated_4h" = "Acumulado en 4h";
+"rain_accumulated_24h" = "Acumulado en 24h";
+"rain_accumulated_96h" = "Acumulado en 96h";
+"rain_accumulated_30d" = "Acumulado en 30 días";
+
+/* ESTACIONES METEOROLÓGICAS */
+"weather_stations" = "Estaciones Meteorológicas";
+"weather_station" = "Estación Meteorológica";
+"wind_legend" = "Leyenda de Viento";
+"average_temperature" = "Temperatura Media";
+"average_humidity" = "Humedad Media";
+"wind_speed" = "Velocidad del Viento";
+"wind_direction" = "Dirección del Viento";
+"wind_strong" = "Fuerte (≥ 61 km/h)";
+"wind_moderate" = "Moderado (≥ 38 km/h)";
+"wind_weak" = "Débil (≥ 19 km/h)";
+"wind_calm" = "Calmo (< 19 km/h)";
+
+/* INFORMES */
+"weather_reports" = "Informes del tiempo";
+"loading_forecasts" = "Cargando pronósticos...";
+"no_weather_info" = "Sin información del tiempo en este momento";
+"report_unavailable" = "Informe no disponible";
+"traffic_reports" = "Informes de tránsito";
+"loading_reports" = "Cargando informes...";
+"no_traffic_reports" = "Tránsito sin informes en este momento";
+
+/* EVENTOS */
+"city_events" = "Eventos en la Ciudad";
+"loading_events" = "Cargando eventos...";
+"no_events" = "No hay eventos programados";
+"other_events" = "otros";
+"other_events_title" = "Otros Eventos";
+"x_of_y" = "%d de %d";
+"event" = "Evento";
+"important" = "IMPORTANTE";
+"important_event" = "Evento Importante";
+"expected_public" = "Público esperado";
+"expected_public_format" = "Público esperado: %@";
+"event_details" = "Detalles del Evento";
+"about_event" = "Sobre el evento";
+"event_source" = "Fuente";
+"source_format" = "Fuente: %@";
+"source" = "Fuente";
+"image_unavailable" = "Imagen no disponible";
+"date_at_time" = "%@ a las %@";
+"from_time_to_time" = "De %@ a %@";
+"events_available" = "eventos disponibles";
+
+/* CRITICIDAD */
+"criticality_high" = "Alta";
+"criticality_medium" = "Media";
+"criticality_normal" = "Normal";
+
+/* ZONAS */
+"zone_south" = "Zona Sur";
+"zone_north" = "Zona Norte";
+"zone_west" = "Zona Oeste";
+"zone_center" = "Centro";
+
+/* TIPOS DE EVENTOS */
+"event_type_congress" = "Congreso";
+"event_type_cultural" = "Cultural";
+"event_type_sports" = "Deportivo";
+"event_type_fair" = "Feria";
+"event_type_musical" = "Musical";
+"event_type_protest" = "Manifestación";
+"event_type_religious" = "Religioso";
+"event_type_new_year" = "Año Nuevo";
+"event_type_carnival_neighborhood" = "Carnaval de barrio";
+"event_type_carnival_parades" = "Carnaval: Desfiles";
+"event_type_carnival_rehearsals" = "Carnaval: Ensayos Técnicos";
+"event_type_carnival_blocks" = "Carnaval: Bloques";
+"event_type_carnival_stages" = "Carnaval: Escenarios";
+"event_type_unofficial_blocks" = "Bloques no oficiales";
+"event_type_simulation" = "Simulacro";
+"event_type_academic" = "Académicos";
+"event_type_corporate" = "Corporativo";
+"event_type_political" = "Político";
+"event_type_gastronomic" = "Gastronómico";
+"event_type_educational" = "Educacional";
+"event_type_other" = "Otro";
+
+/* GRUPOS DE EVENTOS */
+"event_group_carnival" = "Carnaval";
+"event_group_business" = "Negocios";
+"event_group_education" = "Educación";
+
+/* ALERTAS */
+"alerts" = "Alertas";
+"loading_alerts" = "Cargando alertas...";
+"no_alerts" = "No hay alertas en este momento";
+"alert_no_title" = "Alerta sin título";
+"alert_details" = "Detalles";
+"date" = "Fecha";
+"message" = "Mensaje";
+"share_alert" = "Compartir Alerta";
+"alert_prefix" = "Alerta:";
+"audio" = "Audio";
+"view_all_alerts" = "Ver todas las alertas";
+"alerts_available" = "alertas disponibles";
+"details" = "Detalles";
+
+/* PALABRAS DESTACADAS DE ALERTA */
+"highlight_attention" = "atención";
+"highlight_risk" = "riesgo";
+"highlight_closed" = "cerrado";
+"highlight_evacuate" = "evacue";
+"highlight_danger" = "peligro";
+"highlight_warning" = "aviso";
+"highlight_avoid" = "evite";
+"highlight_forecast" = "pronóstico";
+"highlight_traffic" = "tráfico";
+"highlight_strong" = "fuerte";
+"highlight_moderate" = "moderado";
+"highlight_stage" = "etapa";
+
+/* ETAPAS DE LA CIUDAD */
+"city_stage" = "Etapa de la Ciudad";
+"city_in" = "Ciudad en";
+"stage_when" = "Cuándo:";
+"stage_impact" = "Impacto:";
+"stage_operational" = "OPERACIONAL";
+
+/* DESCRIPCIONES DE LAS ETAPAS */
+"stage_1_title" = "Etapa 1";
+"stage_1_status" = "NORMAL";
+"stage_1_description" = "No hay ocurrencias que provoquen cambios significativos en la vida diaria.";
+"stage_1_when" = "No hay ocurrencias que provoquen cambios significativos en la vida diaria. No se han identificado factores de riesgo a corto plazo que impacten la rutina de la ciudad.";
+"stage_1_impact" = "Poco o ningún impacto en el flujo del tráfico y las operaciones de infraestructura y logística de la ciudad.";
+
+"stage_2_title" = "Etapa 2";
+"stage_2_status" = "ATENCIÓN";
+"stage_2_description" = "Riesgo de ocurrencias de alto impacto en la ciudad.";
+"stage_2_when" = "Riesgo de ocurrencias de alto impacto en la ciudad, debido a un evento previsto o basado en el análisis de datos de especialistas. Hay una ocurrencia con alto potencial de agravamiento.";
+"stage_2_impact" = "Todavía no hay impactos en la rutina de la ciudad, pero los ciudadanos deben mantenerse informados.";
+
+"stage_3_title" = "Etapa 3";
+"stage_3_status" = "MOVILIZACIÓN";
+"stage_3_description" = "Una o más ocurrencias están impactando la ciudad.";
+"stage_3_when" = "Una o más ocurrencias están impactando la ciudad. Hay certeza de que habrá una ocurrencia de alto impacto a corto plazo.";
+"stage_3_impact" = "Al menos una región de la ciudad está impactada, causando efectos relevantes en la infraestructura y logística urbana, y afectando directamente la rutina de la población (o parte de ella).";
+
+"stage_4_title" = "Etapa 4";
+"stage_4_status" = "ALERTA";
+"stage_4_description" = "Una o más ocurrencias graves impactan la ciudad.";
+"stage_4_when" = "Una o más ocurrencias graves impactan la ciudad o hay incidencia simultánea de varios problemas de impacto medio y alto en diferentes regiones de la ciudad. Los múltiples daños e impactos comienzan a superar la capacidad de respuesta inmediata de los equipos de la ciudad.";
+"stage_4_impact" = "Una o más regiones están impactadas, causando efectos graves/importantes en la infraestructura y logística urbana, y afectando severamente la rutina de la población (o parte de ella).";
+
+"stage_5_title" = "Etapa 5";
+"stage_5_status" = "CRISIS";
+"stage_5_description" = "Múltiples ocurrencias graves exceden la capacidad de respuesta.";
+"stage_5_when" = "Una o más ocurrencias graves impactan la ciudad o hay incidencia simultánea de varios problemas de impacto medio y alto en diferentes regiones de la ciudad. Los múltiples daños e impactos superan significativamente la capacidad de respuesta inmediata de los equipos de la ciudad.";
+"stage_5_impact" = "Una o más regiones están impactadas, causando efectos graves/importantes en la infraestructura y logística urbana, y afectando severamente la rutina de la población (o parte de ella).";
+
+/* TRÁFICO Y CIERRES DE VÍAS */
+"traffic_info" = "Información de Tráfico";
+"interdictions" = "Cierres de Vías";
+"scheduled" = "programados";
+"scheduled_interdictions" = "Cierres de vías programados";
+"loading_interdictions" = "Cargando cierres de vías...";
+"no_interdictions" = "No hay cierres de vías programados en este momento";
+"check_interdicted_roads" = "Consulte las vías que estarán cerradas";
+"interdiction_number" = "Cierre %d";
+
+/* CÁMARAS */
+"cameras" = "Cámaras";
+"camera" = "Cámara";
+"cameras_count" = "%d cámaras";
+"cameras_cluster" = "%d cámaras";
+"camera_no_name" = "Cámara sin nombre";
+"view_favorites" = "Ver favoritos";
+"favorites" = "Favoritas";
+"search_in_favorites" = "Buscar en favoritas...";
+"add_to_favorites" = "Agregar a favoritos";
+"remove_from_favorites" = "Quitar de Favoritos";
+"remove_camera_from_favorites_message" = "¿Desea quitar '%@' de favoritos?";
+"no_favorite_cameras" = "No hay cámaras favoritas";
+"tap_star_to_add_favorite" = "Toca la estrella al ver una cámara para agregarla a favoritos";
+"invalid_camera_id" = "ID de cámara no válido";
+"search_address" = "Buscar dirección...";
+"clear_search" = "Limpiar búsqueda";
+"tap_to_view_details" = "Toque para ver detalles";
+"tap_to_zoom_in" = "Toque para ampliar";
+"tap_to_expand" = "Toque para expandir";
+
+/* SISTEMA DE ALARMA Y SIRENAS */
+"alarm_system" = "Sistema de Alarma";
+"sirens" = "Sirenas";
+"siren" = "Sirena";
+"no_sirens" = "Sin sirenas";
+"no_sirens_active" = "activadas en este momento";
+"sirens_active" = "Sirenas activas";
+"sirens_active_subtitle" = "Verifique las ubicaciones";
+"sirens_active_count" = "%d sirenas activadas";
+"sirens_status_accessibility" = "Estado de las sirenas: Sin sirenas activadas en este momento";
+"sirens_status_active_accessibility" = "Estado de las sirenas: %d sirenas activadas";
+"sirens_status_inactive_accessibility" = "Estado de las sirenas: Sin sirenas activadas en este momento";
+
+/* ESTADO DE SIRENAS */
+"status" = "Estado";
+"status_active" = "Activada";
+"status_test" = "En prueba";
+"status_normal" = "Normal";
+"status_unknown" = "Desconocido";
+"siren_status_normal" = "Normales";
+"siren_status_alert" = "En Alerta";
+"siren_status_danger" = "En Peligro";
+"siren_status_all" = "Todas";
+
+/* PUNTOS DE APOYO */
+"support_points" = "Puntos de Apoyo";
+"support_point" = "Punto de Apoyo";
+"support_point_open" = "Abiertos";
+"support_point_closed" = "Cerrados";
+"support_point_all" = "Todos";
+"situation" = "Situación";
+"filter_by_community" = "Filtrar por comunidad:";
+"all_communities" = "Todas";
+"community" = "Comunidad";
+"distance" = "Distancia";
+"address" = "Dirección";
+
+/* UNIDADES DE SALUD */
+"health_units" = "Unidades Municipales de Salud";
+"unknown_unit" = "Unidad Desconocida";
+"search_unit_placeholder" = "Buscar unidad...";
+"search_unit" = "Buscar unidad de salud";
+"units_found" = "%d unidades encontradas";
+"health_unit" = "Unidad de Salud";
+
+/* PUNTOS DE ENFRIAMIENTO */
+"cooling_health_points" = "Puntos de Enfriamiento y Salud";
+"cooling_point" = "Punto de Enfriamiento";
+"we_are_in" = "Estamos en";
+"recommendations" = "Recomendaciones";
+"recommendations_for" = "Recomendaciones para";
+"current_situation" = "Situación Actual";
+"essential_care" = "Cuidados Esenciales";
+"heat_level_accessibility" = "Nivel de calor: %@. Toque para ver recomendaciones";
+"info_and_legend" = "Información y leyenda";
+"map_legend" = "Leyenda del Mapa";
+"search_points" = "Buscar puntos...";
+"search_points_field" = "Campo de búsqueda de puntos";
+"no_points_found_for" = "No se encontraron puntos para '%@'";
+"close_map" = "Cerrar mapa";
+
+/* PUNTOS TURÍSTICOS */
+"tourist_spots" = "Puntos Turísticos";
+"search_tourist_spots" = "Buscar puntos turísticos...";
+"loading_tourist_spots" = "Cargando puntos turísticos...";
+"no_tourist_spots_available" = "No hay puntos turísticos disponibles";
+"no_results_found_for" = "No se encontraron resultados para '%@'";
+"points_found" = "%d puntos encontrados";
+"view_all_on_map" = "Ver todos en el mapa";
+"share_list" = "Compartir lista";
+"tourist_spots_rio" = "Puntos Turísticos de Río de Janeiro";
+"no_name" = "Sin nombre";
+"tourist_spot" = "Punto Turístico";
+"all_points" = "Todos los Puntos";
+
+/* CATEGORÍAS DE PUNTOS TURÍSTICOS */
+"category_all" = "Todos";
+"category_heritage" = "Patrimonio";
+"category_beach" = "Playa";
+"category_park" = "Parque";
+"category_museum" = "Museo";
+"category_culture" = "Cultura";
+"category_sports" = "Deporte";
+"category_art" = "Arte";
+"category_library" = "Biblioteca";
+"category_viewpoint" = "Mirador";
+
+/* INFORMACIÓN DE PUNTOS TURÍSTICOS */
+"hours" = "Horarios";
+"ticket" = "Entrada";
+"map" = "Mapa";
+"call" = "Llamar";
+"website" = "Sitio";
+"opening_hours" = "Horario de Funcionamiento";
+"entrance_fee" = "Precio de Entrada";
+"description" = "Descripción";
+"location" = "Ubicación";
+
+/* RADAR */
+"radar" = "Radar";
+"expand_radar" = "Expandir radar";
+"loading_radar" = "Cargando radar...";
+"invalid_radar_url" = "URL del radar no válida.";
+"radar_load_error" = "Error al cargar el radar";
+"try_again" = "Intentar de Nuevo";
+
+/* UBICACIÓN */
+"getting_location" = "Obteniendo tu ubicación...";
+"locating_you" = "Localizándote...";
+"location_permission_needed" = "Por favor, permite el acceso a la ubicación en Configuración";
+
+/* ERRORES DE RED */
+"error_loading" = "Error al cargar";
+"error_no_internet" = "Sin conexión a internet";
+"error_timeout" = "Tiempo de conexión agotado";
+"error_server_unavailable" = "Servidor no disponible";
+"error_network_generic" = "Error de conexión";
+
+/* UNIDADES */
+"km_per_hour" = "%@ km/h";
+"celsius" = "%@°C";
+"percent" = "%@%%";
+"people_count" = "%@ personas";
+
+/* BOTONES FINALES */
+"call_civil_defense" = "Llamar a\nDefensa Civil";
+"settings" = "Configuración";
+
+/* BÚSQUEDA Y FILTROS */
+"no_results_found" = "No se encontraron resultados";
+"remove" = "Quitar";
+"scheduled" = "Programado";
+
+/* HeaderView */
+"language_selector" = "Selector de idioma";
+"change_language_hint" = "Toca para cambiar el idioma de la aplicación";
+"events_count_hint" = "%d eventos disponibles. Toca para ver";
+"alerts_count_hint" = "%d alertas activas. Toca para ver";
+"emergency_status" = "Estado de emergencia";
+
+/* Descripciones cortas de las etapas */
+"stage_1_short" = "Operación normal";
+"stage_2_short" = "Monitoreo activo";
+"stage_3_short" = "Movilización en curso";
+"stage_4_short" = "Respuesta de emergencia";
+"stage_5_short" = "Crisis en curso";

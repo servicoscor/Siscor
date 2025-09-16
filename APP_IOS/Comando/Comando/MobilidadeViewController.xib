@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Raleway-Bold.ttf">
+            <string>Raleway-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MobilidadeViewController" customModule="Comando" customModuleProvider="target">
+            <connections>
+                <outlet property="table" destination="ckC-Ym-Vvj" id="dhI-wr-oLb"/>
+                <outlet property="titulo" destination="bWI-Uh-qWD" id="Y5A-Og-O7A"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewcollect" destination="mDl-nw-gVO" id="zG6-il-rMe"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mDl-nw-gVO">
+                    <rect key="frame" x="8" y="30" width="304" height="528"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modais intermunicipais" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWI-Uh-qWD">
+                            <rect key="frame" x="8" y="8" width="288" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="3ei-6Y-5Gf"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ckC-Ym-Vvj">
+                            <rect key="frame" x="9" y="52" width="288" height="472"/>
+                            <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ckC-Ym-Vvj" secondAttribute="bottom" constant="4" id="3vm-88-hAT"/>
+                        <constraint firstItem="bWI-Uh-qWD" firstAttribute="leading" secondItem="mDl-nw-gVO" secondAttribute="leading" constant="8" id="F1h-3v-WIk"/>
+                        <constraint firstItem="ckC-Ym-Vvj" firstAttribute="top" secondItem="bWI-Uh-qWD" secondAttribute="bottom" constant="4" id="Mt0-QA-ALk"/>
+                        <constraint firstAttribute="trailing" secondItem="ckC-Ym-Vvj" secondAttribute="trailing" constant="7" id="Ogb-U2-7R0"/>
+                        <constraint firstItem="bWI-Uh-qWD" firstAttribute="top" secondItem="mDl-nw-gVO" secondAttribute="top" constant="8" id="bpn-oG-aeI"/>
+                        <constraint firstItem="ckC-Ym-Vvj" firstAttribute="leading" secondItem="mDl-nw-gVO" secondAttribute="leading" constant="9" id="d9J-r5-T9v"/>
+                        <constraint firstAttribute="trailing" secondItem="bWI-Uh-qWD" secondAttribute="trailing" constant="8" id="sFu-uu-dJg"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemGray6Color"/>
+            <constraints>
+                <constraint firstItem="mDl-nw-gVO" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="7ph-8G-QiX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="mDl-nw-gVO" secondAttribute="bottom" constant="10" id="Azc-Hs-axa"/>
+                <constraint firstItem="mDl-nw-gVO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="Fz6-dP-feI"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="mDl-nw-gVO" secondAttribute="trailing" constant="8" id="m5B-1B-wzw"/>
+            </constraints>
+            <point key="canvasLocation" x="63.75" y="116.19718309859155"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

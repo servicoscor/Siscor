@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Raleway-Black.ttf">
+            <string>Raleway-Black</string>
+        </array>
+        <array key="Raleway-Medium.ttf">
+            <string>Raleway-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SapucaiViewController" customModule="Comando" customModuleProvider="target">
+            <connections>
+                <outlet property="hidra" destination="Al3-1A-wcd" id="FlM-Eh-vnS"/>
+                <outlet property="maps" destination="XEG-aD-r6X" id="Ood-5e-nNO"/>
+                <outlet property="titulom" destination="lh5-4z-JbL" id="sjj-9l-FaU"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mapa do Evento" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lh5-4z-JbL">
+                    <rect key="frame" x="8" y="67" width="377" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="SXs-Jg-mzn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Black" family="Raleway" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XEG-aD-r6X">
+                    <rect key="frame" x="8" y="107" width="377" height="650"/>
+                </mapView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Al3-1A-wcd">
+                    <rect key="frame" x="8" y="765" width="377" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="upY-Jo-VFP"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="16"/>
+                    <state key="normal" title="Avisos e informações">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="prev_act:" destination="-1" eventType="touchUpInside" id="n8H-6R-LqK"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="XEG-aD-r6X" firstAttribute="top" secondItem="lh5-4z-JbL" secondAttribute="bottom" id="0zT-kk-sBy"/>
+                <constraint firstItem="lh5-4z-JbL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="4OZ-X2-1JF"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Al3-1A-wcd" secondAttribute="trailing" constant="8" id="GH1-VK-IYc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lh5-4z-JbL" secondAttribute="trailing" constant="8" id="IJe-8S-3bw"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XEG-aD-r6X" secondAttribute="trailing" constant="8" id="SbT-qf-AOj"/>
+                <constraint firstItem="Al3-1A-wcd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="Vr9-vW-Zh5"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Al3-1A-wcd" secondAttribute="bottom" constant="8" id="hnk-hl-MLW"/>
+                <constraint firstItem="Al3-1A-wcd" firstAttribute="top" secondItem="XEG-aD-r6X" secondAttribute="bottom" constant="8" id="kuF-uy-n7r"/>
+                <constraint firstItem="lh5-4z-JbL" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="uEK-G8-xqX"/>
+                <constraint firstItem="XEG-aD-r6X" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="xiG-B1-nzK"/>
+            </constraints>
+            <point key="canvasLocation" x="84.732824427480907" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

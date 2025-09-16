@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Raleway-Black.ttf">
+            <string>Raleway-Black</string>
+        </array>
+        <array key="Raleway-Bold.ttf">
+            <string>Raleway-Bold</string>
+        </array>
+        <array key="Raleway-Medium.ttf">
+            <string>Raleway-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SirenesViewController" customModule="Comando" customModuleProvider="target">
+            <connections>
+                <outlet property="apoiobt" destination="viQ-Yn-4Te" id="zpT-ah-baU"/>
+                <outlet property="ligar" destination="lYx-h4-TSh" id="tOC-ux-8Fx"/>
+                <outlet property="mapa_but" destination="ZTI-NH-R2y" id="go2-vw-mlx"/>
+                <outlet property="maps" destination="uxO-eb-Ayd" id="vCm-Vw-cPa"/>
+                <outlet property="meteoro" destination="03U-9I-Z3p" id="b7c-LU-Dcg"/>
+                <outlet property="pontos" destination="ZnV-ua-aeO" id="yDN-9C-Lmo"/>
+                <outlet property="sirenes_ativas" destination="VG3-9v-aWK" id="0q6-kK-0eA"/>
+                <outlet property="titulo" destination="OHT-O8-YXU" id="dCo-Zh-i1T"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZTI-NH-R2y">
+                    <rect key="frame" x="195.66666666666663" y="66" width="171.33333333333337" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="awv-HG-cSl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="18"/>
+                    <state key="normal" title=" Lista de Sirenes">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="mapa_act:" destination="-1" eventType="touchUpInside" id="LIv-ac-GYN"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZnV-ua-aeO">
+                    <rect key="frame" x="195.66666666666663" y="172" width="171.33333333333337" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="ADv-mB-FIN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="18"/>
+                    <state key="normal" title=" Pontos de apoio">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="apoio_act:" destination="-1" eventType="touchUpInside" id="Tzw-WC-0j5"/>
+                    </connections>
+                </button>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="uxO-eb-Ayd">
+                    <rect key="frame" x="16" y="273" width="343" height="436"/>
+                </mapView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="03U-9I-Z3p">
+                    <rect key="frame" x="8" y="66" width="171.66666666666666" height="151"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sirene_n" translatesAutoresizingMaskIntoConstraints="NO" id="FZc-uk-NeQ">
+                            <rect key="frame" x="8" y="8" width="40" height="47"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="qYS-9V-T2a"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sem sirenes acionadas no momento" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VG3-9v-aWK">
+                            <rect key="frame" x="8" y="63" width="155.66666666666666" height="80"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="80" id="9g4-kt-z1c"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="VG3-9v-aWK" firstAttribute="leading" secondItem="03U-9I-Z3p" secondAttribute="leading" constant="8" id="C54-Dh-TWs"/>
+                        <constraint firstItem="FZc-uk-NeQ" firstAttribute="leading" secondItem="03U-9I-Z3p" secondAttribute="leading" constant="8" id="DPF-cq-Fel"/>
+                        <constraint firstItem="VG3-9v-aWK" firstAttribute="top" secondItem="FZc-uk-NeQ" secondAttribute="bottom" constant="8" id="hK7-mO-xBf"/>
+                        <constraint firstItem="FZc-uk-NeQ" firstAttribute="top" secondItem="03U-9I-Z3p" secondAttribute="top" constant="8" id="k5f-Bx-I3Z"/>
+                        <constraint firstAttribute="trailing" secondItem="VG3-9v-aWK" secondAttribute="trailing" constant="8" id="lPX-eP-4ok"/>
+                        <constraint firstAttribute="bottom" secondItem="VG3-9v-aWK" secondAttribute="bottom" constant="8" id="mPS-jn-2WP"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="lYx-h4-TSh">
+                    <rect key="frame" x="195.66666666666663" y="119" width="171.33333333333337" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="Dr4-ZT-rUl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="18"/>
+                    <state key="normal" title="Ligar para DC">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="ligar_act:" destination="-1" eventType="touchUpInside" id="ZJs-ye-OIB"/>
+                        <action selector="mapa_act:" destination="-1" eventType="touchUpInside" id="a2p-gk-ulp"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sirenes em tempo real" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHT-O8-YXU">
+                    <rect key="frame" x="8" y="233" width="359" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="1i9-YP-jdI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Black" family="Raleway" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="viQ-Yn-4Te">
+                    <rect key="frame" x="16" y="725" width="343" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="m3r-5n-uLt"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="18"/>
+                    <state key="normal" title="Ponto de Apoio mais próximo">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="ar_open:" destination="-1" eventType="touchUpInside" id="WdB-kz-ide"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemGray6Color"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lYx-h4-TSh" secondAttribute="trailing" constant="8" id="0Cc-Jn-21a"/>
+                <constraint firstItem="OHT-O8-YXU" firstAttribute="top" secondItem="03U-9I-Z3p" secondAttribute="bottom" constant="16" id="1Ts-QC-85q"/>
+                <constraint firstItem="OHT-O8-YXU" firstAttribute="top" secondItem="ZnV-ua-aeO" secondAttribute="bottom" constant="16" id="63f-CH-FWj"/>
+                <constraint firstItem="viQ-Yn-4Te" firstAttribute="top" secondItem="uxO-eb-Ayd" secondAttribute="bottom" constant="16" id="6bC-Gq-HpR"/>
+                <constraint firstItem="03U-9I-Z3p" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="8aK-vd-owV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="viQ-Yn-4Te" secondAttribute="bottom" constant="8" id="8yP-gA-uMY"/>
+                <constraint firstItem="uxO-eb-Ayd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="HJs-92-EcT"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uxO-eb-Ayd" secondAttribute="trailing" constant="16" id="K3p-rS-LJK"/>
+                <constraint firstItem="ZnV-ua-aeO" firstAttribute="top" secondItem="lYx-h4-TSh" secondAttribute="bottom" constant="8" id="Mxl-1o-Elg"/>
+                <constraint firstItem="ZTI-NH-R2y" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="S3v-8s-RTy"/>
+                <constraint firstItem="uxO-eb-Ayd" firstAttribute="top" secondItem="OHT-O8-YXU" secondAttribute="bottom" id="Ta6-Nn-hwr"/>
+                <constraint firstItem="ZTI-NH-R2y" firstAttribute="leading" secondItem="03U-9I-Z3p" secondAttribute="trailing" constant="16" id="WuX-8T-h40"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ZnV-ua-aeO" secondAttribute="trailing" constant="8" id="X5h-eg-Odw"/>
+                <constraint firstItem="lYx-h4-TSh" firstAttribute="leading" secondItem="03U-9I-Z3p" secondAttribute="trailing" constant="16" id="ZGB-2e-tAm"/>
+                <constraint firstItem="ZnV-ua-aeO" firstAttribute="width" secondItem="ZTI-NH-R2y" secondAttribute="width" id="dpU-Rs-Onp"/>
+                <constraint firstItem="ZnV-ua-aeO" firstAttribute="leading" secondItem="03U-9I-Z3p" secondAttribute="trailing" constant="16" id="fyY-gk-fQZ"/>
+                <constraint firstItem="03U-9I-Z3p" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="hE9-g6-NC0"/>
+                <constraint firstItem="viQ-Yn-4Te" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="jC7-pb-dIF"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OHT-O8-YXU" secondAttribute="trailing" constant="8" id="mS1-ql-DSB"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ZTI-NH-R2y" secondAttribute="trailing" constant="8" id="pGG-dZ-b7m"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="viQ-Yn-4Te" secondAttribute="trailing" constant="16" id="sAD-bX-JB5"/>
+                <constraint firstItem="ZnV-ua-aeO" firstAttribute="width" secondItem="03U-9I-Z3p" secondAttribute="width" id="tpt-K2-aTK"/>
+                <constraint firstItem="OHT-O8-YXU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="uEW-ML-klc"/>
+                <constraint firstItem="lYx-h4-TSh" firstAttribute="top" secondItem="ZTI-NH-R2y" secondAttribute="bottom" constant="8" id="uTM-C5-IXi"/>
+                <constraint firstItem="lYx-h4-TSh" firstAttribute="width" secondItem="ZTI-NH-R2y" secondAttribute="width" id="wcd-u8-pUr"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <point key="canvasLocation" x="92" y="16.995073891625616"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="sirene_n" width="23.333333969116211" height="31"/>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

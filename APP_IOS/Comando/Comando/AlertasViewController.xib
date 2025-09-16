@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham-Black.otf">
+            <string>Gotham-Black</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertasViewController" customModule="Comando" customModuleProvider="target">
+            <connections>
+                <outlet property="table" destination="euG-za-x8R" id="vpu-CT-lWI"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="view_fora" destination="Ahe-zo-d0h" id="6h2-db-TVB"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ahe-zo-d0h">
+                    <rect key="frame" x="9" y="28" width="304" height="532"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avisos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecv-3G-Zxh">
+                            <rect key="frame" x="8" y="8" width="288" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="jBh-3c-Jut"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Gotham-Black" family="Gotham" pointSize="26"/>
+                            <color key="highlightedColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </label>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="euG-za-x8R">
+                            <rect key="frame" x="8" y="52" width="288" height="476"/>
+                            <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <color key="separatorColor" systemColor="systemGray6Color"/>
+                            <color key="sectionIndexBackgroundColor" systemColor="systemGray6Color"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="euG-za-x8R" secondAttribute="bottom" constant="4" id="AVD-R3-cle"/>
+                        <constraint firstItem="euG-za-x8R" firstAttribute="top" secondItem="ecv-3G-Zxh" secondAttribute="bottom" constant="4" id="J1w-EL-2O2"/>
+                        <constraint firstAttribute="trailing" secondItem="euG-za-x8R" secondAttribute="trailing" constant="8" id="a51-Er-8cB"/>
+                        <constraint firstItem="euG-za-x8R" firstAttribute="leading" secondItem="Ahe-zo-d0h" secondAttribute="leading" constant="8" id="aIk-b4-vrN"/>
+                        <constraint firstItem="ecv-3G-Zxh" firstAttribute="leading" secondItem="Ahe-zo-d0h" secondAttribute="leading" constant="8" id="beX-cx-9pC"/>
+                        <constraint firstAttribute="trailing" secondItem="ecv-3G-Zxh" secondAttribute="trailing" constant="8" id="flP-Ye-621"/>
+                        <constraint firstItem="ecv-3G-Zxh" firstAttribute="top" secondItem="Ahe-zo-d0h" secondAttribute="top" constant="8" id="xRP-I8-Ezv"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemGray6Color"/>
+            <constraints>
+                <constraint firstItem="Ahe-zo-d0h" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="TFg-M5-L1m"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Ahe-zo-d0h" secondAttribute="trailing" constant="7" id="nmy-Cb-jLK"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Ahe-zo-d0h" secondAttribute="bottom" constant="8" id="pa1-8A-6bE"/>
+                <constraint firstItem="Ahe-zo-d0h" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="9" id="qaj-Mf-iLh"/>
+            </constraints>
+            <point key="canvasLocation" x="52.5" y="50.70422535211268"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

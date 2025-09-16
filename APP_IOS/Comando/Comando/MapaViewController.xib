@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Raleway-Medium.ttf">
+            <string>Raleway-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapaViewController" customModule="Comando" customModuleProvider="target">
+            <connections>
+                <outlet property="maps" destination="nGO-m7-f4w" id="3CJ-Ge-PaL"/>
+                <outlet property="plv_but" destination="xaU-Wu-OcM" id="6rj-pZ-ja1"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nGO-m7-f4w">
+                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                </mapView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="xaU-Wu-OcM">
+                    <rect key="frame" x="16" y="560" width="343" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="CG4-EW-QqR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="20"/>
+                    <state key="normal" title="Lista de Pluviômetros">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="plv_act:" destination="-1" eventType="touchUpInside" id="ldu-uy-V57"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="xaU-Wu-OcM" secondAttribute="bottom" constant="8" id="8xZ-Mt-gyJ"/>
+                <constraint firstItem="nGO-m7-f4w" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Vnk-BD-VJ3"/>
+                <constraint firstItem="nGO-m7-f4w" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="aeb-Oe-s0Y"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="xaU-Wu-OcM" secondAttribute="trailing" constant="16" id="c52-4C-sn7"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nGO-m7-f4w" secondAttribute="trailing" id="eXQ-8X-AWJ"/>
+                <constraint firstAttribute="bottom" secondItem="nGO-m7-f4w" secondAttribute="bottom" id="eeQ-fV-gS4"/>
+                <constraint firstItem="xaU-Wu-OcM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="fny-Z0-SBQ"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+            <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
+        </view>
+    </objects>
+</document>

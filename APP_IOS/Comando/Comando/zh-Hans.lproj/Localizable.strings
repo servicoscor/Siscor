@@ -1,0 +1,430 @@
+/* 通用 */
+"app_title" = "里约运营中心";
+"ok" = "确定";
+"cancel" = "取消";
+"confirm" = "确认";
+"delete" = "删除";
+"edit" = "编辑";
+"save" = "保存";
+"done" = "完成";
+"back" = "返回";
+"search" = "搜索";
+"filter" = "筛选";
+"sort" = "排序";
+"ascending" = "升序";
+"descending" = "降序";
+"retry" = "重试";
+"refresh" = "刷新";
+"pull_to_refresh" = "下拉刷新";
+
+/* 状态和错误 */
+"loading" = "加载中...";
+"error" = "加载数据错误";
+"error_generic" = "发生错误";
+"no_connection" = "无连接";
+"unknown_error" = "未知错误";
+"empty_state" = "暂无数据";
+"no_data" = "数据不可用";
+"data_unavailable" = "数据不可用";
+"not_available" = "不可用";
+"not_available_short" = "N/A";
+"unavailable" = "不可用";
+
+/* 时间 */
+"now" = "现在";
+"today" = "今天";
+"tomorrow" = "明天";
+"yesterday" = "昨天";
+"last_updated" = "最后更新：%@";
+
+/* 按钮和操作 */
+"see_more" = "查看更多";
+"close" = "关闭";
+"share" = "分享";
+"view_on_map" = "在地图上查看";
+"expand_map" = "展开地图";
+"touch_for_details" = "点击查看详情";
+"expand" = "展开";
+"collapse" = "收起";
+"more_info" = "更多信息";
+"view_details" = "查看详情";
+"get_directions" = "获取路线";
+"center_on_my_location" = "定位到我的位置";
+"center_on_location" = "定位到位置";
+"center_on_map" = "在地图上居中";
+
+/* 无障碍功能 */
+"double_tap_to_open" = "双击打开";
+"swipe_to_dismiss" = "滑动关闭";
+"button" = "按钮";
+"image" = "图片";
+"selected" = "已选择";
+"not_selected" = "未选择";
+"expanded" = "已展开";
+"collapsed" = "已收起";
+
+/* 天气状况 */
+"weather_conditions" = "天气状况";
+"temperature" = "温度";
+"humidity" = "湿度";
+"wind" = "风力";
+"rain" = "降雨";
+"heat_level" = "热度等级";
+"thermal_sensation" = "体感温度：%@";
+"climate_conditions" = "气候条件";
+"climate_details_title" = "%@的天气详情";
+"climate_pages_title" = "热度等级详情页";
+"updating_data" = "正在更新数据...";
+
+/* 降雨值 */
+"rain_none" = "-";
+"rain_light" = "小雨";
+"rain_moderate" = "中雨";
+"rain_heavy" = "大雨";
+
+/* 雨量计 */
+"rain_gauges" = "雨量计";
+"rain_legend" = "降雨图例";
+"rain_legend_1h" = "降雨图例（1小时）";
+"rain_gauge_station" = "雨量监测站";
+"last_reading" = "最后读数";
+"rain_last_hour" = "过去一小时降雨量";
+"rain_accumulated_4h" = "4小时累计";
+"rain_accumulated_24h" = "24小时累计";
+"rain_accumulated_96h" = "96小时累计";
+"rain_accumulated_30d" = "30天累计";
+
+/* 气象站 */
+"weather_stations" = "气象站";
+"weather_station" = "气象站";
+"wind_legend" = "风力图例";
+"average_temperature" = "平均温度";
+"average_humidity" = "平均湿度";
+"wind_speed" = "风速";
+"wind_direction" = "风向";
+"wind_strong" = "强风（≥ 61 km/h）";
+"wind_moderate" = "中风（≥ 38 km/h）";
+"wind_weak" = "微风（≥ 19 km/h）";
+"wind_calm" = "静风（< 19 km/h）";
+
+/* 报告 */
+"weather_reports" = "天气报告";
+"loading_forecasts" = "加载预报中...";
+"no_weather_info" = "暂无天气信息";
+"report_unavailable" = "报告不可用";
+"traffic_reports" = "交通报告";
+"loading_reports" = "加载报告中...";
+"no_traffic_reports" = "暂无交通报告";
+
+/* 活动 */
+"city_events" = "城市活动";
+"loading_events" = "加载活动中...";
+"no_events" = "暂无计划活动";
+"other_events" = "其他";
+"other_events_title" = "其他活动";
+"x_of_y" = "%d / %d";
+"event" = "活动";
+"important" = "重要";
+"important_event" = "重要活动";
+"expected_public" = "预计人数";
+"expected_public_format" = "预计人数：%@";
+"event_details" = "活动详情";
+"about_event" = "关于活动";
+"event_source" = "来源";
+"source_format" = "来源：%@";
+"source" = "来源";
+"image_unavailable" = "图片不可用";
+"date_at_time" = "%@ %@";
+"from_time_to_time" = "%@ 至 %@";
+"events_available" = "个可用活动";
+
+/* 严重程度 */
+"criticality_high" = "高";
+"criticality_medium" = "中";
+"criticality_normal" = "正常";
+
+/* 区域 */
+"zone_south" = "南区";
+"zone_north" = "北区";
+"zone_west" = "西区";
+"zone_center" = "中心区";
+
+/* 活动类型 */
+"event_type_congress" = "会议";
+"event_type_cultural" = "文化";
+"event_type_sports" = "体育";
+"event_type_fair" = "展会";
+"event_type_musical" = "音乐";
+"event_type_protest" = "示威";
+"event_type_religious" = "宗教";
+"event_type_new_year" = "新年";
+"event_type_carnival_neighborhood" = "社区狂欢节";
+"event_type_carnival_parades" = "狂欢节：游行";
+"event_type_carnival_rehearsals" = "狂欢节：技术彩排";
+"event_type_carnival_blocks" = "狂欢节：街区";
+"event_type_carnival_stages" = "狂欢节：舞台";
+"event_type_unofficial_blocks" = "非官方街区";
+"event_type_simulation" = "模拟";
+"event_type_academic" = "学术";
+"event_type_corporate" = "企业";
+"event_type_political" = "政治";
+"event_type_gastronomic" = "美食";
+"event_type_educational" = "教育";
+"event_type_other" = "其他";
+
+/* 活动组 */
+"event_group_carnival" = "狂欢节";
+"event_group_business" = "商务";
+"event_group_education" = "教育";
+
+/* 警报 */
+"alerts" = "警报";
+"loading_alerts" = "加载警报中...";
+"no_alerts" = "暂无警报";
+"alert_no_title" = "无标题警报";
+"alert_details" = "详情";
+"date" = "日期";
+"message" = "消息";
+"share_alert" = "分享警报";
+"alert_prefix" = "警报：";
+"audio" = "音频";
+"view_all_alerts" = "查看所有警报";
+"alerts_available" = "个可用警报";
+"details" = "详情";
+
+/* 警报关键词 */
+"highlight_attention" = "注意";
+"highlight_risk" = "风险";
+"highlight_closed" = "关闭";
+"highlight_evacuate" = "疏散";
+"highlight_danger" = "危险";
+"highlight_warning" = "警告";
+"highlight_avoid" = "避免";
+"highlight_forecast" = "预报";
+"highlight_traffic" = "交通";
+"highlight_strong" = "强";
+"highlight_moderate" = "中等";
+"highlight_stage" = "阶段";
+
+/* 城市阶段 */
+"city_stage" = "城市阶段";
+"city_in" = "城市处于";
+"stage_when" = "何时：";
+"stage_impact" = "影响：";
+"stage_operational" = "运行中";
+
+/* 阶段描述 */
+"stage_1_title" = "第1阶段";
+"stage_1_status" = "正常";
+"stage_1_description" = "没有对日常生活造成重大影响的事件。";
+"stage_1_when" = "没有对日常生活造成重大影响的事件。未发现影响城市日常运作的短期风险因素。";
+"stage_1_impact" = "对交通流量和城市基础设施及物流运营影响很小或没有影响。";
+
+"stage_2_title" = "第2阶段";
+"stage_2_status" = "注意";
+"stage_2_description" = "城市存在高影响事件的风险。";
+"stage_2_when" = "由于预测事件或基于专家数据分析，城市存在高影响事件的风险。存在恶化潜力很大的事件。";
+"stage_2_impact" = "尚未影响城市日常运作，但市民应保持信息畅通。";
+
+"stage_3_title" = "第3阶段";
+"stage_3_status" = "动员";
+"stage_3_description" = "一个或多个事件正在影响城市。";
+"stage_3_when" = "一个或多个事件正在影响城市。确定短期内将发生高影响事件。";
+"stage_3_impact" = "至少有一个地区受到影响，对城市基础设施和物流造成相关影响，并直接影响人口（或部分人口）的日常生活。";
+
+"stage_4_title" = "第4阶段";
+"stage_4_status" = "警戒";
+"stage_4_description" = "一个或多个严重事件影响城市。";
+"stage_4_when" = "一个或多个严重事件影响城市，或在城市不同地区同时发生各种中高影响问题。多重损害和影响开始超出城市团队的即时响应能力。";
+"stage_4_impact" = "一个或多个地区受到影响，对城市基础设施和物流造成严重/重要影响，并严重影响人口（或部分人口）的日常生活。";
+
+"stage_5_title" = "第5阶段";
+"stage_5_status" = "危机";
+"stage_5_description" = "多个严重事件超出响应能力。";
+"stage_5_when" = "一个或多个严重事件影响城市，或在城市不同地区同时发生各种中高影响问题。多重损害和影响大大超出城市团队的即时响应能力。";
+"stage_5_impact" = "一个或多个地区受到影响，对城市基础设施和物流造成严重/重要影响，并严重影响人口（或部分人口）的日常生活。";
+
+/* 交通和道路封闭 */
+"traffic_info" = "交通信息";
+"interdictions" = "道路封闭";
+"scheduled" = "计划中的";
+"scheduled_interdictions" = "计划道路封闭";
+"loading_interdictions" = "加载封路信息中...";
+"no_interdictions" = "暂无计划道路封闭";
+"check_interdicted_roads" = "查看将要封闭的道路";
+"interdiction_number" = "封闭 %d";
+
+/* 摄像头 */
+"cameras" = "摄像头";
+"camera" = "摄像头";
+"cameras_count" = "%d 个摄像头";
+"cameras_cluster" = "%d 个摄像头";
+"camera_no_name" = "未命名摄像头";
+"view_favorites" = "查看收藏";
+"favorites" = "收藏";
+"search_in_favorites" = "在收藏中搜索...";
+"add_to_favorites" = "添加到收藏";
+"remove_from_favorites" = "从收藏中移除";
+"remove_camera_from_favorites_message" = "您要从收藏中移除'%@'吗？";
+"no_favorite_cameras" = "没有收藏的摄像头";
+"tap_star_to_add_favorite" = "查看摄像头时点击星标将其添加到收藏";
+"invalid_camera_id" = "无效的摄像头ID";
+"search_address" = "搜索地址...";
+"clear_search" = "清除搜索";
+"tap_to_view_details" = "点击查看详情";
+"tap_to_zoom_in" = "点击放大";
+"tap_to_expand" = "点击展开";
+
+/* 警报系统和警笛 */
+"alarm_system" = "警报系统";
+"sirens" = "警笛";
+"siren" = "警笛";
+"no_sirens" = "无警笛";
+"no_sirens_active" = "当前已激活";
+"sirens_active" = "活动警笛";
+"sirens_active_subtitle" = "检查位置";
+"sirens_active_count" = "%d 个警笛已激活";
+"sirens_status_accessibility" = "警笛状态：当前无警笛激活";
+"sirens_status_active_accessibility" = "警笛状态：%d 个警笛已激活";
+"sirens_status_inactive_accessibility" = "警笛状态：当前无警笛激活";
+
+/* 警笛状态 */
+"status" = "状态";
+"status_active" = "激活";
+"status_test" = "测试中";
+"status_normal" = "正常";
+"status_unknown" = "未知";
+"siren_status_normal" = "正常";
+"siren_status_alert" = "警戒";
+"siren_status_danger" = "危险";
+"siren_status_all" = "全部";
+
+/* 支持点 */
+"support_points" = "支持点";
+"support_point" = "支持点";
+"support_point_open" = "开放";
+"support_point_closed" = "关闭";
+"support_point_all" = "全部";
+"situation" = "情况";
+"filter_by_community" = "按社区筛选：";
+"all_communities" = "全部";
+"community" = "社区";
+"distance" = "距离";
+"address" = "地址";
+
+/* 卫生单位 */
+"health_units" = "市政卫生单位";
+"unknown_unit" = "未知单位";
+"search_unit_placeholder" = "搜索单位...";
+"search_unit" = "搜索卫生单位";
+"units_found" = "找到 %d 个单位";
+"health_unit" = "卫生单位";
+
+/* 降温点 */
+"cooling_health_points" = "降温和卫生点";
+"cooling_point" = "降温点";
+"we_are_in" = "我们在";
+"recommendations" = "建议";
+"recommendations_for" = "建议针对";
+"current_situation" = "当前情况";
+"essential_care" = "基本护理";
+"heat_level_accessibility" = "热度等级：%@。点击查看建议";
+"info_and_legend" = "信息和图例";
+"map_legend" = "地图图例";
+"search_points" = "搜索点...";
+"search_points_field" = "搜索点字段";
+"no_points_found_for" = "未找到'%@'的点";
+"close_map" = "关闭地图";
+
+/* 旅游景点 */
+"tourist_spots" = "旅游景点";
+"search_tourist_spots" = "搜索旅游景点...";
+"loading_tourist_spots" = "加载旅游景点中...";
+"no_tourist_spots_available" = "暂无可用旅游景点";
+"no_results_found_for" = "未找到'%@'的结果";
+"points_found" = "找到 %d 个景点";
+"view_all_on_map" = "在地图上查看全部";
+"share_list" = "分享列表";
+"tourist_spots_rio" = "里约热内卢旅游景点";
+"no_name" = "无名称";
+"tourist_spot" = "旅游景点";
+"all_points" = "所有景点";
+
+/* 旅游景点类别 */
+"category_all" = "全部";
+"category_heritage" = "遗产";
+"category_beach" = "海滩";
+"category_park" = "公园";
+"category_museum" = "博物馆";
+"category_culture" = "文化";
+"category_sports" = "体育";
+"category_art" = "艺术";
+"category_library" = "图书馆";
+"category_viewpoint" = "观景点";
+
+/* 旅游景点信息 */
+"hours" = "时间";
+"ticket" = "门票";
+"map" = "地图";
+"call" = "呼叫";
+"website" = "网站";
+"opening_hours" = "开放时间";
+"entrance_fee" = "入场费";
+"description" = "描述";
+"location" = "位置";
+
+/* 雷达 */
+"radar" = "雷达";
+"expand_radar" = "展开雷达";
+"loading_radar" = "加载雷达中...";
+"invalid_radar_url" = "无效的雷达URL。";
+"radar_load_error" = "加载雷达失败";
+"try_again" = "重试";
+
+/* 定位 */
+"getting_location" = "获取您的位置...";
+"locating_you" = "正在定位...";
+"location_permission_needed" = "请在设置中允许访问位置";
+
+/* 网络错误 */
+"error_loading" = "加载错误";
+"error_no_internet" = "无网络连接";
+"error_timeout" = "连接超时";
+"error_server_unavailable" = "服务器不可用";
+"error_network_generic" = "连接错误";
+
+/* 单位 */
+"km_per_hour" = "%@ 公里/小时";
+"celsius" = "%@°C";
+"percent" = "%@%%";
+"people_count" = "%@ 人";
+
+/* 最终按钮 */
+"call_civil_defense" = "呼叫\n民防";
+"settings" = "设置";
+
+/* 搜索和筛选 */
+"no_results_found" = "未找到结果";
+"remove" = "移除";
+"scheduled" = "已计划";
+
+/* HeaderView */
+"language_selector" = "语言选择器";
+"change_language_hint" = "点击更改应用语言";
+"events_count_hint" = "%d 个可用活动。点击查看";
+"alerts_count_hint" = "%d 个活动警报。点击查看";
+"emergency_status" = "紧急状态";
+"siren_status_mobilized" = "已启动";
+"siren_status_demobilized" = "未启动";
+"siren_status_all" = "全部";
+"filter_by_community" = "按社区筛选:";
+/* 阶段简短描述 */
+"stage_1_short" = "正常运行";
+"stage_2_short" = "主动监控";
+"stage_3_short" = "正在动员";
+"stage_4_short" = "紧急响应";
+"stage_5_short" = "危机进行中";
+"social_networks" = "社交网络";
+"traffic_normal" = "交通正常";
+"for_the_time" = "当前时段";
+"share_event" = "分享活动";
