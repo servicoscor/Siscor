@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="zoom_to_see_cameras_detail">Zoomez sur la carte pour voir les caméras</string>
+    <string name="zoom_required">Zoom requis</string>
+    <string name="real_time_weather_monitoring">Surveillance météorologique en temps réel</string>
+    <string name="zoom_to_see_cameras">Zoomez sur la carte pour voir les caméras</string>
+    <string name="cameras_avaliable">Caméras disponibles</string>
+    <string name="view_camera">Voir la caméra</string>
+    <string name="loading_map">Chargement...</string>
+    <string name="connecting_camera">Connexion à la caméra</string>
+    <string name="may_take_seconds">Cela peut prendre quelques secondes</string>
+    <!-- Nom de l'App -->
+    <string name="app_name">Centre d\'Opérations Rio</string>
+    <string name="permission_location_title">Autorisation de Localisation</string>
+    <string name="permission_location_description">Pour offrir la meilleure expérience, nous devons accéder à votre localisation</string>
+    <string name="permission_benefit_map">Voir votre position sur la carte</string>
+    <string name="permission_benefit_cameras">Afficher les caméras à proximité</string>
+    <string name="permission_benefit_alerts">Recevoir des alertes pertinentes</string>
+    <string name="permission_benefit_support">Support localisé</string>
+    <string name="permission_allow">Autoriser</string>
+    <string name="permission_continue_without">Continuer sans autoriser</string>
+    <!-- Navigation et Actions Générales -->
+    <string name="back">Retour</string>
+    <string name="close">Fermer</string>
+    <string name="share">Partager</string>
+    <string name="play">Lire</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Arrêter</string>
+    <string name="refresh">Actualiser</string>
+    <string name="retry">Réessayer</string>
+    <string name="cancel">Annuler</string>
+    <string name="ok">OK</string>
+    <string name="save">Sauvegarder</string>
+    <string name="delete">Supprimer</string>
+    <string name="edit">Modifier</string>
+    <string name="search">Rechercher</string>
+    <string name="filter">Filtrer</string>
+    <string name="sort">Trier</string>
+    <string name="more">Plus</string>
+    <string name="less">Moins</string>
+    <string name="see_all">Voir tout</string>
+    <string name="see_more">Voir plus</string>
+
+    <!-- Alertes -->
+    <string name="alerts">Alertes</string>
+    <string name="alert">Alerte</string>
+    <string name="alert_details">Détails de l\'Alerte</string>
+    <string name="no_alerts">Aucune alerte pour le moment</string>
+    <string name="alert_no_title">Alerte sans titre</string>
+    <string name="share_alert">Partager l\'Alerte</string>
+    <string name="alert_prefix">🚨 Alerte COR:</string>
+    <string name="audio_alert">Audio de l\'Alerte</string>
+    <string name="tap_to_play">Appuyer pour lire</string>
+    <string name="alerts_count">%d alertes</string>
+    <string name="call_civil_defense">Appeler 199</string>
+
+    <string name="social_networks">Réseaux Sociaux</string>
+    <string name="choose_social_network">Vers quel réseau social voulez-vous aller?</string>
+
+    <!-- Météo et Climat -->
+    <string name="weather_conditions">Conditions Météorologiques</string>
+    <string name="temperature">Température</string>
+    <string name="thermal_sensation">Ressenti: %s</string>
+    <string name="humidity">Humidité: %s</string>
+    <string name="heat_level">Niveau de Chaleur</string>
+    <string name="wind">Vent</string>
+    <string name="rain_none">Pas de pluie</string>
+    <string name="rain_light">Pluie légère</string>
+    <string name="rain_moderate">Pluie modérée</string>
+    <string name="rain_heavy">Pluie forte</string>
+    <string name="climate_pages_title">Détails de la Météo</string>
+    <string name="climate_details_title">Météo à %s</string>
+    <string name="search_unit_placeholder">Rechercher unité de santé</string>
+    <string name="units_found">%d unités trouvées</string>
+    <string name="health_unit">Unité de Santé</string>
+    <string name="distance_approx">Distance approximative</string>
+    <string name="get_directions_map">Obtenir directions sur la carte</string>
+
+    <string name="scheduled_interdictions">Fermetures Programmées</string>
+    <string name="loading_interdictions">Chargement des fermetures...</string>
+    <string name="check_interdicted_roads">Vérifier les voies qui seront fermées</string>
+    <string name="search_interdictions">Rechercher fermetures</string>
+    <string name="no_results_found">Aucun résultat trouvé</string>
+    <string name="scheduled">Programmé</string>
+    <string name="collapse">Réduire</string>
+
+    <string name="traffic_conditions">Trafic normal pour l\'heure</string>
+
+    <string name="siren_status_all">Toutes</string>
+    <string name="siren_status_mobilized">Mobilisées</string>
+    <string name="siren_status_demobilized">Démobilisées</string>
+    <string name="siren">Sirène</string>
+    <string name="coordinates">Coordonnées</string>
+    <string name="more_info">Plus d\'informations</string>
+    <string name="status_active">Active</string>
+    <string name="status_test">En test</string>
+    <string name="status_normal">Normal</string>
+
+    <string name="all_communities">Toutes les communautés</string>
+    <string name="filter_by_community">Filtrer par communauté</string>
+    <string name="center_on_my_location">Centrer sur ma position</string>
+    <string name="support_point">Point d\'Appui</string>
+    <string name="community">Communauté</string>
+    <string name="distance">Distance</string>
+    <string name="get_directions">Obtenir directions</string>
+
+    <!-- Événements -->
+    <string name="events">Événements</string>
+    <string name="event">Événement</string>
+    <string name="events_count">%d événements</string>
+    <string name="no_events">Aucun événement programmé</string>
+    <string name="event_details">Détails de l\'Événement</string>
+    <string name="event_location">Lieu</string>
+    <string name="event_date">Date</string>
+    <string name="event_time">Heure</string>
+    <string name="event_participants">Participants attendus</string>
+    <string name="event_category">Catégorie</string>
+    <string name="event_description">Description</string>
+
+    <!-- Stades Opérationnels -->
+    <string name="city_in">Ville en</string>
+    <string name="operational_stage">Stade Opérationnel</string>
+    <string name="stage_label">Stade %d</string>
+    <string name="stage_when">Quand:</string>
+    <string name="stage_impact">Impact:</string>
+
+    <!-- Stade 1 -->
+    <string name="stage_1_title">Stade 1 - Normalité</string>
+    <string name="stage_1_when">Routine opérationnelle normale</string>
+    <string name="stage_1_impact">Fonctionnement régulier de tous les services</string>
+
+    <!-- Stade 2 -->
+    <string name="stage_2_title">Stade 2 - Mobilisation</string>
+    <string name="stage_2_when">Prévision de pluie modérée/forte dans les prochaines heures</string>
+    <string name="stage_2_impact">Équipes en état d\'alerte</string>
+
+    <!-- Stade 3 -->
+    <string name="stage_3_title">Stade 3 - Attention</string>
+    <string name="stage_3_when">Pluie modérée dans au moins une région</string>
+    <string name="stage_3_impact">Possibilité d\'inondations ponctuelles</string>
+
+    <!-- Stade 4 -->
+    <string name="stage_4_title">Stade 4 - Alerte</string>
+    <string name="stage_4_when">Pluie forte dans au moins une région</string>
+    <string name="stage_4_impact">Haut risque d\'inondations et glissements de terrain</string>
+
+    <!-- Stade 5 -->
+    <string name="stage_5_title">Stade 5 - Crise</string>
+    <string name="stage_5_when">Pluie très forte avec multiples incidents graves</string>
+    <string name="stage_5_impact">Mobilisation maximale de tous les organismes</string>
+
+    <!-- Trafic et Transport -->
+    <string name="traffic">Trafic</string>
+    <string name="traffic_info">Informations de Trafic</string>
+    <string name="interdictions">Fermetures</string>
+    <string name="no_interdictions">Aucune fermeture pour le moment</string>
+    <string name="traffic_alerts">Alertes de Trafic</string>
+    <string name="route">Route</string>
+    <string name="routes">Routes</string>
+
+    <string name="cooling_points_health">Points de Rafraîchissement et Santé</string>
+    <string name="search_points">Rechercher points...</string>
+    <string name="we_are_in">Nous sommes en</string>
+    <string name="all">Tous</string>
+    <string name="cooling">Rafraîchissement</string>
+    <string name="health">Santé</string>
+    <string name="my_location">Ma Position</string>
+    <string name="heat_recommendations">Recommandations pour la Chaleur</string>
+    <string name="expand_map">Agrandir la carte</string>
+    <string name="inactive">inactives</string>
+    <string name="active">actives</string>
+    <string name="tap_to_view_details">Appuyer pour voir les détails</string>
+
+    <!-- Sirènes et Alarmes -->
+    <string name="sirens">Sirènes</string>
+    <string name="alarm_system">Système d\'Alarme</string>
+    <string name="siren_status">État des Sirènes</string>
+    <string name="siren_active">Active</string>
+    <string name="siren_inactive">Inactive</string>
+    <string name="siren_test">En test</string>
+    <string name="siren_maintenance">En maintenance</string>
+
+    <string name="weather_reports">Bulletins Météo</string>
+    <string name="no_weather_reports">Aucun bulletin météo disponible</string>
+    <string name="storm">Tempête</string>
+    <string name="rain">Pluie</string>
+    <string name="windy">Vent</string>
+    <string name="sunny">Soleil</string>
+    <string name="foggy">Brouillard</string>
+    <string name="cloudy">Nuageux</string>
+    <string name="weather_update">Mise à jour</string>
+
+    <!-- Points d'Appui et Services -->
+    <string name="support_points">Points d\'Appui</string>
+    <string name="health_units">Unités de Santé</string>
+    <string name="cooling_points">Points de Rafraîchissement</string>
+    <string name="tourist_spots">Sites Touristiques</string>
+    <string name="emergency_services">Services d\'Urgence</string>
+
+    <!-- Caméras -->
+    <string name="cameras">Caméras</string>
+    <string name="camera">Caméra</string>
+    <string name="cameras_map">Carte des Caméras</string>
+    <string name="camera_offline">Caméra hors ligne</string>
+    <string name="camera_online">Caméra en ligne</string>
+
+    <!-- Messages et État -->
+    <string name="loading">Chargement…</string>
+    <string name="loading_data">Chargement des données…</string>
+    <string name="error">Erreur</string>
+    <string name="error_loading_data">Erreur lors du chargement des données</string>
+    <string name="no_internet">Pas de connexion internet</string>
+    <string name="try_again">Réessayer</string>
+    <string name="data_unavailable">Données non disponibles</string>
+    <string name="not_available">Non disponible</string>
+    <string name="not_available_short">N/D</string>
+    <string name="unavailable">Indisponible</string>
+    <string name="unknown">Inconnu</string>
+    <string name="empty_state">Rien à montrer ici</string>
+
+    <!-- Champs et Étiquettes -->
+    <string name="message">Message</string>
+    <string name="description">Description</string>
+    <string name="details">Détails</string>
+    <string name="date">Date</string>
+    <string name="time">Heure</string>
+    <string name="location">Localisation</string>
+    <string name="address">Adresse</string>
+    <string name="phone">Téléphone</string>
+    <string name="email">E-mail</string>
+    <string name="website">Site web</string>
+    <string name="status">État</string>
+    <string name="type">Type</string>
+    <string name="category">Catégorie</string>
+    <string name="priority">Priorité</string>
+    <string name="severity">Sévérité</string>
+    <string name="source">Source</string>
+    <string name="audio">Audio</string>
+    <string name="video">Vidéo</string>
+    <string name="image">Image</string>
+    <string name="map">Carte</string>
+
+    <!-- Recommandations -->
+    <string name="recommendations">Recommandations</string>
+    <string name="safety_tips">Conseils de Sécurité</string>
+    <string name="emergency_contacts">Contacts d\'Urgence</string>
+
+    <!-- Mots en surbrillance -->
+    <string name="highlight_attention">ATTENTION</string>
+    <string name="highlight_risk">RISQUE</string>
+    <string name="highlight_closed">FERMÉ</string>
+    <string name="highlight_evacuate">ÉVACUATION</string>
+    <string name="highlight_danger">DANGER</string>
+    <string name="highlight_warning">ALERTE</string>
+    <string name="highlight_avoid">ÉVITER</string>
+    <string name="highlight_forecast">PRÉVISION</string>
+    <string name="highlight_traffic">TRAFIC</string>
+    <string name="highlight_strong">FORT</string>
+    <string name="highlight_moderate">MODÉRÉ</string>
+    <string name="highlight_stage">STADE</string>
+
+    <!-- Formatage du temps -->
+    <string name="minutes_ago">il y a %d minutes</string>
+    <string name="hours_ago">il y a %d heures</string>
+    <string name="yesterday">hier</string>
+    <string name="days_ago">il y a %d jours</string>
+    <string name="today">aujourd\'hui</string>
+    <string name="tomorrow">demain</string>
+    <string name="now">maintenant</string>
+
+    <!-- Unités -->
+    <string name="km_h">km/h</string>
+    <string name="celsius">°C</string>
+    <string name="percent">%</string>
+    <string name="mm">mm</string>
+    <string name="meters">mètres</string>
+    <string name="kilometers">kilomètres</string>
+
+    <!-- Actions de partage -->
+    <string name="share_via">Partager via</string>
+    <string name="copy_to_clipboard">Copier dans le presse-papiers</string>
+    <string name="copied">Copié!</string>
+
+    <!-- Permissions -->
+    <string name="permission_location">Permission de localisation requise</string>
+    <string name="permission_location_rationale">L\'app a besoin de votre localisation pour afficher des informations pertinentes de votre région</string>
+    <string name="permission_denied">Permission refusée</string>
+    <string name="grant_permission">Accorder la permission</string>
+
+    <!-- Paramètres -->
+    <string name="settings">Paramètres</string>
+    <string name="notifications">Notifications</string>
+    <string name="language">Langue</string>
+    <string name="about">À propos</string>
+    <string name="version">Version</string>
+    <string name="privacy_policy">Politique de Confidentialité</string>
+    <string name="terms_of_use">Conditions d\'Utilisation</string>
+
+    <!-- Radar -->
+    <string name="radar">Radar</string>
+    <string name="weather_radar">Radar Météorologique</string>
+    <string name="radar_updated_at">Mis à jour à %s</string>
+    <string name="loading_radar">Chargement du radar…</string>
+    <string name="radar_load_error">Erreur lors du chargement du radar</string>
+    <string name="invalid_radar_url">URL du radar invalide</string>
+    <string name="expand_radar">Agrandir le radar</string>
+    <string name="expand">Agrandir</string>
+
+    <string name="traffic_reports">Bulletins de Trafic</string>
+    <string name="no_traffic_reports">Aucun bulletin de trafic pour le moment</string>
+
+    <string name="search_tourist_spots">Rechercher sites touristiques...</string>
+    <string name="no_tourist_spots_available">Aucun site touristique disponible.</string>
+    <string name="no_results_found_for">Aucun résultat pour \"%1$s\"</string>
+    <string name="points_found">%1$d points trouvés</string>
+    <string name="view_on_map">Voir sur la carte</string>
+    <string name="clear">Effacer</string>
+
+    <string name="more_options">Plus d\'options</string>
+    <string name="view_all_on_map">Voir tout sur la carte</string>
+    <string name="share_list">Partager la liste</string>
+
+    <string name="category_all">Tous</string>
+    <string name="category_heritage">Patrimoine</string>
+    <string name="category_beach">Plage</string>
+    <string name="category_park">Parc</string>
+    <string name="category_museum">Musée</string>
+    <string name="category_culture">Culture</string>
+    <string name="category_sports">Sport</string>
+    <string name="category_art">Art</string>
+    <string name="category_library">Bibliothèque</string>
+    <string name="category_viewpoint">Point de vue</string>
+    <string name="category_other">Autre</string>
+
+    <string name="tourist_spot">Site Touristique</string>
+    <string name="hours">Horaires</string>
+    <string name="ticket">Billet</string>
+    <string name="call">Appeler</string>
+    <string name="opening_hours">Heures d\'Ouverture</string>
+    <string name="entrance_fee">Prix d\'Entrée</string>
+    <string name="tap_to_expand">Appuyer pour agrandir</string>
+    <string name="all_points">Tous les Points</string>
+    <string name="open_in_maps">Ouvrir dans Maps</string>
+    <string name="share_event">Partager la localisation</string>
+    <string name="tourist_spots_rio">Sites Touristiques de Rio de Janeiro</string>
+    <string name="no_name">Sans nom</string>
+
+    <string name="accident">Accident</string>
+    <string name="construction">Travaux</string>
+    <string name="closure">Fermeture</string>
+    <string name="info">Information</string>
+
+    <string name="rain_stations">Stations de Pluie</string>
+    <string name="wind_stations">Stations de Vent</string>
+    <string name="wind_speed">Vitesse du Vent</string>
+    <string name="wind_direction">Direction du Vent</string>
+
+    <string name="important_event_badge">ÉVÉNEMENT IMPORTANT</string>
+    <string name="location_not_informed">Localisation non informée</string>
+    <string name="event_fallback_name">Événement</string>
+
+    <plurals name="people_expected">
+        <item quantity="one">%d personne attendue</item>
+        <item quantity="other">%d personnes attendues</item>
+    </plurals>
+
+    <string name="rain_15min">Pluie en 15 min</string>
+    <string name="rain_1h">Pluie en 1h</string>
+    <string name="rain_4h">Pluie en 4h</string>
+    <string name="rain_24h">Pluie en 24h</string>
+    <string name="rain_96h">Pluie en 96h</string>
+    <string name="rain_30d">Pluie en 30 jours</string>
+    <string name="last_update">Dernière mise à jour</string>
+
+    <string name="legend">Légende</string>
+    <string name="back_to_important">Retour</string>
+    <string name="more_events">plus d\'événements</string>
+
+    <!-- Strings supplémentaires d'accessibilité -->
+    <string name="cooling_point_icon">Icône de point de rafraîchissement</string>
+    <string name="health_unit_icon">Icône d\'unité de santé</string>
+    <string name="heat_level_icon">Icône de niveau de chaleur</string>
+    <string name="expand_recommendations">Agrandir les recommandations</string>
+    <string name="info_button">Bouton d\'information</string>
+    <string name="location_disabled">Localisation désactivée</string>
+    <string name="search_icon">Icône de recherche</string>
+    <string name="close_search">Fermer la recherche</string>
+    <string name="recommendation_icon">Icône de recommandation</string>
+    <string name="check_conditions">Vérifier les conditions</string>
+    <string name="blocked_roads">Routes bloquées</string>
+    <string name="check_interdictions">Vérifier les fermetures</string>
+    <string name="interdictions_description">Routes bloquées et restrictions de trafic</string>
+    <string name="sirens_active">Sirènes Actives</string>
+    <string name="sirens_active_count">%d sirènes activées en ce moment</string>
+    <string name="no_sirens">Aucune Sirène Active</string>
+    <string name="no_sirens_active">Toutes les sirènes sont inactives</string>
+    <string name="alarm_system_title">Système d\'Alarme</string>
+    <string name="alarm_system_subtitle">Surveillance des sirènes en temps réel</string>
+    <string name="total_sirens">total</string>
+    <string name="active_sirens">actives</string>
+    <string name="siren_active_status">Sirène activée</string>
+    <string name="siren_inactive_status">Sirène inactive</string>
+    <string name="traffic_cameras">Caméras de Trafic</string>
+    <string name="no_cameras_available">Aucune caméra disponible</string>
+    <string name="online">en ligne</string>
+    <string name="search_camera">Rechercher caméra</string>
+
+</resources>

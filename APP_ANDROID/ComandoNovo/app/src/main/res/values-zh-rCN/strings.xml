@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="zoom_to_see_cameras_detail">放大地图以查看摄像头</string>
+    <string name="zoom_required">需要缩放</string>
+    <string name="real_time_weather_monitoring">实时天气监测</string>
+    <string name="zoom_to_see_cameras">放大地图以查看摄像头</string>
+    <string name="cameras_avaliable">可用摄像头</string>
+    <string name="view_camera">查看摄像头</string>
+    <string name="loading_map">加载中...</string>
+    <string name="connecting_camera">正在连接摄像头</string>
+    <string name="may_take_seconds">可能需要几秒钟</string>
+    <!-- 应用名称 -->
+    <string name="app_name">里约行动中心</string>
+    <string name="permission_location_title" tools:ignore="ExtraTranslation">位置权限</string>
+    <string name="permission_location_description" tools:ignore="ExtraTranslation">为了提供最佳体验，我们需要访问您的位置</string>
+    <string name="permission_benefit_map" tools:ignore="ExtraTranslation">在地图上查看您的位置</string>
+    <string name="permission_benefit_cameras" tools:ignore="ExtraTranslation">显示附近的摄像头</string>
+    <string name="permission_benefit_alerts" tools:ignore="ExtraTranslation">接收相关提醒</string>
+    <string name="permission_benefit_support" tools:ignore="ExtraTranslation">本地化支持</string>
+    <string name="permission_allow" tools:ignore="ExtraTranslation">允许</string>
+    <string name="permission_continue_without" tools:ignore="ExtraTranslation">不允许并继续</string>
+    <!-- 导航和通用操作 -->
+    <string name="back">返回</string>
+    <string name="close">关闭</string>
+    <string name="share">分享</string>
+    <string name="play">播放</string>
+    <string name="pause">暂停</string>
+    <string name="stop">停止</string>
+    <string name="refresh">刷新</string>
+    <string name="retry">重试</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="search">搜索</string>
+    <string name="filter">筛选</string>
+    <string name="sort">排序</string>
+    <string name="more">更多</string>
+    <string name="less">收起</string>
+    <string name="see_all">查看全部</string>
+    <string name="see_more">查看更多</string>
+
+    <!-- 警报 -->
+    <string name="alerts">警报</string>
+    <string name="alert">警报</string>
+    <string name="alert_details">警报详情</string>
+    <string name="no_alerts">暂无警报</string>
+    <string name="alert_no_title">无标题警报</string>
+    <string name="share_alert">分享警报</string>
+    <string name="alert_prefix">🚨 COR警报：</string>
+    <string name="audio_alert">警报音频</string>
+    <string name="tap_to_play">点击播放</string>
+    <string name="alerts_count">%d个警报</string>
+    <string name="call_civil_defense">拨打199</string>
+
+    <string name="social_networks">社交网络</string>
+    <string name="choose_social_network">您想访问哪个社交网络？</string>
+
+    <!-- 天气和气候 -->
+    <string name="weather_conditions">天气状况</string>
+    <string name="temperature">温度</string>
+    <string name="thermal_sensation">体感温度：%s</string>
+    <string name="humidity">湿度：%s</string>
+    <string name="heat_level">炎热程度</string>
+    <string name="wind">风</string>
+    <string name="rain_none">无雨</string>
+    <string name="rain_light">小雨</string>
+    <string name="rain_moderate">中雨</string>
+    <string name="rain_heavy">大雨</string>
+    <string name="climate_pages_title">天气详情</string>
+    <string name="climate_details_title">%s的天气</string>
+    <string name="search_unit_placeholder">搜索医疗单位</string>
+    <string name="units_found">找到%d个单位</string>
+    <string name="health_unit">医疗单位</string>
+    <string name="distance_approx">大约距离</string>
+    <string name="get_directions_map">在地图上获取路线</string>
+
+    <string name="scheduled_interdictions">计划封路</string>
+    <string name="loading_interdictions">正在加载封路信息...</string>
+    <string name="check_interdicted_roads">查看将被封闭的道路</string>
+    <string name="search_interdictions">搜索封路</string>
+    <string name="no_results_found">未找到结果</string>
+    <string name="scheduled">已计划</string>
+    <string name="collapse">收起</string>
+
+    <string name="traffic_conditions">当前时段交通正常</string>
+
+    <string name="siren_status_all">全部</string>
+    <string name="siren_status_mobilized">已动员</string>
+    <string name="siren_status_demobilized">已解除</string>
+    <string name="siren">警报器</string>
+    <string name="coordinates">坐标</string>
+    <string name="more_info">更多信息</string>
+    <string name="status_active">激活</string>
+    <string name="status_test">测试中</string>
+    <string name="status_normal">正常</string>
+
+    <string name="all_communities">所有社区</string>
+    <string name="filter_by_community">按社区筛选</string>
+    <string name="center_on_my_location">以我的位置为中心</string>
+    <string name="support_point">支援点</string>
+    <string name="community">社区</string>
+    <string name="distance">距离</string>
+    <string name="get_directions">获取路线</string>
+
+    <!-- 事件 -->
+    <string name="events">事件</string>
+    <string name="event">事件</string>
+    <string name="events_count">%d个事件</string>
+    <string name="no_events">没有计划的事件</string>
+    <string name="event_details">事件详情</string>
+    <string name="event_location">地点</string>
+    <string name="event_date">日期</string>
+    <string name="event_time">时间</string>
+    <string name="event_participants">预期参与者</string>
+    <string name="event_category">类别</string>
+    <string name="event_description">描述</string>
+
+    <!-- 运营阶段 -->
+    <string name="city_in">城市处于</string>
+    <string name="operational_stage">运营阶段</string>
+    <string name="stage_label">阶段%d</string>
+    <string name="stage_when">何时：</string>
+    <string name="stage_impact">影响：</string>
+
+    <!-- 阶段1 -->
+    <string name="stage_1_title">阶段1 - 正常</string>
+    <string name="stage_1_when">正常运营例行程序</string>
+    <string name="stage_1_impact">所有服务正常运行</string>
+
+    <!-- 阶段2 -->
+    <string name="stage_2_title">阶段2 - 动员</string>
+    <string name="stage_2_when">预测未来几小时有中到大雨</string>
+    <string name="stage_2_impact">团队处于警戒状态</string>
+
+    <!-- 阶段3 -->
+    <string name="stage_3_title">阶段3 - 注意</string>
+    <string name="stage_3_when">至少一个地区有中雨</string>
+    <string name="stage_3_impact">可能出现局部洪水</string>
+
+    <!-- 阶段4 -->
+    <string name="stage_4_title">阶段4 - 警报</string>
+    <string name="stage_4_when">至少一个地区有大雨</string>
+    <string name="stage_4_impact">洪水和山体滑坡的高风险</string>
+
+    <!-- 阶段5 -->
+    <string name="stage_5_title">阶段5 - 危机</string>
+    <string name="stage_5_when">特大暴雨伴随多起严重事故</string>
+    <string name="stage_5_impact">所有机构最大动员</string>
+
+    <!-- 交通和运输 -->
+    <string name="traffic">交通</string>
+    <string name="traffic_info">交通信息</string>
+    <string name="interdictions">封路</string>
+    <string name="no_interdictions">暂无封路</string>
+    <string name="traffic_alerts">交通警报</string>
+    <string name="route">路线</string>
+    <string name="routes">路线</string>
+
+    <string name="cooling_points_health">降温点和医疗</string>
+    <string name="search_points">搜索点...</string>
+    <string name="we_are_in">我们处于</string>
+    <string name="all">全部</string>
+    <string name="cooling">降温</string>
+    <string name="health">医疗</string>
+    <string name="my_location">我的位置</string>
+    <string name="heat_recommendations">高温建议</string>
+    <string name="expand_map">展开地图</string>
+    <string name="inactive">未激活</string>
+    <string name="active">激活</string>
+    <string name="tap_to_view_details">点击查看详情</string>
+
+    <!-- 警报器和警报 -->
+    <string name="sirens">警报器</string>
+    <string name="alarm_system">警报系统</string>
+    <string name="siren_status">警报器状态</string>
+    <string name="siren_active">激活</string>
+    <string name="siren_inactive">未激活</string>
+    <string name="siren_test">测试中</string>
+    <string name="siren_maintenance">维护中</string>
+
+    <string name="weather_reports">天气报告</string>
+    <string name="no_weather_reports">暂无天气报告</string>
+    <string name="storm">暴风雨</string>
+    <string name="rain">雨</string>
+    <string name="windy">风</string>
+    <string name="sunny">晴</string>
+    <string name="foggy">雾</string>
+    <string name="cloudy">多云</string>
+    <string name="weather_update">更新</string>
+
+    <!-- 支援点和服务 -->
+    <string name="support_points">支援点</string>
+    <string name="health_units">医疗单位</string>
+    <string name="cooling_points">降温点</string>
+    <string name="tourist_spots">旅游景点</string>
+    <string name="emergency_services">紧急服务</string>
+
+    <!-- 摄像头 -->
+    <string name="cameras">摄像头</string>
+    <string name="camera">摄像头</string>
+    <string name="cameras_map">摄像头地图</string>
+    <string name="camera_offline">摄像头离线</string>
+    <string name="camera_online">摄像头在线</string>
+
+    <!-- 消息和状态 -->
+    <string name="loading">加载中…</string>
+    <string name="loading_data">正在加载数据…</string>
+    <string name="error">错误</string>
+    <string name="error_loading_data">数据加载错误</string>
+    <string name="no_internet">无网络连接</string>
+    <string name="try_again">重试</string>
+    <string name="data_unavailable">数据不可用</string>
+    <string name="not_available">不可用</string>
+    <string name="not_available_short">不适用</string>
+    <string name="unavailable">不可用</string>
+    <string name="unknown">未知</string>
+    <string name="empty_state">这里没有内容显示</string>
+
+    <!-- 字段和标签 -->
+    <string name="message">消息</string>
+    <string name="description">描述</string>
+    <string name="details">详情</string>
+    <string name="date">日期</string>
+    <string name="time">时间</string>
+    <string name="location">位置</string>
+    <string name="address">地址</string>
+    <string name="phone">电话</string>
+    <string name="email">电子邮件</string>
+    <string name="website">网站</string>
+    <string name="status">状态</string>
+    <string name="type">类型</string>
+    <string name="category">类别</string>
+    <string name="priority">优先级</string>
+    <string name="severity">严重性</string>
+    <string name="source">来源</string>
+    <string name="audio">音频</string>
+    <string name="video">视频</string>
+    <string name="image">图像</string>
+    <string name="map">地图</string>
+
+    <!-- 建议 -->
+    <string name="recommendations">建议</string>
+    <string name="safety_tips">安全提示</string>
+    <string name="emergency_contacts">紧急联系方式</string>
+
+    <!-- 高亮词语 -->
+    <string name="highlight_attention">注意</string>
+    <string name="highlight_risk">风险</string>
+    <string name="highlight_closed">封闭</string>
+    <string name="highlight_evacuate">疏散</string>
+    <string name="highlight_danger">危险</string>
+    <string name="highlight_warning">警告</string>
+    <string name="highlight_avoid">避免</string>
+    <string name="highlight_forecast">预报</string>
+    <string name="highlight_traffic">交通</string>
+    <string name="highlight_strong">强</string>
+    <string name="highlight_moderate">中等</string>
+    <string name="highlight_stage">阶段</string>
+
+    <!-- 时间格式化 -->
+    <string name="minutes_ago">%d分钟前</string>
+    <string name="hours_ago">%d小时前</string>
+    <string name="yesterday">昨天</string>
+    <string name="days_ago">%d天前</string>
+    <string name="today">今天</string>
+    <string name="tomorrow">明天</string>
+    <string name="now">现在</string>
+
+    <!-- 单位 -->
+    <string name="km_h">km/h</string>
+    <string name="celsius">°C</string>
+    <string name="percent">%</string>
+    <string name="mm">mm</string>
+    <string name="meters">米</string>
+    <string name="kilometers">公里</string>
+
+    <!-- 分享操作 -->
+    <string name="share_via">通过分享</string>
+    <string name="copy_to_clipboard">复制到剪贴板</string>
+    <string name="copied">已复制！</string>
+
+    <!-- 权限 -->
+    <string name="permission_location">需要位置权限</string>
+    <string name="permission_location_rationale">应用需要您的位置信息以显示您所在区域的相关信息</string>
+    <string name="permission_denied">权限被拒绝</string>
+    <string name="grant_permission">授予权限</string>
+
+    <!-- 设置 -->
+    <string name="settings">设置</string>
+    <string name="notifications">通知</string>
+    <string name="language">语言</string>
+    <string name="about">关于</string>
+    <string name="version">版本</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="terms_of_use">使用条款</string>
+
+    <!-- 雷达 -->
+    <string name="radar">雷达</string>
+    <string name="weather_radar">天气雷达</string>
+    <string name="radar_updated_at">更新于%s</string>
+    <string name="loading_radar">正在加载雷达…</string>
+    <string name="radar_load_error">雷达加载错误</string>
+    <string name="invalid_radar_url">无效的雷达URL</string>
+    <string name="expand_radar">展开雷达</string>
+    <string name="expand">展开</string>
+
+    <string name="traffic_reports">交通报告</string>
+    <string name="no_traffic_reports">暂无交通报告</string>
+
+    <string name="search_tourist_spots">搜索旅游景点...</string>
+    <string name="no_tourist_spots_available">暂无旅游景点。</string>
+    <string name="no_results_found_for">未找到\"%1$s\"的结果</string>
+    <string name="points_found">找到%1$d个点</string>
+    <string name="view_on_map">在地图上查看</string>
+    <string name="clear">清除</string>
+
+    <string name="more_options">更多选项</string>
+    <string name="view_all_on_map">在地图上查看全部</string>
+    <string name="share_list">分享列表</string>
+
+    <string name="category_all">全部</string>
+    <string name="category_heritage">遗产</string>
+    <string name="category_beach">海滩</string>
+    <string name="category_park">公园</string>
+    <string name="category_museum">博物馆</string>
+    <string name="category_culture">文化</string>
+    <string name="category_sports">体育</string>
+    <string name="category_art">艺术</string>
+    <string name="category_library">图书馆</string>
+    <string name="category_viewpoint">观景点</string>
+    <string name="category_other">其他</string>
+
+    <string name="tourist_spot">旅游景点</string>
+    <string name="hours">时间</string>
+    <string name="ticket">门票</string>
+    <string name="call">拨打</string>
+    <string name="opening_hours">开放时间</string>
+    <string name="entrance_fee">门票价格</string>
+    <string name="tap_to_expand">点击展开</string>
+    <string name="all_points">所有点</string>
+    <string name="open_in_maps">在地图中打开</string>
+    <string name="share_event">分享位置</string>
+    <string name="tourist_spots_rio">里约热内卢旅游景点</string>
+    <string name="no_name">无名称</string>
+
+    <string name="accident">事故</string>
+    <string name="construction">施工</string>
+    <string name="closure">封闭</string>
+    <string name="info">信息</string>
+
+    <string name="rain_stations">雨量站</string>
+    <string name="wind_stations">风力站</string>
+    <string name="wind_speed">风速</string>
+    <string name="wind_direction">风向</string>
+
+    <string name="important_event_badge">重要事件</string>
+    <string name="location_not_informed">位置未通知</string>
+    <string name="event_fallback_name">事件</string>
+
+    <plurals name="people_expected">
+        <item quantity="other">预期%d人</item>
+    </plurals>
+
+    <string name="rain_15min">15分钟降雨</string>
+    <string name="rain_1h">1小时降雨</string>
+    <string name="rain_4h">4小时降雨</string>
+    <string name="rain_24h">24小时降雨</string>
+    <string name="rain_96h">96小时降雨</string>
+    <string name="rain_30d">30天降雨</string>
+    <string name="last_update">最后更新</string>
+
+    <string name="legend">图例</string>
+    <string name="back_to_important">返回</string>
+    <string name="more_events">更多事件</string>
+
+    <!-- 额外的无障碍字符串 -->
+    <string name="cooling_point_icon">降温点图标</string>
+    <string name="health_unit_icon">医疗单位图标</string>
+    <string name="heat_level_icon">炎热程度图标</string>
+    <string name="expand_recommendations">展开建议</string>
+    <string name="info_button">信息按钮</string>
+    <string name="location_disabled">位置已禁用</string>
+    <string name="search_icon">搜索图标</string>
+    <string name="close_search">关闭搜索</string>
+    <string name="recommendation_icon">建议图标</string>
+    <string name="check_conditions">查看状况</string>
+    <string name="blocked_roads">道路封闭</string>
+    <string name="check_interdictions">查看封路</string>
+    <string name="interdictions_description">道路封闭和交通限制</string>
+    <string name="sirens_active">激活的警报器</string>
+    <string name="sirens_active_count">目前有%d个警报器被激活</string>
+    <string name="no_sirens">无激活的警报器</string>
+    <string name="no_sirens_active">所有警报器都未激活</string>
+    <string name="alarm_system_title">警报系统</string>
+    <string name="alarm_system_subtitle">实时警报器监控</string>
+    <string name="total_sirens">总计</string>
+    <string name="active_sirens">激活</string>
+    <string name="siren_active_status">警报器已激活</string>
+    <string name="siren_inactive_status">警报器未激活</string>
+    <string name="traffic_cameras">交通摄像头</string>
+    <string name="no_cameras_available">暂无摄像头</string>
+    <string name="online">在线</string>
+    <string name="search_camera">搜索摄像头</string>
+
+</resources>
