@@ -1,40 +1,34 @@
 import SwiftUI
 import WebKit
+import UIKit
 
-// MARK: - Tela de Detalhes da Câmera (Refatorada)
+// MARK: - Tela de Detalhes da Câmera (Força retrato e aspect-fit)
 struct CameraDetailView: View {
-    // MARK: Propriedades e Dependências
     let camera: Camera
-    
-    // @Binding var isFavorite: Bool // 1. Removido para simplificar
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var favoritesManager: FavoritesManager
-    @EnvironmentObject private var localizationManager: LocalizationManager // ✅ Recebido do ambiente
+    @EnvironmentObject private var localizationManager: LocalizationManager
     @StateObject private var orientationManager = OrientationManager.shared
     
-    // MARK: Estado da View
     @State private var isLoading: Bool = true
     @State private var error: Error? = nil
     
-    // MARK: Propriedades Computadas
     private var streamURL: URL? {
         guard let apiId = camera.apiId else { return nil }
         return URL(string: "https://aplicativo.cocr.com.br/camera/\(apiId)")
     }
     
-    /// 2. Propriedade computada para ler o estado de favorito diretamente do manager.
     private var isCurrentlyFavorite: Bool {
         favoritesManager.isFavorite(camera.id)
     }
     
-    // MARK: Corpo da View
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // Barra superior de controle
+                // Barra superior
                 HStack {
                     Button(action: { dismiss() }) {
                         Image(systemName: "xmark")
@@ -55,7 +49,6 @@ struct CameraDetailView: View {
                     
                     Spacer()
                     
-                    // 3. Botão de favorito simplificado, usando a fonte única da verdade.
                     Button(action: {
                         favoritesManager.toggleFavorite(camera.id)
                     }) {
@@ -72,16 +65,20 @@ struct CameraDetailView: View {
                 }
                 .padding()
                 
-                // Conteúdo principal com WebView e overlays
+                // Conteúdo principal
                 ZStack {
                     if let url = streamURL {
                         WebView(
                             url: url,
                             isScrollEnabled: false,
+                            coverMode: false,
+                            fitMode: true,                 // ✅ aspect-fit (sem cortes)
+                            rotate90: true,                // ✅ rotacionar 90°
                             isLoading: $isLoading,
                             error: $error
                         )
                         .background(Color.black)
+                        .ignoresSafeArea()
                     } else {
                         Text(localizationManager.string(for: "invalid_camera_id"))
                             .foregroundColor(.gray)
@@ -93,7 +90,6 @@ struct CameraDetailView: View {
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     }
                     
-                    // Mostrar erro se houver
                     if let error = error {
                         VStack {
                             Image(systemName: "exclamationmark.triangle")
@@ -117,22 +113,43 @@ struct CameraDetailView: View {
             }
         }
         .statusBar(hidden: true)
-        // 4. Lógica do onAppear simplificada.
         .onAppear {
-            orientationManager.lockToLandscape()
+            // 1) Trava orientação em retrato
+            orientationManager.lockToPortrait()
+            orientationManager.printCurrentOrientation()
+            
+            // 2) Força rotação na cena correta
+            forcePortraitOnCurrentWindowScene()
         }
         .onDisappear {
-            orientationManager.lockToPortrait()
+            // Retorna ao padrão do app (retrato, no seu caso)
+            orientationManager.resetToDefault()
         }
     }
     
-    // MARK: Funções Auxiliares
+    private func forcePortraitOnCurrentWindowScene() {
+        // Tenta obter a windowScene da janela atual
+        guard let windowScene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { scene in
+                // Procura a cena com janela key
+                return scene.windows.contains(where: { $0.isKeyWindow })
+            }) ?? UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first
+        else {
+            UIViewController.attemptRotationToDeviceOrientation()
+            return
+        }
+        
+        if #available(iOS 16.0, *) {
+            windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait))
+            UIViewController.attemptRotationToDeviceOrientation()
+        } else {
+            UIViewController.attemptRotationToDeviceOrientation()
+        }
+    }
     
-    /// Função auxiliar para traduzir descrições de erro comuns.
     private func localizedErrorDescription(for error: Error) -> String {
         let nsError = error as NSError
-        
-        // Verifica erros de rede comuns
         if nsError.domain == NSURLErrorDomain {
             switch nsError.code {
             case NSURLErrorNotConnectedToInternet:
@@ -145,8 +162,6 @@ struct CameraDetailView: View {
                 return localizationManager.string(for: "error_network_generic")
             }
         }
-        
-        // Fallback para a descrição localizada do erro
         return error.localizedDescription
     }
 }

@@ -102,6 +102,7 @@
     <string name="community">Community</string>
     <string name="distance">Distance</string>
     <string name="get_directions">Get directions</string>
+    <string name="support_points_subtitle"> </string>
 
     <!-- Events -->
     <string name="events">Events</string>
@@ -124,27 +125,27 @@
     <string name="stage_impact">Impact:</string>
 
     <!-- Stage 1 -->
-    <string name="stage_1_title">Stage 1 - Normal</string>
+    <string name="stage_1_title">Stage 1</string>
     <string name="stage_1_when">Normal operational routine</string>
     <string name="stage_1_impact">Regular functioning of all services</string>
 
     <!-- Stage 2 -->
-    <string name="stage_2_title">Stage 2 - Mobilization</string>
+    <string name="stage_2_title">Stage 2</string>
     <string name="stage_2_when">Moderate/heavy rain forecast in the next hours</string>
     <string name="stage_2_impact">Teams on alert status</string>
 
     <!-- Stage 3 -->
-    <string name="stage_3_title">Stage 3 - Attention</string>
+    <string name="stage_3_title">Stage 3</string>
     <string name="stage_3_when">Moderate rain in at least one region</string>
     <string name="stage_3_impact">Possibility of localized flooding</string>
 
     <!-- Stage 4 -->
-    <string name="stage_4_title">Stage 4 - Alert</string>
+    <string name="stage_4_title">Stage 4</string>
     <string name="stage_4_when">Heavy rain in at least one region</string>
     <string name="stage_4_impact">High risk of flooding and landslides</string>
 
     <!-- Stage 5 -->
-    <string name="stage_5_title">Stage 5 - Crisis</string>
+    <string name="stage_5_title">Stage 5</string>
     <string name="stage_5_when">Very heavy rain with multiple serious incidents</string>
     <string name="stage_5_impact">Maximum mobilization of all agencies</string>
 

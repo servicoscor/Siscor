@@ -103,6 +103,7 @@
     <string name="community">社区</string>
     <string name="distance">距离</string>
     <string name="get_directions">获取路线</string>
+    <string name="support_points_subtitle"> </string>
 
     <!-- 事件 -->
     <string name="events">事件</string>
@@ -130,22 +131,22 @@
     <string name="stage_1_impact">所有服务正常运行</string>
 
     <!-- 阶段2 -->
-    <string name="stage_2_title">阶段2 - 动员</string>
+    <string name="stage_2_title">阶段2</string>
     <string name="stage_2_when">预测未来几小时有中到大雨</string>
     <string name="stage_2_impact">团队处于警戒状态</string>
 
     <!-- 阶段3 -->
-    <string name="stage_3_title">阶段3 - 注意</string>
+    <string name="stage_3_title">阶段3</string>
     <string name="stage_3_when">至少一个地区有中雨</string>
     <string name="stage_3_impact">可能出现局部洪水</string>
 
     <!-- 阶段4 -->
-    <string name="stage_4_title">阶段4 - 警报</string>
+    <string name="stage_4_title">阶段4</string>
     <string name="stage_4_when">至少一个地区有大雨</string>
     <string name="stage_4_impact">洪水和山体滑坡的高风险</string>
 
     <!-- 阶段5 -->
-    <string name="stage_5_title">阶段5 - 危机</string>
+    <string name="stage_5_title">阶段5</string>
     <string name="stage_5_when">特大暴雨伴随多起严重事故</string>
     <string name="stage_5_impact">所有机构最大动员</string>
 

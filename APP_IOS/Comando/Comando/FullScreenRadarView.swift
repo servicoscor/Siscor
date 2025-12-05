@@ -81,7 +81,7 @@ private struct HeaderRadarFullScreenView: View {
                     .font(.body.weight(.bold))
                     .foregroundColor(.white.opacity(0.8))
                     .padding(8)
-                    .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark))
+                    .background(.ultraThinMaterial)
                     .clipShape(Circle())
             }
         }
@@ -89,4 +89,3 @@ private struct HeaderRadarFullScreenView: View {
         .background(.thinMaterial) // Efeito de vidro fosco
     }
 }
-

@@ -133,27 +133,27 @@
     <string name="stage_impact">Impacto:</string>
 
     <!-- Estágio 1 -->
-    <string name="stage_1_title">Estágio 1 - Normalidade</string>
+    <string name="stage_1_title">Estágio 1</string>
     <string name="stage_1_when">Rotina operacional normal</string>
     <string name="stage_1_impact">Funcionamento regular de todos os serviços</string>
 
     <!-- Estágio 2 -->
-    <string name="stage_2_title">Estágio 2 - Mobilização</string>
+    <string name="stage_2_title">Estágio 2</string>
     <string name="stage_2_when">Previsão de chuva moderada/forte nas próximas horas</string>
     <string name="stage_2_impact">Equipes em estado de atenção</string>
 
     <!-- Estágio 3 -->
-    <string name="stage_3_title">Estágio 3 - Atenção</string>
+    <string name="stage_3_title">Estágio 3</string>
     <string name="stage_3_when">Chuva moderada em pelo menos uma região</string>
     <string name="stage_3_impact">Possibilidade de alagamentos pontuais</string>
 
     <!-- Estágio 4 -->
-    <string name="stage_4_title">Estágio 4 - Alerta</string>
+    <string name="stage_4_title">Estágio 4</string>
     <string name="stage_4_when">Chuva forte em pelo menos uma região</string>
     <string name="stage_4_impact">Alto risco de alagamentos e deslizamentos</string>
 
     <!-- Estágio 5 -->
-    <string name="stage_5_title">Estágio 5 - Crise</string>
+    <string name="stage_5_title">Estágio 5</string>
     <string name="stage_5_when">Chuva muito forte com múltiplas ocorrências graves</string>
     <string name="stage_5_impact">Mobilização máxima de todos os órgãos</string>
 

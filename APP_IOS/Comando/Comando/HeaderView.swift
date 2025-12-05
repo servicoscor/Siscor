@@ -29,7 +29,7 @@ struct HeaderView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header Principal com Glassmorphism
+            // Header Principal com fundo material nativo (substitui GlassBackground)
             headerContent
             
             // Status do estágio (aparece em emergências)
@@ -46,21 +46,34 @@ struct HeaderView: View {
     // MARK: - Subviews
     
     private var headerContent: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 12) {
             statusAndLogo
             Spacer()
             languageMenuButton
-            alertsButton
+            stageStatusButton // Substitui o antigo alertsButton
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 16)
-        .padding(.top, 130)
-        .background(GlassBackground())
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(
+            // Substituto para GlassBackground
+            ZStack {
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.black.opacity(0.15),
+                        Color.black.opacity(0.05)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            }
+        )
         .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
     }
     
     private var statusAndLogo: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 10) {
             // Círculo de status com pulso
             statusCircle
             
@@ -85,11 +98,11 @@ struct HeaderView: View {
     }
     
     private var logoImage: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 0) {
             Image("logocordeitado")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 40)
+                .frame(height: 28)
                 .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
         }
     }
@@ -121,16 +134,16 @@ struct HeaderView: View {
     
     private var currentLanguageLabel: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 10)
                 .fill(Color.white.opacity(0.15))
-                .frame(width: 44, height: 44)
+                .frame(width: 36, height: 36)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.white.opacity(0.3), lineWidth: 1)
                 )
             
             Text(currentLanguageFlag)
-                .font(.system(size: 20))
+                .font(.system(size: 16))
                 .animation(.none, value: localizationManager.currentLanguage)
         }
     }
@@ -143,120 +156,57 @@ struct HeaderView: View {
         languages.first { $0.0 == localizationManager.currentLanguage }?.2 ?? "Language"
     }
     
-    private var eventsButton: some View {
-        Button(action: {
-            // Chama a closure se ela existir
-            if let scrollToEvents = scrollToEvents {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                    scrollToEvents()
-                }
-            } else {
-                print("scrollToEvents não foi definido")
-            }
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        }) {
-            ZStack {
-                buttonBackground
-                
-                Image(systemName: "calendar.badge.plus")
-                    .font(.system(size: 20))
-                    .foregroundColor(.white)
-                    .symbolRenderingMode(.hierarchical)
-                
-                if eventCount > 0 {
-                    eventBadge
-                }
-            }
-        }
-        .accessibilityLabel(localizationManager.string(for: "city_events"))
-        .accessibilityHint(String(format: localizationManager.string(for: "events_count_hint"), eventCount))
-        .accessibilityAddTraits(.isButton)
-    }
-    
-    private var alertsButton: some View {
+    // NOVO: Botão do estágio (substitui o sino)
+    private var stageStatusButton: some View {
         Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                 showNotifications.toggle()
             }
-            
-            // Chama a closure se ela existir
+            // Reaproveita a ação do sino: rolar para alertas
             if let scrollToAlerts = scrollToAlerts {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                     scrollToAlerts()
                 }
-            } else {
-                print("scrollToAlerts não foi definido")
             }
-            
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         }) {
             ZStack {
-                alertButtonBackground
+                // Fundo com vidro, igual aos outros botões
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white.opacity(0.15))
+                    .frame(width: 36, height: 36)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    )
                 
-                Image(systemName: alertCount > 0 ? "bell.badge.fill" : "bell.fill")
-                    .font(.system(size: 20))
-                    .foregroundColor(.white)
-                    .symbolRenderingMode(.hierarchical)
-                    .symbolEffect(.bounce, value: alertCount)
-                
-                if alertCount > 0 {
-                    alertBadge
+                // Imagem do estágio (selo localizado) ou fallback
+                Group {
+                    if let uiImage = stageImage(for: currentStage) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 28, height: 28)
+                            .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+                    } else {
+                        Image(systemName: "shield.fill")
+                            .font(.system(size: 18))
+                            .foregroundColor(colorForStage(currentStage))
+                    }
                 }
+                
+                // Efeito pulsante ao redor do botão (igual ao statusCircle)
+                Circle()
+                    .stroke(colorForStage(currentStage), lineWidth: 2)
+                    .frame(width: 36, height: 36)
+                    .scaleEffect(pulseAnimation ? (1.5 + CGFloat(currentStage) * 0.25) : 1.0)
+                    .opacity(pulseAnimation ? 0 : 1)
             }
         }
         .scaleEffect(showNotifications ? 0.95 : 1.0)
-        .accessibilityLabel(localizationManager.string(for: "alerts"))
-        .accessibilityHint(String(format: localizationManager.string(for: "alerts_count_hint"), alertCount))
+        .accessibilityLabel(localizationManager.string(for: "emergency_status"))
+        .accessibilityHint(statusForStage(currentStage) + ". " + shortDescriptionForStage(currentStage))
         .accessibilityAddTraits(.isButton)
-        .accessibilityAddTraits(alertCount > 0 ? .startsMediaSession : [])
-    }
-    
-    private var buttonBackground: some View {
-        RoundedRectangle(cornerRadius: 12)
-            .fill(Color.white.opacity(0.15))
-            .frame(width: 44, height: 44)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-            )
-    }
-    
-    private var alertButtonBackground: some View {
-        RoundedRectangle(cornerRadius: 12)
-            .fill(alertCount > 0 ? Color.red.opacity(0.15) : Color.white.opacity(0.15))
-            .frame(width: 44, height: 44)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(alertCount > 0 ? Color.red.opacity(0.5) : Color.white.opacity(0.3), lineWidth: 1)
-            )
-    }
-    
-    private var eventBadge: some View {
-        ZStack {
-            Circle()
-                .fill(Color.purple)
-                .frame(width: 18, height: 18)
-            
-            Text("\(eventCount)")
-                .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white)
-        }
-        .offset(x: 14, y: -14)
-        .transition(.scale.combined(with: .opacity))
-    }
-    
-    private var alertBadge: some View {
-        ZStack {
-            Circle()
-                .fill(Color.red)
-                .frame(width: 18, height: 18)
-            
-            Text("\(alertCount)")
-                .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white)
-        }
-        .offset(x: 14, y: -14)
-        .transition(.scale.combined(with: .opacity))
     }
     
     private var emergencyStatusBar: some View {
@@ -387,6 +337,43 @@ struct HeaderView: View {
         case 4: return localizationManager.string(for: "stage_4_short")
         case 5: return localizationManager.string(for: "stage_5_short")
         default: return ""
+        }
+    }
+    
+    // MARK: - NOVO: Utilitários para imagem do estágio (replicado do EstagioView)
+    private func stageImage(for stage: Int) -> UIImage? {
+        let name = getStageImageName(for: stage)
+        return UIImage(named: name)
+    }
+    
+    private func getStageImageName(for stage: Int) -> String {
+        let languageCode = localizationManager.currentLanguage
+        
+        // Define o sufixo do idioma
+        let languageSuffix: String
+        switch languageCode {
+        case "pt-BR":
+            languageSuffix = "" // Sem sufixo para português
+        case "en":
+            languageSuffix = "-en"
+        case "es":
+            languageSuffix = "-es"
+        case "fr":
+            languageSuffix = "-fr"
+        case "zh-Hans":
+            languageSuffix = "-zh"
+        default:
+            languageSuffix = "" // fallback sem sufixo
+        }
+        
+        // Retorna o nome da imagem
+        switch stage {
+        case 1: return "selo-cidade-estagio-01\(languageSuffix)"
+        case 2: return "selo-cidade-estagio-02\(languageSuffix)"
+        case 3: return "selo-cidade-estagio-03\(languageSuffix)"
+        case 4: return "selo-cidade-estagio-04\(languageSuffix)"
+        case 5: return "selo-cidade-estagio-05\(languageSuffix)"
+        default: return "selo-cidade-estagio-01\(languageSuffix)"
         }
     }
 }

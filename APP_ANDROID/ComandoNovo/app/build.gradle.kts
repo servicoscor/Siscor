@@ -20,12 +20,22 @@ android {
     namespace = "bugarin.t.comando"
     compileSdk = 35
 
+    // Forçar resolução de dependências conflitantes
+    configurations.all {
+        resolutionStrategy {
+            force("androidx.cursoradapter:cursoradapter:1.0.0")
+            force("androidx.documentfile:documentfile:1.0.0")
+            force("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
+            force("androidx.print:print:1.0.0")
+        }
+    }
+
     defaultConfig {
         applicationId = "bugarin.t.comando"
         minSdk = 24
         targetSdk = 35
-        versionCode = 414 // Considere incrementar o versionCode para a nova release
-        versionName = "4.0.12" // Considere incrementar o versionName (ex: "4.0.9")
+        versionCode = 415 // Considere incrementar o versionCode para a nova release
+        versionName = "4.0.13" // Considere incrementar o versionName (ex: "4.0.9")
         manifestPlaceholders["MAPS_API_KEY"] = localProperties.getProperty("MAPS_API_KEY") ?: ""
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -87,7 +97,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.benchmark.common)
     // Desugaring para APIs modernas em Androids antigos
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 

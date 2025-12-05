@@ -23,10 +23,11 @@ import bugarin.t.comando.viewmodel.LocalizationViewModel
 data class CondicaoClimatica(
     val calorValor: String,
     val calorTitulo: String,
+    val estagioValor: String,
+    val estagioTitulo: String,
+    val estagioNumero: Int,
     val chuvaValor: String,
     val chuvaTitulo: String,
-    val ventoValor: String,
-    val ventoTitulo: String,
     val isChovendo: Boolean = false
 )
 
@@ -63,29 +64,31 @@ fun ClimaCardView(
                 isLoading -> Box(Modifier.fillMaxWidth().height(80.dp), Alignment.Center) { CircularProgressIndicator(color = contentColor) }
                 condicaoClimatica != null -> {
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        // ✅ CORRIGIDO: Botão do calor usa onHeatLevelClick
+                        // Card 1: Calor
                         InfoSegmentButton(
                             icon = Icons.Filled.Thermostat,
                             value = condicaoClimatica.calorValor,
                             title = condicaoClimatica.calorTitulo,
-                            onClick = onHeatLevelClick, // ✅ USA A FUNÇÃO DE VALIDAÇÃO
+                            onClick = onHeatLevelClick,
                             modifier = Modifier.weight(1f)
                         )
 
-                        // ✅ Botões de chuva e vento continuam normais
+                        // Card 2: Estágio (NOVO - substituiu Vento)
+                        InfoSegmentButton(
+                            icon = Icons.Filled.Warning,
+                            value = condicaoClimatica.estagioValor,
+                            title = condicaoClimatica.estagioTitulo,
+                            backgroundColor = getColorForStage(condicaoClimatica.estagioNumero),
+                            onClick = { /* Navegar para detalhes do estágio se necessário */ },
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        // Card 3: Chuva
                         InfoSegmentButton(
                             icon = if (condicaoClimatica.isChovendo) Icons.Filled.WaterDrop else Icons.Filled.Umbrella,
                             value = condicaoClimatica.chuvaValor,
                             title = condicaoClimatica.chuvaTitulo,
                             onClick = { navController.navigate("chuva_detalhes") },
-                            modifier = Modifier.weight(1f)
-                        )
-
-                        InfoSegmentButton(
-                            icon = Icons.Filled.Air,
-                            value = condicaoClimatica.ventoValor,
-                            title = condicaoClimatica.ventoTitulo,
-                            onClick = { navController.navigate("vento_detalhes") },
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -103,13 +106,14 @@ private fun InfoSegmentButton(
     value: String,
     title: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    backgroundColor: Color? = null
 ) {
-    // ✅ TEMATIZAÇÃO: Cores baseadas no tema.
-    val containerColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.1f)
-    val contentColor = MaterialTheme.colorScheme.onPrimary
-    val titleColor = contentColor.copy(alpha = 0.7f)
-    val borderColor = contentColor.copy(alpha = 0.2f)
+    // ✅ TEMATIZAÇÃO: Cores baseadas no tema ou cor customizada para estágios
+    val containerColor = backgroundColor?.copy(alpha = 0.15f) ?: MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.1f)
+    val contentColor = backgroundColor ?: MaterialTheme.colorScheme.onPrimary
+    val titleColor = contentColor.copy(alpha = 0.9f)
+    val borderColor = contentColor.copy(alpha = 0.3f)
 
     Card(
         onClick = onClick,
@@ -149,4 +153,21 @@ private fun InfoSegmentButton(
             }
         }
     }
+}
+/**
+ * Retorna a cor correspondente ao estágio conforme documentação
+ * - Estágio 1: Verde #4CAF50
+ * - Estágio 2: Amarelo #FDD835
+ * - Estágio 3: Laranja #FF9800
+ * - Estágio 4: Vermelho #F44336
+ * - Estágio 5: Roxo #9C27B0
+ */
+@Composable
+private fun getColorForStage(stage: Int): Color = when (stage) {
+    1 -> Color(0xFF4CAF50) // Verde
+    2 -> Color(0xFFFDD835) // Amarelo
+    3 -> Color(0xFFFF9800) // Laranja
+    4 -> Color(0xFFF44336) // Vermelho
+    5 -> Color(0xFF9C27B0) // Roxo
+    else -> MaterialTheme.colorScheme.outline
 }

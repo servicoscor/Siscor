@@ -34,6 +34,8 @@ fun ControlledWebView(
     sessionId: String,
     reloadTrigger: Int = 0,
     onStateChange: (WebViewState) -> Unit,
+    fitMode: Boolean = false,
+    rotate90: Boolean = false,
 ) {
     val TAG = "ControlledWebView-$sessionId"
     val context = LocalContext.current
@@ -101,7 +103,15 @@ fun ControlledWebView(
                     view?.post {
                         try {
                             view.evaluateJavascript(getMemoryOptimizedScript()) { result ->
-                                Log.d(TAG, "Script executed: $result")
+                                Log.d(TAG, "Memory script executed: $result")
+                            }
+
+                            // ✅ FIT TO SCREEN: Injetar script de ajuste quando necessário
+                            if (fitMode || rotate90) {
+                                Log.d(TAG, "🎥 Injetando script de fit to screen (fitMode=$fitMode, rotate90=$rotate90)")
+                                view.evaluateJavascript(getVideoFitScript(fitMode, rotate90)) { result ->
+                                    Log.d(TAG, "Fit script executed: $result")
+                                }
                             }
                         } catch (e: Exception) {
                             Log.w(TAG, "Script execution failed: ${e.message}")

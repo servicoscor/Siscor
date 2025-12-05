@@ -35,6 +35,8 @@ import com.google.maps.android.compose.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 // Componente de ícone customizado para pins do mapa
 @Composable
@@ -113,6 +115,11 @@ fun CamerasMapView(
                     camera.coordinate!!.longitude != 0.0
         }
     }
+
+    // ⚡ OTIMIZAÇÃO: Filtrar câmeras por bounds visíveis com debouncing
+    var visibleCameras by remember { mutableStateOf(validCameras) }
+    var lastBoundsUpdate by remember { mutableStateOf(0L) }
+    val DEBOUNCE_DELAY = 500L // 500ms de debounce
 
     // Cleanup mais robusto quando componente é removido
     DisposableEffect(Unit) {
@@ -271,9 +278,10 @@ fun CamerasMapView(
                                 }
                             }
                         ) {
-                            // Renderizar marcadores com verificações null mais seguras
+                            // ⚡ OTIMIZAÇÃO: Renderizar apenas primeiras 50 câmeras no preview pequeno
+                            // (usuário pode abrir fullscreen para ver todas)
                             if (isMapReady && validCameras.isNotEmpty()) {
-                                validCameras.forEach { camera ->
+                                validCameras.take(50).forEach { camera ->
                                     kotlin.runCatching {
                                         val coordinate = camera.coordinate
                                         if (coordinate != null &&
@@ -399,6 +407,11 @@ fun CamerasMapFullScreen(
         }
     }
 
+    // ⚡ OTIMIZAÇÃO: Filtro dinâmico de câmeras por zoom e bounds visíveis
+    var camerasToDisplay by remember { mutableStateOf<List<Camera>>(emptyList()) }
+    var lastUpdateTime by remember { mutableStateOf(0L) }
+    val DEBOUNCE_DELAY = 500L // 500ms debounce
+
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(-22.9068, -43.1729), 12f)
     }
@@ -425,6 +438,73 @@ fun CamerasMapFullScreen(
         shouldShowMap = true
         if (isLocationPermissionGranted) {
             localizationViewModel.startLocationUpdates()
+        }
+    }
+
+    // ⚡ OTIMIZAÇÃO: Filtrar câmeras dentro da ÁREA VISÍVEL do mapa com debouncing
+    LaunchedEffect(cameraPositionState.position, cameraPositionState.isMoving) {
+        if (!cameraPositionState.isMoving && isMapReady) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastUpdateTime < DEBOUNCE_DELAY) {
+                delay(DEBOUNCE_DELAY)
+            }
+
+            lastUpdateTime = currentTime
+
+            scope.launch {
+                kotlin.runCatching {
+                    val zoom = cameraPositionState.position.zoom
+                    val centerLat = cameraPositionState.position.target.latitude
+                    val centerLng = cameraPositionState.position.target.longitude
+
+                    // Calcular bounds aproximados baseado no zoom
+                    // Zoom 20 = ~0.002° por tela, Zoom 10 = ~2° por tela
+                    val latSpan = 180.0 / 2.0.pow(zoom
+                        .toDouble())
+                    val lngSpan = 360.0 / 2.0.pow(zoom.toDouble())
+
+                    // Expandir bounds um pouco para cobrir tela inteira + margem
+                    val latMargin = latSpan * 0.6
+                    val lngMargin = lngSpan * 0.6
+
+                    val northBound = centerLat + latMargin
+                    val southBound = centerLat - latMargin
+                    val eastBound = centerLng + lngMargin
+                    val westBound = centerLng - lngMargin
+
+                    // Limite absoluto para evitar travamentos (nunca mais que 100)
+                    val ABSOLUTE_MAX_CAMERAS = 100
+
+                    // Filtrar TODAS as câmeras dentro dos bounds visíveis
+                    camerasToDisplay = validCameras
+                        .asSequence()
+                        .filter { camera ->
+                            val lat = camera.coordinate?.latitude ?: 0.0
+                            val lng = camera.coordinate?.longitude ?: 0.0
+                            lat in southBound..northBound && lng in westBound..eastBound
+                        }
+                        .map { camera ->
+                            val lat = camera.coordinate!!.latitude
+                            val lng = camera.coordinate!!.longitude
+                            val distance = sqrt(
+                                (lat - centerLat).pow(2.0) +
+                                (lng - centerLng).pow(2.0)
+                            )
+                            camera to distance
+                        }
+                        .sortedBy { it.second } // Ordenar por proximidade do centro
+                        .take(ABSOLUTE_MAX_CAMERAS) // Limitar para evitar travamento
+                        .map { it.first }
+                        .toList()
+
+                    android.util.Log.d(
+                        "CamerasMapFullScreen",
+                        "Zoom: $zoom, mostrando ${camerasToDisplay.size}/${validCameras.size} câmeras | Bounds: [$southBound,$northBound] x [$westBound,$eastBound]"
+                    )
+                }.onFailure { e ->
+                    android.util.Log.e("CamerasMapFullScreen", "Erro ao atualizar câmeras visíveis: ${e.message}")
+                }
+            }
         }
     }
 
@@ -490,9 +570,9 @@ fun CamerasMapFullScreen(
                             }
                         }
                     ) {
-                        // Renderizar marcadores com verificações null mais seguras
-                        if (isMapReady && validCameras.isNotEmpty()) {
-                            validCameras.forEach { camera ->
+                        // ⚡ OTIMIZAÇÃO: Renderizar apenas câmeras filtradas baseadas no zoom
+                        if (isMapReady && camerasToDisplay.isNotEmpty()) {
+                            camerasToDisplay.forEach { camera ->
                                 kotlin.runCatching {
                                     val coordinate = camera.coordinate
                                     if (coordinate != null &&

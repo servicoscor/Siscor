@@ -20,7 +20,7 @@ struct InterdicoesView: View {
                             .font(.body.weight(.bold))
                             .foregroundColor(.white.opacity(0.8))
                             .padding(8)
-                            .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark))
+                            .background(.ultraThinMaterial)
                             .clipShape(Circle())
                     }
                 }
@@ -58,7 +58,15 @@ struct InterdicoesView: View {
                 
                 // Conteúdo
                 if viewModel.isLoading {
-                    LoadingView(message: localizationManager.string(for: "loading_interdictions"))
+                    VStack(spacing: 12) {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(.orange)
+                        Text(localizationManager.string(for: "loading_interdictions"))
+                            .font(.headline)
+                            .foregroundColor(.white.opacity(0.9))
+                    }
+                    .padding()
                 } else if viewModel.interdicoes.isEmpty {
                     EmptyStateView(
                         icon: "checkmark.circle",
@@ -317,5 +325,3 @@ struct InterdicoesView_Previews: PreviewProvider {
         InterdicoesView()
     }
 }
-
-

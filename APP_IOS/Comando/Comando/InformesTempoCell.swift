@@ -24,8 +24,6 @@ struct InformesTempoView: View {
     // Estado para armazenar a altura máxima calculada.
     @State private var carouselHeight: CGFloat? = nil
     
-    
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Cabeçalho
@@ -46,7 +44,15 @@ struct InformesTempoView: View {
             
             // Lógica de Loading / Vazio / Conteúdo
             if isLoading {
-                LoadingView(message: localizationManager.string(for: "loading_forecasts"))
+                VStack(spacing: 8) {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                    Text(localizationManager.string(for: "loading_forecasts"))
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
             } else if informes.isEmpty {
                 EmptyStateView(
                     icon: "sun.haze",
@@ -63,7 +69,7 @@ struct InformesTempoView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            withAnimation(.easeInOut) { currentIndex = (currentIndex > 0) ? currentIndex - 1 : informes.count - 1 }
+                            withAnimation(.easeInOut(duration: 0.3)) { currentIndex = (currentIndex > 0) ? currentIndex - 1 : informes.count - 1 }
                         }) {
                             Image(systemName: "chevron.left").foregroundColor(.white).padding(8).background(Color.black.opacity(0.2)).clipShape(Circle())
                         }
@@ -77,7 +83,7 @@ struct InformesTempoView: View {
                         }
                         Spacer()
                         Button(action: {
-                            withAnimation(.easeInOut) { currentIndex = (currentIndex < informes.count - 1) ? currentIndex + 1 : 0 }
+                            withAnimation(.easeInOut(duration: 0.3)) { currentIndex = (currentIndex < informes.count - 1) ? currentIndex + 1 : 0 }
                         }) {
                             Image(systemName: "chevron.right").foregroundColor(.white).padding(8).background(Color.black.opacity(0.2)).clipShape(Circle())
                         }
@@ -87,10 +93,7 @@ struct InformesTempoView: View {
             }
         }
         .padding(.bottom)
-        .background(cardGradient)
-        .cornerRadius(15)
-        .overlay(cardBorder)
-        .shadow(color: Color.black.opacity(0.8), radius: 4, x: 0, y: 1)
+        // Removidos: .background(cardGradient), .overlay(cardBorder), .shadow(...)
         .padding(.horizontal, 16)
         // 1. MEDIÇÃO INVISÍVEL NO BACKGROUND
         .background(
@@ -137,11 +140,11 @@ private struct TempoHorizontalCarouselView: View {
                 .onEnded { value in
                     if value.translation.width < -50 { // Swipe para a esquerda
                         if currentIndex < informes.count - 1 {
-                            withAnimation(.easeInOut) { currentIndex += 1 }
+                            withAnimation(.easeInOut(duration: 0.3)) { currentIndex += 1 }
                         }
                     } else if value.translation.width > 50 { // Swipe para a direita
                         if currentIndex > 0 {
-                            withAnimation(.easeInOut) { currentIndex -= 1 }
+                            withAnimation(.easeInOut(duration: 0.3)) { currentIndex -= 1 }
                         }
                     }
                 }
@@ -191,9 +194,10 @@ private struct TempoItemView: View {
         }
         .foregroundColor(.white)
         .padding()
-        .frame(maxWidth: .infinity, alignment: .topLeading) // Alinha o conteúdo ao topo
-        .background(Color.white.opacity(0.1))
-        .cornerRadius(8)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+        // Removidos para transparência total:
+        // .background(Color.white.opacity(0.1))
+        // .cornerRadius(8)
         .padding(.horizontal)
     }
 }
@@ -216,13 +220,8 @@ extension View {
 // MARK: - Views Auxiliares
 //====================================================================//
 
-private let cardGradient = LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.7), Color.blue.opacity(0.9)]), startPoint: .top, endPoint: .bottom)
-
-private var cardBorder: some View {
-    RoundedRectangle(cornerRadius: 15).stroke(Color.white.opacity(0.2), lineWidth: 1)
-}
-
-// MARK: - Chaves de Localização para adicionar ao Localizable.strings
+// Removidos: cardGradient e cardBorder pois não são mais usados no container.
+// Mantidos comentários de chaves de localização.
 
 /*
 // Português (pt)

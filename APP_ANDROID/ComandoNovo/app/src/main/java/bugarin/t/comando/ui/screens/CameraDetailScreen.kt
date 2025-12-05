@@ -117,7 +117,9 @@ fun CameraDetailScreen(
                             if (webViewState !is WebViewState.Error) {
                                 webViewState = newState
                             }
-                        }
+                        },
+                        fitMode = true,
+                        rotate90 = false
                     )
 
                     // Overlay baseado no estado

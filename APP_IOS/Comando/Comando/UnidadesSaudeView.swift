@@ -44,7 +44,7 @@ struct UnidadesSaudeView: View {
                             .font(.body.weight(.bold))
                             .foregroundColor(.white.opacity(0.8))
                             .padding(8)
-                            .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark))
+                            .background(.ultraThinMaterial)
                             .clipShape(Circle())
                     }
                 }
@@ -268,4 +268,3 @@ struct UnidadeDetalheView: View {
         .padding(.vertical)
     }
 }
-
