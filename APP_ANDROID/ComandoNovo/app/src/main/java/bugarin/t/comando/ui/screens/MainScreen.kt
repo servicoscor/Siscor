@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -28,6 +29,7 @@ import bugarin.t.comando.data.CategoriaPonto
 import bugarin.t.comando.data.LocalizedText
 import bugarin.t.comando.data.PontoTuristico
 import bugarin.t.comando.ui.components.*
+import bugarin.t.comando.ui.components.RedesSociaisCardView
 import bugarin.t.comando.ui.utils.rememberLocationPermissionState
 import bugarin.t.comando.viewmodel.CORViewModel
 import bugarin.t.comando.viewmodel.LocalizationViewModel
@@ -49,6 +51,16 @@ fun MainScreen(
 
     var expandedScreen by remember { mutableStateOf<ExpandedScreen?>(null) }
     var showCamerasFullScreen by remember { mutableStateOf(false) }
+
+    // Estado local para favoritos de câmeras
+    val favoriteCameraIds = remember { mutableStateListOf<String>() }
+    fun toggleFavorite(cameraId: String) {
+        if (favoriteCameraIds.contains(cameraId)) {
+            favoriteCameraIds.remove(cameraId)
+        } else {
+            favoriteCameraIds.add(cameraId)
+        }
+    }
 
     // Estado para controlar o popup de nível de calor
     var showHeatLevelPopup by remember { mutableStateOf(false) }
@@ -144,15 +156,19 @@ fun MainScreen(
         expandedScreen = ExpandedScreen.ALARME
     }
 
-    fun setPontosApoioScreen() {
-        expandedScreen = ExpandedScreen.PONTOS_APOIO
+fun setPontosApoioScreen() {
+    expandedScreen = ExpandedScreen.PONTOS_APOIO
+}
+
+    fun setInterdicoesScreen() {
+        expandedScreen = ExpandedScreen.INTERDICOES
     }
 
-    fun scrollToAlerts() {
-        scope.launch {
-            try {
-                val targetIndex = 2
-                val offsetPx = with(density) { -topPadding.roundToPx() }
+fun scrollToAlerts() {
+    scope.launch {
+        try {
+            val targetIndex = 2
+            val offsetPx = with(density) { -topPadding.roundToPx() }
                 scrollState.animateScrollToItem(
                     index = targetIndex,
                     scrollOffset = offsetPx
@@ -259,12 +275,17 @@ fun MainScreen(
                 )
             }
 
-            item(key = "alertas") {
-                AlertasCardView(
-                    alertas = uiState.alertas,
-                    isLoading = uiState.isLoading,
-                    onAlertaClick = onNavigateToAlertaDetalhes,
-                    localizationViewModel = localizationViewModel
+            item(key = "cameras") {
+                CamerasMapView(
+                    cameras = uiState.cameras,
+                    isLocationPermissionGranted = permissionState.hasPermission,
+                    onExpand = ::expandCameras,
+                    onCameraSelected = handleCameraSelection,
+                    localizationViewModel = localizationViewModel,
+                    favoriteCameraIds = favoriteCameraIds,
+                    onToggleFavorite = ::toggleFavorite,
+                    onFavoriteClick = handleCameraSelection,
+                    onSelectCameraForFavorite = { /* no-op placeholder */ }
                 )
             }
 
@@ -275,22 +296,25 @@ fun MainScreen(
                 )
             }
 
-            item(key = "informes_tempo") {
-                InformesTempoView(uiState.infoTempo, uiState.isLoading, localizationViewModel)
-            }
-
-            item(key = "informes_transito") {
-                InformesTransitoCardView(uiState.infoTransito, uiState.isLoading, localizationViewModel)
-            }
-
-            item(key = "cameras") {
-                CamerasMapView(
-                    cameras = uiState.cameras,
-                    isLocationPermissionGranted = permissionState.hasPermission,
-                    onExpand = ::expandCameras,
-                    onCameraSelected = handleCameraSelection,
+            item(key = "alertas") {
+                AlertasCardView(
+                    alertas = uiState.alertas,
+                    isLoading = uiState.isLoading,
+                    onAlertaClick = onNavigateToAlertaDetalhes,
                     localizationViewModel = localizationViewModel
                 )
+            }
+
+            item(key = "mapa_sirenes") {
+                SistemaAlarmeMapView(
+                    sirenes = uiState.sirenes,
+                    onExpand = ::setAlarmeScreen,
+                    localizationViewModel = localizationViewModel
+                )
+            }
+
+            item(key = "redes_sociais") {
+                RedesSociaisCardView()
             }
 
             item(key = "sirenes_pontos") {
@@ -316,18 +340,11 @@ fun MainScreen(
                 }
             }
 
-            item(key = "mapa_sirenes") {
-                SistemaAlarmeMapView(
-                    sirenes = uiState.sirenes,
-                    onExpand = ::setAlarmeScreen,
-                    localizationViewModel = localizationViewModel
-                )
-            }
-
             item(key = "botoes_finais") {
                 BotoesFinaisView(
                     onUnidadesSaudeClick = ::setUnidadesSaudeScreen,
                     onPontosTuristicosClick = ::setPontosTuristicosScreen,
+                    onInterdicoesClick = ::setInterdicoesScreen,
                     localizationViewModel = localizationViewModel,
                 )
             }
@@ -457,7 +474,9 @@ fun MainScreen(
             isLocationPermissionGranted = permissionState.hasPermission,
             onDismiss = ::dismissCameras,
             onCameraSelected = handleCameraSelection,
-            localizationViewModel = localizationViewModel
+            localizationViewModel = localizationViewModel,
+            favoriteCameraIds = favoriteCameraIds,
+            onToggleFavorite = ::toggleFavorite
         )
     }
 }
@@ -465,7 +484,6 @@ fun MainScreen(
 private enum class ExpandedScreen {
     ALARME, PONTOS_APOIO, UNIDADES_SAUDE, PONTOS_TURISTICOS, INTERDICOES
 }
-
 // Função para dados de exemplo dos pontos turísticos
 private fun getExemplosPontosTuristicos(): List<PontoTuristico> {
     return listOf(

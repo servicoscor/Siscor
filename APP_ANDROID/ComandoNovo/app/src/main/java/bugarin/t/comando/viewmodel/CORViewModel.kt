@@ -200,13 +200,7 @@ class CORViewModel @Inject constructor(
             // Dados independentes do idioma (mantém implementação original)
             async { tryFetch("eventos") { repository.getEventos() } },                               // 3
             async { tryFetch("estágio") { repository.getEstagioOperacional() } },                    // 4
-            async { tryFetch("câmeras") {
-                if (userLat != null && userLon != null) {
-                    repository.getCamerasNearby(userLat, userLon)
-                } else {
-                    repository.getCameras()
-                }
-            }},                                                                                       // 5
+            async { tryFetch("câmeras") { repository.getCameras() } },                                // 5
             async { tryFetch("sirenes") {
                 if (userLat != null && userLon != null) {
                     repository.getSirenesNearby(userLat, userLon)
