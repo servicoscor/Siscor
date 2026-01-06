@@ -111,12 +111,9 @@ struct EventosView: View {
     
     var eventosFiltrados: [Evento] {
         eventos.filter { evento in
-            // Filtro por tipo
             if selectedTipo != .todos && evento.tipo != selectedTipo {
                 return false
             }
-            
-            // Filtro por busca
             if !searchText.isEmpty {
                 let searchLower = searchText.lowercased()
                 return (evento.nome?.lowercased().contains(searchLower) ?? false) ||
@@ -124,14 +121,12 @@ struct EventosView: View {
                        (evento.local?.lowercased().contains(searchLower) ?? false) ||
                        (evento.zona?.lowercased().contains(searchLower) ?? false)
             }
-            
             return true
         }
     }
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header com estilo integrado (igual ao UnidadesSaudeView)
             VStack(spacing: 12) {
                 HStack {
                     HStack(spacing: 8) {
@@ -142,38 +137,31 @@ struct EventosView: View {
                             .font(.title3.bold())
                             .foregroundColor(.primary)
                     }
-                    
                     Spacer()
-                    
-                    // Botão de mapa
                     if eventosFiltrados.contains(where: { $0.lat != nil && $0.lon != nil }) {
                         Button(action: { showingMap = true }) {
                             Image(systemName: "map")
                                 .font(.body.weight(.bold))
                                 .foregroundColor(.white.opacity(0.8))
                                 .padding(8)
-                                .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark))
+                                .background(.ultraThinMaterial)
                                 .clipShape(Circle())
                         }
                         .accessibilityLabel(localizationManager.string(for: "show_map"))
                     }
-                    
                     Button(action: { dismiss() }) {
                         Image(systemName: "xmark")
                             .font(.body.weight(.bold))
                             .foregroundColor(.white.opacity(0.8))
                             .padding(8)
-                            .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark))
+                            .background(.ultraThinMaterial)
                             .clipShape(Circle())
                     }
                     .accessibilityLabel(localizationManager.string(for: "close"))
                 }
-                
-                // Barra de busca integrada ao header
                 HStack {
                     Image(systemName: "magnifyingglass").foregroundColor(.gray)
                     TextField(localizationManager.string(for: "search_events"), text: $searchText)
-                    
                     if !searchText.isEmpty {
                         Button(action: { searchText = "" }) {
                             Image(systemName: "xmark.circle.fill")
@@ -184,8 +172,6 @@ struct EventosView: View {
                 .padding(10)
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
-                
-                // Filtros de tipo
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(TipoEvento.allCases, id: \.self) { tipo in
@@ -200,8 +186,6 @@ struct EventosView: View {
             }
             .padding()
             .background(.thinMaterial)
-            
-            // Conteúdo
             if eventosFiltrados.isEmpty {
                 Spacer()
                 EmptyStateView(
@@ -214,7 +198,6 @@ struct EventosView: View {
             } else {
                 ScrollView {
                     VStack(spacing: 12) {
-                        // Contador de resultados
                         HStack {
                             Text(String(format: localizationManager.string(for: "events_found"), eventosFiltrados.count))
                                 .font(.caption)
@@ -222,8 +205,6 @@ struct EventosView: View {
                             Spacer()
                         }
                         .padding(.horizontal)
-                        
-                        // Lista de eventos
                         ForEach(eventosFiltrados) { evento in
                             EventoListCard(evento: evento)
                                 .onTapGesture {
@@ -256,7 +237,6 @@ struct FilterChip: View {
             HStack(spacing: 4) {
                 Image(systemName: tipo.icon)
                     .font(.caption)
-                
                 Text(tipo.displayName(localizationManager: localizationManager))
                     .font(.caption.weight(.medium))
             }
@@ -282,20 +262,17 @@ struct EventoListCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                // Ícone do tipo
                 Image(systemName: evento.tipo.icon)
                     .font(.title2)
                     .foregroundColor(.white)
                     .frame(width: 40, height: 40)
                     .background(evento.tipo.color)
                     .cornerRadius(8)
-                
                 VStack(alignment: .leading, spacing: 4) {
                     Text(evento.nome ?? localizationManager.string(for: "event"))
                         .font(.headline)
                         .foregroundColor(.primary)
                         .lineLimit(2)
-                    
                     if let data = evento.data {
                         HStack(spacing: 4) {
                             Image(systemName: "calendar")
@@ -306,10 +283,7 @@ struct EventoListCard: View {
                         .foregroundColor(.secondary)
                     }
                 }
-                
                 Spacer()
-                
-                // Badge de criticidade
                 if let criticidade = evento.criticidade {
                     Text(localizeCriticality(criticidade))
                         .font(.caption.bold())
@@ -319,8 +293,6 @@ struct EventoListCard: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                 }
-                
-                // Badge importante
                 if evento.importante == true {
                     Text(localizationManager.string(for: "important"))
                         .font(.caption.bold())
@@ -330,19 +302,16 @@ struct EventoListCard: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                 }
-                
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            
             if let descricao = evento.descricao {
                 Text(descricao)
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .lineLimit(2)
             }
-            
             HStack(spacing: 16) {
                 if let local = evento.local {
                     HStack(spacing: 4) {
@@ -354,7 +323,6 @@ struct EventoListCard: View {
                     }
                     .foregroundColor(.secondary)
                 }
-                
                 if let zona = evento.zona {
                     HStack(spacing: 4) {
                         Image(systemName: "location.circle")
@@ -364,7 +332,6 @@ struct EventoListCard: View {
                     }
                     .foregroundColor(.secondary)
                 }
-                
                 if let quantidade = evento.quantidadePessoas {
                     HStack(spacing: 4) {
                         Image(systemName: "person.3")
@@ -435,7 +402,6 @@ struct EventoDetailView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header com estilo integrado
             HStack {
                 Text(localizationManager.string(for: "event_details"))
                     .font(.title3.bold())
@@ -446,38 +412,30 @@ struct EventoDetailView: View {
                         .font(.body.weight(.bold))
                         .foregroundColor(.white.opacity(0.8))
                         .padding(8)
-                        .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark))
+                        .background(.ultraThinMaterial)
                         .clipShape(Circle())
                 }
             }
             .padding()
             .background(.thinMaterial)
-            
             ScrollView {
-                
                 VStack(alignment: .leading, spacing: 20) {
-                    // Header com tipo
                     Spacer()
                     HStack {
                         Image(systemName: evento.tipo.icon)
                             .font(.largeTitle)
                             .foregroundColor(evento.tipo.color)
-                        
                         VStack(alignment: .leading) {
                             Text(evento.tipo.displayName(localizationManager: localizationManager))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                            
                             Text(evento.nome ?? localizationManager.string(for: "event"))
                                 .font(.largeTitle.bold())
                                 .foregroundColor(.primary)
                         }
-                        
                         Spacer()
                     }
                     .padding(.horizontal)
-                    
-                    // Badges
                     HStack {
                         if let criticidade = evento.criticidade {
                             Badge(
@@ -485,7 +443,6 @@ struct EventoDetailView: View {
                                 color: colorForCriticality(criticidade)
                             )
                         }
-                        
                         if evento.importante == true {
                             Badge(
                                 text: localizationManager.string(for: "important"),
@@ -494,8 +451,6 @@ struct EventoDetailView: View {
                         }
                     }
                     .padding(.horizontal)
-                    
-                    // Informações principais
                     VStack(spacing: 16) {
                         if let data = evento.data {
                             InfoRow2(
@@ -504,7 +459,6 @@ struct EventoDetailView: View {
                                 value: formatFullDate(data)
                             )
                         }
-                        
                         if let horaInicio = evento.horaInicio, let horaFim = evento.horaEncerramento {
                             InfoRow2(
                                 icon: "clock",
@@ -512,7 +466,6 @@ struct EventoDetailView: View {
                                 value: "\(horaInicio) - \(horaFim)"
                             )
                         }
-                        
                         if let local = evento.local {
                             InfoRow2(
                                 icon: "location",
@@ -520,7 +473,6 @@ struct EventoDetailView: View {
                                 value: local
                             )
                         }
-                        
                         if let zona = evento.zona {
                             InfoRow2(
                                 icon: "location.circle",
@@ -528,7 +480,6 @@ struct EventoDetailView: View {
                                 value: localizeZone(zona)
                             )
                         }
-                        
                         if let quantidade = evento.quantidadePessoas {
                             InfoRow2(
                                 icon: "person.3",
@@ -542,8 +493,6 @@ struct EventoDetailView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                     .padding(.horizontal)
-                    
-                    // Descrição
                     if let descricao = evento.descricao {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(localizationManager.string(for: "description"))
@@ -555,8 +504,6 @@ struct EventoDetailView: View {
                         }
                         .padding(.horizontal)
                     }
-                    
-                    // Botões de ação
                     VStack(spacing: 12) {
                         if evento.lat != nil && evento.lon != nil {
                             Button(action: openInMaps) {
@@ -568,7 +515,6 @@ struct EventoDetailView: View {
                                     .cornerRadius(12)
                             }
                         }
-                        
                         Button(action: { showShareSheet = true }) {
                             Label(localizationManager.string(for: "share_event"), systemImage: "square.and.arrow.up")
                                 .frame(maxWidth: .infinity)
@@ -584,7 +530,7 @@ struct EventoDetailView: View {
             }
         }
         .sheet(isPresented: $showShareSheet) {
-            ShareSheet(activityItems: [formatEventForSharing()])
+            ActivityView(activityItems: [formatEventForSharing()])
         }
     }
     
@@ -639,19 +585,15 @@ struct EventoDetailView: View {
     
     private func formatEventForSharing() -> String {
         var text = evento.nome ?? localizationManager.string(for: "event")
-        
         if let data = evento.data {
             text += "\n\(localizationManager.string(for: "date")): \(formatFullDate(data))"
         }
-        
         if let local = evento.local {
             text += "\n\(localizationManager.string(for: "location")): \(local)"
         }
-        
         if let descricao = evento.descricao {
             text += "\n\n\(descricao)"
         }
-        
         return text
     }
 }
@@ -667,7 +609,6 @@ struct InfoRow2: View {
                 .font(.title3)
                 .foregroundColor(.blue)
                 .frame(width: 30)
-            
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.caption)
@@ -675,7 +616,6 @@ struct InfoRow2: View {
                 Text(value)
                     .font(.body)
             }
-            
             Spacer()
         }
         .padding(.vertical, 8)
@@ -726,7 +666,6 @@ struct EventosMapView: View {
                             .padding(8)
                             .background(evento.tipo.color)
                             .clipShape(Circle())
-                        
                         Image(systemName: "triangle.fill")
                             .font(.caption)
                             .foregroundColor(evento.tipo.color)
@@ -743,7 +682,6 @@ struct EventosMapView: View {
                     }
                     .foregroundColor(.white)
                 }
-                
                 ToolbarItem(placement: .principal) {
                     Text(localizationManager.string(for: "events_map"))
                         .font(.headline)
@@ -767,7 +705,6 @@ struct EventoImportanteView: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 0) {
-                // Imagem do evento
                 if let imagemURL = evento.imagemURL, let url = URL(string: imagemURL) {
                     AsyncImage(url: url) { phase in
                         switch phase {
@@ -776,7 +713,6 @@ struct EventoImportanteView: View {
                                 Rectangle()
                                     .fill(evento.tipo.color.opacity(0.2))
                                     .frame(height: 180)
-                                
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             }
@@ -791,7 +727,6 @@ struct EventoImportanteView: View {
                                 Rectangle()
                                     .fill(evento.tipo.color.opacity(0.2))
                                     .frame(height: 180)
-                                
                                 VStack {
                                     Image(systemName: "photo")
                                         .font(.largeTitle)
@@ -806,7 +741,6 @@ struct EventoImportanteView: View {
                         }
                     }
                     .overlay(
-                        // Badge "IMPORTANTE" sobre a imagem
                         VStack {
                             HStack {
                                 Spacer()
@@ -823,7 +757,6 @@ struct EventoImportanteView: View {
                         }
                     )
                 } else {
-                    // Fallback se não houver imagem
                     ZStack {
                         Rectangle()
                             .fill(
@@ -834,12 +767,9 @@ struct EventoImportanteView: View {
                                 )
                             )
                             .frame(height: 180)
-                        
                         Image(systemName: evento.tipo.icon)
                             .font(.system(size: 60))
                             .foregroundColor(.white.opacity(0.3))
-                        
-                        // Badge "IMPORTANTE"
                         VStack {
                             HStack {
                                 Spacer()
@@ -856,16 +786,12 @@ struct EventoImportanteView: View {
                         }
                     }
                 }
-                
-                // Informações do evento
                 VStack(alignment: .leading, spacing: 12) {
                     Text(evento.nome ?? localizationManager.string(for: "important_event"))
                         .font(.title2.bold())
                         .foregroundColor(.white)
                         .multilineTextAlignment(.leading)
-                    
                     HStack(spacing: 16) {
-                        // Data e hora
                         if let data = evento.data, let horaInicio = evento.horaInicio {
                             HStack(spacing: 4) {
                                 Image(systemName: "clock.fill")
@@ -875,8 +801,6 @@ struct EventoImportanteView: View {
                             }
                             .foregroundColor(.white.opacity(0.9))
                         }
-                        
-                        // Local
                         if let local = evento.local {
                             HStack(spacing: 4) {
                                 Image(systemName: "mappin.circle.fill")
@@ -888,15 +812,11 @@ struct EventoImportanteView: View {
                             .foregroundColor(.white.opacity(0.9))
                         }
                     }
-                    
-                    // Indicador visual de toque para mais detalhes
                     HStack {
                         Text(localizationManager.string(for: "touch_for_details"))
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.6))
-                        
                         Spacer()
-                        
                         Image(systemName: "arrow.right.circle.fill")
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -926,7 +846,6 @@ struct OutrosEventosListView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header com estilo integrado
             HStack {
                 Text(localizationManager.string(for: "other_events_title"))
                     .font(.title3.bold())
@@ -937,13 +856,12 @@ struct OutrosEventosListView: View {
                         .font(.body.weight(.bold))
                         .foregroundColor(.white.opacity(0.8))
                         .padding(8)
-                        .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark))
+                        .background(.ultraThinMaterial)
                         .clipShape(Circle())
                 }
             }
             .padding()
             .background(.thinMaterial)
-            
             ScrollView {
                 VStack(spacing: 12) {
                     ForEach(eventos) { evento in
@@ -951,24 +869,19 @@ struct OutrosEventosListView: View {
                             onEventSelect(evento)
                         }) {
                             HStack(spacing: 16) {
-                                // Ícone do tipo
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 12)
                                         .fill(evento.tipo.color.opacity(0.15))
                                         .frame(width: 50, height: 50)
-                                    
                                     Image(systemName: evento.tipo.icon)
                                         .font(.title3)
                                         .foregroundColor(evento.tipo.color)
                                 }
-                                
-                                // Informações
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(evento.nome ?? localizationManager.string(for: "event"))
                                         .font(.headline)
                                         .foregroundColor(.primary)
                                         .multilineTextAlignment(.leading)
-                                    
                                     if let data = evento.data, let hora = evento.horaInicio {
                                         HStack(spacing: 4) {
                                             Image(systemName: "clock")
@@ -978,7 +891,6 @@ struct OutrosEventosListView: View {
                                         }
                                         .foregroundColor(.secondary)
                                     }
-                                    
                                     if let local = evento.local {
                                         HStack(spacing: 4) {
                                             Image(systemName: "location")
@@ -990,10 +902,7 @@ struct OutrosEventosListView: View {
                                         .foregroundColor(.secondary)
                                     }
                                 }
-                                
                                 Spacer()
-                                
-                                // Criticidade
                                 if let criticidade = evento.criticidade {
                                     Text(localizeCriticality(criticidade))
                                         .font(.caption)
@@ -1084,7 +993,6 @@ struct EventoCarouselView: View {
     }
 }
 
-
 // MARK: - Item Individual do Evento (ATUALIZADO PARA PERMITIR CLIQUE NA DESCRIÇÃO)
 struct EventoItemView: View {
     let evento: Evento
@@ -1104,25 +1012,19 @@ struct EventoItemView: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
-                // Ícone do tipo de evento
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(evento.tipo.color.opacity(0.2) ?? Color.gray.opacity(0.2))
                         .frame(width: 60, height: 60)
-                    
                     Image(systemName: evento.tipo.icon ?? "calendar")
                         .font(.title2)
                         .foregroundColor(evento.tipo.color ?? .gray)
                 }
-                
-                // Informações do evento
                 VStack(alignment: .leading, spacing: 6) {
                     Text(evento.nome ?? localizationManager.string(for: "event"))
                         .font(.headline)
                         .foregroundColor(.white)
                         .lineLimit(2)
-                    
-                    // Data e horário
                     if let data = evento.data, let horaInicio = evento.horaInicio {
                         HStack(spacing: 4) {
                             Image(systemName: "clock")
@@ -1133,8 +1035,6 @@ struct EventoItemView: View {
                         }
                         .foregroundColor(.white.opacity(0.8))
                     }
-                    
-                    // Zona
                     if let zona = evento.zona {
                         HStack(spacing: 4) {
                             Image(systemName: "location.circle")
@@ -1144,7 +1044,6 @@ struct EventoItemView: View {
                         }
                         .foregroundColor(.white.opacity(0.8))
                     }
-                    
                     if let local = evento.local {
                         HStack(spacing: 4) {
                             Image(systemName: "mappin.circle")
@@ -1155,8 +1054,6 @@ struct EventoItemView: View {
                         }
                         .foregroundColor(.white.opacity(0.8))
                     }
-                    
-                    // NOVO: Indicador de descrição disponível
                     if let descricao = evento.descricao, !descricao.isEmpty {
                         HStack(spacing: 4) {
                             Image(systemName: "doc.text.fill")
@@ -1168,10 +1065,7 @@ struct EventoItemView: View {
                         .foregroundColor(.yellow.opacity(0.8))
                     }
                 }
-                
                 Spacer()
-                
-                // Indicador de mais informações
                 Image(systemName: "chevron.right")
                     .foregroundColor(.white.opacity(0.5))
             }
@@ -1203,150 +1097,7 @@ struct EventoItemView: View {
     }
 }
 
-
-// MARK: - View do Card de Eventos
-struct EventosCardView: View {
-    let eventos: [Evento]
-    let isLoading: Bool
-    @StateObject private var localizationManager = LocalizationManager.shared
-    
-    @State private var eventoSelecionado: Evento?
-    @State private var currentIndex: Int = 0
-    @State private var showOutrosEventos: Bool = false
-    
-    // Lógica para separar evento importante dos demais
-    private var eventoImportante: Evento? {
-        eventos.first(where: { $0.importante == true })
-    }
-    
-    private var eventosNormais: [Evento] {
-        eventos.filter { $0.importante != true }
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // Header (seu código está ótimo)
-            headerView
-                .padding(.vertical, 12)
-                .padding(.horizontal)
-            
-            // Conteúdo com altura mais previsível
-            Group {
-                if isLoading {
-                    LoadingView(message: localizationManager.string(for: "loading_events"))
-                        .frame(height: 200) // Altura fixa para o estado de loading
-                } else if let evento = eventoImportante {
-                    // Se houver um evento importante, ele é exibido com sua própria view
-                    EventoImportanteView(
-                        evento: evento,
-                        onTap: { eventoSelecionado = evento }
-                    )
-                    .padding([.horizontal, .bottom])
-                } else if !eventosNormais.isEmpty {
-                    // Se houver apenas eventos normais, exibe o carrossel
-                    eventoCarouselSection
-                } else {
-                    // Estado vazio
-                    EmptyStateView(
-                        icon: "calendar.badge.exclamationmark",
-                        message: localizationManager.string(for: "no_events")
-                    )
-                    .frame(height: 200) // Altura fixa para o estado vazio
-                }
-            }
-        }
-        .background(cardGradient)
-        .cornerRadius(12)
-        .overlay(cardBorder)
-        .shadow(color: Color.black.opacity(0.8), radius: 4, x: 0, y: 1)
-        .padding(.horizontal, 16)
-        .sheet(isPresented: $showOutrosEventos) {
-            // Sua lógica de sheet para "outros eventos"
-            OutrosEventosListView(
-                eventos: eventos.filter { $0.importante != true },
-                onEventSelect: { evento in
-                    showOutrosEventos = false
-                    eventoSelecionado = evento
-                }
-            )
-        }
-        .sheet(item: $eventoSelecionado) { evento in
-            EventoDetailView(evento: evento)
-        }
-    }
-    
-    @ViewBuilder
-    private var headerView: some View {
-        HStack {
-            Image(systemName: "calendar.badge.plus")
-                .foregroundColor(.white)
-                .font(.title2)
-            Text(localizationManager.string(for: "city_events"))
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(.white)
-            Spacer()
-            
-            // Botão para ver outros eventos se houver um importante
-            if eventoImportante != nil && !eventosNormais.isEmpty {
-                Button(action: { showOutrosEventos = true }) {
-                    Text("+\(eventosNormais.count) \(localizationManager.string(for: "other_events"))")
-                        .font(.caption.bold())
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(Color.white.opacity(0.2))
-                        .cornerRadius(15)
-                }
-            }
-            // Contador de páginas para o carrossel
-            else if eventoImportante == nil && eventosNormais.count > 1 {
-                Text("\(currentIndex + 1)/\(eventosNormais.count)")
-                    .font(.caption.monospacedDigit())
-                    .foregroundColor(.white.opacity(0.8))
-                    .padding(.horizontal, 8)
-                    .background(Color.black.opacity(0.2))
-                    .cornerRadius(8)
-                    .animation(nil, value: currentIndex) // Evita animações desnecessárias no contador
-            }
-        }
-    }
-    
-    @ViewBuilder
-    private var eventoCarouselSection: some View {
-        // Envolve o carrossel em um VStack para dar um frame estável
-        VStack(spacing: 0) {
-            // Usaremos TabView para um carrossel paginado, que é mais estável
-            TabView(selection: $currentIndex) {
-                ForEach(eventosNormais.indices, id: \.self) { index in
-                    // O item do evento tem padding interno para não cortar a sombra ou borda
-                    EventoItemView(
-                        evento: eventosNormais[index],
-                        onTap: { eventoSelecionado = eventosNormais[index] }
-                    )
-                    .padding(.horizontal) // Padding para não colar nas bordas
-                    .tag(index)
-                }
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never)) // Estilo de paginação sem os pontinhos
-            .frame(height: 180) // <<< ESTA É A CORREÇÃO PRINCIPAL
-
-            // Indicadores de página customizados, se desejar
-            if eventosNormais.count > 1 {
-                HStack(spacing: 8) {
-                    ForEach(eventosNormais.indices, id: \.self) { index in
-                        Circle()
-                            .fill(index == currentIndex ? Color.white : Color.white.opacity(0.4))
-                            .frame(width: 8, height: 8)
-                            .animation(.spring(), value: currentIndex)
-                    }
-                }
-                .padding(.top, 8)
-                .padding(.bottom, 12)
-            }
-        }
-    }
-}
-
+// Estilos do card
 private let cardGradient = LinearGradient(
     gradient: Gradient(colors: [
         Color(red: 0.1, green: 0.5, blue: 0.9),
@@ -1359,4 +1110,19 @@ private let cardGradient = LinearGradient(
 private var cardBorder: some View {
     RoundedRectangle(cornerRadius: 12)
         .stroke(Color.white.opacity(0.2), lineWidth: 1)
+}
+
+// MARK: - ShareSheet nativo substituto
+struct ActivityView: UIViewControllerRepresentable {
+    let activityItems: [Any]
+    var applicationActivities: [UIActivity]? = nil
+    var excludedActivityTypes: [UIActivity.ActivityType]? = nil
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
+        controller.excludedActivityTypes = excludedActivityTypes
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

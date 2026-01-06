@@ -1,6 +1,7 @@
 import SwiftUI
 import MapKit
 import AVKit
+import CoreLocation
 
 class AlertasViewModel: ObservableObject {
     @Published var alertas: [Alerta] = []
@@ -64,155 +65,140 @@ struct StatusAlertaView: View {
     
     // MARK: - Corpo da View
     var body: some View {
-        ZStack {
-            // Fundo dinâmico com parallax limitado
-            Image(nomeImagemFundo)
-                .resizable()
-                .scaledToFill()
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + 200)
-                .offset(y: min(max(debouncedScrollOffset * 0.3, -150), 150))
-                .animation(isScrolling ? nil : .easeOut(duration: 0.3), value: debouncedScrollOffset)
-                .id(nomeImagemFundo)
-                .ignoresSafeArea()
-                .clipped()
-            
-            // ScrollViewReader envolve TUDO que precisa acessar scrollProxy
-            ScrollViewReader { scrollProxy in
-                ZStack {
-                    // ScrollView otimizado
-                    OptimizedScrollView(offset: $scrollOffset, isScrolling: $isScrolling) {
-                        VStack(spacing: 0) {
-                            Color.clear.frame(height: 100)
-                            
-                            // Conteúdo principal com espaçamento otimizado
-                            VStack(spacing: 20) {
-                                // Views sempre visíveis (não lazy)
-                                EstagioView(currentStage: estagioOperacional)
-                                    .drawingGroup()
-                                
-                                ClimaCardView(
-                                    pontosDeApoio: self.pontosDeApoio,
-                                    unidadesDeSaude: self.unidadesDeSaude,
-                                    pontosDeResfriamento: self.pontosDeResfriamento,
-                                    nivelCalor: self.nivelCalor,
-                                    recomendacoes: self.recomendacoes
-                                ).id("climaSection")
-                                                                
-                                // AlertasCardView com ID para scroll
-                                AlertasCardView(
-                                    alertas: alertasViewModel.alertas,
-                                    isLoading: alertasViewModel.isLoading
-                                )
-                                .padding(.top, 100)
-                                .id("alertasSection")
-                                .task {
-                                    await alertasViewModel.fetchAlertas()
-                                }
-                                
-                                // LazyVStack apenas para conteúdo pesado
-                                LazyVStack(spacing: 20) {
+        GeometryReader { geo in
+            let topSafe = geo.safeAreaInsets.top
+            ZStack {
+                Image(nomeImagemFundo)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + 200)
+                    .offset(y: min(max(debouncedScrollOffset * 0.3, -150), 150))
+                    .animation(isScrolling ? nil : .easeOut(duration: 0.3), value: debouncedScrollOffset)
+                    .id(nomeImagemFundo)
+                    .ignoresSafeArea()
+                    .clipped()
+                
+                ScrollViewReader { scrollProxy in
+                    ZStack {
+                        OptimizedScrollView(offset: $scrollOffset, isScrolling: $isScrolling) {
+                            VStack(spacing: 0) {
+                                VStack(spacing: 12) {
+                                    // 1. Cabeçalho de clima local
+                                    ClimaLocalHeaderView()
+                                        .drawingGroup()
                                     
-                                                                    
-                                    InformesTempoView(informes: self.infoTempo, isLoading: self.isLoading)
+                                    // Espaço entre Clima e Câmeras: garantir 12–16pt
+                                    Color.clear.frame(height: 12)
                                     
-                                    RadarCardView(onExpand: {
-                                        self.isRadarExpanded = true
-                                    })
-                                    
-                                    Color.clear.frame(height: 40)
-                                    
-                                    HStack(spacing: 16) {
-                                        TransitoCardView(action: {
-                                            print("Botão de Trânsito foi tocado!")
-                                        })
-                                        InterdicoesCardView(action: {
-                                            self.isInterdicoesExpanded = true
-                                        })
-                                    }
-                                    .padding(.horizontal, 16)
-                                    
-                                    InformesTransitoCardView(
-                                        informes: self.infoTransito,
-                                        isLoading: self.isLoading
-                                    )
-                                    
+                                    // 2. Câmeras logo abaixo do clima
                                     CamerasMapView(cameras: self.cameras)
+                                        .padding(.top, 0) // já controlado internamente
                                     
-                                    Color.clear.frame(height: 40)
+                                    // 3. Alertas (REMOVIDO: AlertasCardView ausente no escopo)
+                                    // Caso precise de alertas, reintroduza a view quando o arquivo estiver no target.
                                     
-                                    HStack(spacing: 16) {
-                                        SirenesStatusButton(
-                                            action: {
-                                                self.isAlarmeExpanded = true
-                                            },
-                                            sirenes: self.sirenes
+                                    LazyVStack(spacing: 16) {
+                                        InformesTempoView(informes: self.infoTempo, isLoading: self.isLoading)
+                                        
+                                        RadarCardView(onExpand: {
+                                            self.isRadarExpanded = true
+                                        })
+                                        
+                                        Color.clear.frame(height: 16)
+                                        
+                                        HStack(spacing: 12) {
+                                            TransitoCardView(action: {
+                                                print("Botão de Trânsito foi tocado!")
+                                            })
+                                            InterdicoesCardView(action: {
+                                                self.isInterdicoesExpanded = true
+                                            })
+                                        }
+                                        .padding(.horizontal, 12)
+                                        
+                                        InformesTransitoCardView(
+                                            informes: self.infoTransito,
+                                            isLoading: self.isLoading
                                         )
                                         
-                                        PontosApoioButton(action: {
-                                            self.isPontosApoioExpanded = true
+                                        Color.clear.frame(height: 16)
+                                        
+                                        HStack(spacing: 12) {
+                                            SirenesStatusButton(
+                                                action: { self.isAlarmeExpanded = true },
+                                                sirenes: self.sirenes
+                                            )
+                                            PontosApoioButton(action: {
+                                                self.isPontosApoioExpanded = true
+                                            })
+                                        }
+                                        .padding(.horizontal, 12)
+                                        
+                                        SistemaAlarmeMapView(sirenes: self.sirenes, onExpand: {
+                                            self.isAlarmeExpanded = true
                                         })
+                                        
+                                        Color.clear.frame(height: 16)
+                                        
+                                        BotoesFinaisView(
+                                            isUnidadesSaudeExpanded: $isUnidadesSaudeExpanded,
+                                            isPontosTuristicosExpanded: $isPontosTuristicosExpanded
+                                        )
+                                        
+                                        Color.clear.frame(height: 200)
                                     }
-                                    .padding(.horizontal, 16)
-                                    
-                                    SistemaAlarmeMapView(sirenes: self.sirenes, onExpand: {
-                                        self.isAlarmeExpanded = true
-                                    })
-                                    
-                                    Color.clear.frame(height: 40)
-                                    
-                                    BotoesFinaisView(
-                                        isUnidadesSaudeExpanded: $isUnidadesSaudeExpanded,
-                                        isPontosTuristicosExpanded: $isPontosTuristicosExpanded
-                                    )
-                                    
-                                    Color.clear.frame(height: 240)
                                 }
-                            }
-                            .padding(.top, 120)
-                        }
-                    }
-                    .onChange(of: scrollOffset) { newValue in
-                        // Debounce do scroll offset
-                        scrollDebounceTimer?.invalidate()
-                        scrollDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
-                            withAnimation(.easeOut(duration: 0.2)) {
-                                debouncedScrollOffset = newValue
                             }
                         }
-                    }
-                    
-                    // Header sobreposto
-                    VStack {
-                        HeaderView(
-                            currentStage: estagioOperacional,
-                            alertCount: alertas.count,
-                            eventCount: eventos.count,
-                            temperature: "28°",
-                            scrollToAlerts: {
-                                withAnimation(.easeInOut(duration: 0.5)) {
-                                    scrollProxy.scrollTo("alertasSection", anchor: UnitPoint(x: 0.5, y: 0.15))
-                                }
-                            },
-                            scrollToEvents: {
-                                withAnimation(.easeInOut(duration: 0.5)) {
-                                    scrollProxy.scrollTo("eventosSection", anchor: UnitPoint(x: 0.5, y: 0.15))
+                        .onChange(of: scrollOffset) { newValue in
+                            scrollDebounceTimer?.invalidate()
+                            scrollDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
+                                withAnimation(.easeOut(duration: 0.2)) {
+                                    debouncedScrollOffset = newValue
                                 }
                             }
-                        )
-                        .ignoresSafeArea(edges: .top)
+                        }
+                        // Espaço superior seguro: TopBar + margem
+                        .safeAreaInset(edge: .top) {
+                            Color.clear
+                                .frame(height: topSafe + 70)
+                        }
                         
-                        Spacer()
+                        VStack {
+                            HeaderView(
+                                currentStage: estagioOperacional,
+                                alertCount: alertas.count,
+                                eventCount: eventos.count,
+                                temperature: "28°",
+                                scrollToAlerts: {
+                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                        scrollProxy.scrollTo("alertasSection", anchor: UnitPoint(x: 0.5, y: 0.15))
+                                    }
+                                },
+                                scrollToEvents: {
+                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                        scrollProxy.scrollTo("eventosSection", anchor: UnitPoint(x: 0.5, y: 0.15))
+                                    }
+                                }
+                            )
+                            .ignoresSafeArea(edges: .top)
+                            .zIndex(10)
+                            
+                            Spacer()
+                        }
                     }
                 }
+                
+                if viewModel.isLoading && viewModel.isDataLoaded {
+                    LoadingOverlay()
+                        .transition(.opacity)
+                        .zIndex(20)
+                }
             }
-            
-            // NOVO: Loading Overlay para reloads
-            if viewModel.isLoading && viewModel.isDataLoaded {
-                LoadingOverlay()
-                    .transition(.opacity)
+            .onDisappear {
+                scrollDebounceTimer?.invalidate()
             }
         }
-        // MARK: - Modais (Telas Cheias)
         .fullScreenCover(isPresented: $isRadarExpanded) {
             FullScreenRadarView()
         }
@@ -239,9 +225,139 @@ struct StatusAlertaView: View {
                 recomendacoes: self.recomendacoes
             )
         }
-        .onDisappear {
-            // Limpa timers ao sair da view
-            scrollDebounceTimer?.invalidate()
+    }
+}
+
+// MARK: - Novo Cabeçalho de Clima Local (compactado)
+struct ClimaLocalHeaderView: View {
+    @StateObject private var climaVM = ClimaViewModel()
+    @StateObject private var locationManager = LocationManager()
+    @ObservedObject private var localizationManager = LocalizationManager.shared
+    @EnvironmentObject private var appVM: CORViewModel
+    
+    @State private var bairro: String = ""
+    @State private var isGeocoding = false
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Spacer()
+                Text(bairro.isEmpty ? localizationManager.string(for: "getting_location") : bairro)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                    .multilineTextAlignment(.center)
+                Spacer()
+            }
+            .padding(.horizontal, 16)
+            
+            if let cond = climaVM.condicaoClimatica {
+                Image(systemName: cond.iconeCondicao)
+                    .font(.system(size: 44, weight: .bold))
+                    .symbolRenderingMode(.multicolor)
+                    .foregroundColor(.white)
+                    .padding(.top, -2)
+            }
+            
+            if let cond = climaVM.condicaoClimatica {
+                HStack(spacing: 8) {
+                    Button { } label: {
+                        Pill(icon: "thermometer.sun.fill", value: cond.calorValor)
+                    }
+                    Button { } label: {
+                        Pill(icon: cond.isChovendo ? "umbrella.fill" : "umbrella", value: cond.chuvaValor)
+                    }
+                    Button { } label: {
+                        Pill(icon: "wind", value: cond.ventoValor)
+                    }
+                }
+                .buttonStyle(.plain)
+                .padding(.horizontal, 12)
+                .padding(.top, -2)
+            } else if climaVM.isLoading {
+                HStack {
+                    BrandedLoadingView()
+                        .frame(height: 40)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+            } else {
+                HStack {
+                    Image(systemName: "wifi.exclamationmark")
+                        .foregroundColor(.white)
+                    Text(localizationManager.string(for: "data_unavailable"))
+                        .foregroundColor(.white)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+            }
+        }
+        .padding(.vertical, 8)
+        .background(.clear)
+        .padding(.horizontal, 12)
+        .task {
+            await climaVM.fetchData()
+        }
+        .onAppear {
+            if locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways {
+                locationManager.startUpdatingLocation()
+            } else if locationManager.authorizationStatus == .notDetermined {
+                locationManager.requestLocationPermission()
+            }
+        }
+        .onChange(of: locationManager.location) { _ in
+            atualizarBairro()
+        }
+        .onChange(of: locationManager.authorizationStatus) { status in
+            if status == .authorizedWhenInUse || status == .authorizedAlways {
+                locationManager.startUpdatingLocation()
+            }
+        }
+    }
+    
+    private func atualizarBairro() {
+        guard !isGeocoding, let location = locationManager.location else { return }
+        isGeocoding = true
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            defer { isGeocoding = false }
+            if let error = error {
+                print("Erro no reverse geocoding: \(error)")
+                return
+            }
+            if let placemark = placemarks?.first {
+                let sub = placemark.subLocality?.trimmingCharacters(in: .whitespacesAndNewlines)
+                let loc = placemark.locality?.trimmingCharacters(in: .whitespacesAndNewlines)
+                self.bairro = (sub?.isEmpty == false ? sub : loc) ?? ""
+            }
+        }
+    }
+    
+    private struct Pill: View {
+        let icon: String
+        let value: String
+        
+        var body: some View {
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .semibold))
+                    .symbolRenderingMode(.multicolor)
+                    .foregroundColor(.white)
+                Text(value)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 10)
+            .frame(maxWidth: .infinity, minHeight: 36)
+            .background(Color.white.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white.opacity(0.15), lineWidth: 1)
+            )
         }
     }
 }
@@ -252,12 +368,10 @@ struct LoadingOverlay: View {
     
     var body: some View {
         ZStack {
-            // Fundo semi-transparente
             Color.black.opacity(0.7)
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                // Usar o mesmo BrandedLoadingView
                 BrandedLoadingView()
                 
                 Text(localizationManager.string(for: "updating_data"))
@@ -305,15 +419,10 @@ struct OptimizedScrollView<Content: View>: View {
         }
         .coordinateSpace(name: "optimizedScroll")
         .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-            // Apenas atualiza se a diferença for significativa
             if abs(offset - value) > 2 {
                 isScrolling = true
                 offset = value
-                
-                // Cancela timer anterior
                 scrollTimer?.invalidate()
-                
-                // Marca como não scrolling após delay
                 scrollTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
                     isScrolling = false
                 }
@@ -355,572 +464,37 @@ struct ServiceButton: View {
                 Image(systemName: icon).font(.title2)
                 Text(title).font(.footnote).fontWeight(.semibold)
             }
-            .foregroundColor(.white).frame(maxWidth: .infinity, minHeight: 100)
-            .background(cardGradient.opacity(0.8)).cornerRadius(15).overlay(cardBorder)
-        }
-    }
-}
-
-//====================================================================//
-// MARK: - Subviews Locais
-//====================================================================//
-
-struct EstagioView:  View {
-    let currentStage: Int
-    @State private var selectedDetail: Int? = nil
-    @ObservedObject private var localizationManager = LocalizationManager.shared
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            // Header minimalista
-            VStack(spacing: 8) {
-                Text(localizationManager.string(for: "city_in"))
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(.white)
-                    .tracking(2)
-                
-            }
-            
-            // Container principal simplificado
-            estagioImage
-                .resizable()
-                .scaledToFit()
-                .frame(height: 200)
-                .padding(.vertical, 20)
-            
-            // Container dos estágios
-            VStack(spacing: 20) {
-                // Ícones dos estágios
-                HStack(spacing: 0) {
-                    ForEach(1...5, id: \.self) { stage in
-                        PlayStationTrophy(
-                            stage: stage,
-                            currentStage: currentStage,
-                            onTap: {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                    selectedDetail = selectedDetail == stage ? nil : stage
-                                }
-                            }
-                        )
-                        .frame(maxWidth: .infinity)
-                    }
-                }
-                .padding(.horizontal, 20)
-                
-                // Detalhes do estágio selecionado
-                if let selected = selectedDetail {
-                    TrophyDetailView(stage: selected)
-                        .transition(.asymmetric(
-                            insertion: .scale(scale: 0.9).combined(with: .opacity),
-                            removal: .scale(scale: 0.9).combined(with: .opacity)
-                        ))
-                }
-            }
-            .padding(.vertical, 24)
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity, minHeight: 100)
             .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.black.opacity(0.2))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                    )
+                LinearGradient(
+                    colors: [Color.blue, Color.blue.opacity(0.8)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
             )
-            .padding(.horizontal, 20)
-        }
-        .padding(.vertical, 40)
-    }
-    
-    private var estagioImage: Image {
-        getImageForStage(currentStage)
-    }
-    
-    private func getImageForStage(_ stage: Int) -> Image {
-        let imageName = getImageName(for: stage)
-        if let uiImage = UIImage(named: imageName) {
-            return Image(uiImage: uiImage)
-        }
-        return Image(systemName: "shield.fill")
-    }
-    
-    private func getImageName(for stage: Int) -> String {
-        let languageCode = localizationManager.currentLanguage
-        
-        // Define o sufixo do idioma
-        let languageSuffix: String
-        switch languageCode {
-        case "pt-BR":
-            languageSuffix = "" // Sem sufixo para português
-        case "en":
-            languageSuffix = "-en"
-        case "es":
-            languageSuffix = "-es"
-        case "fr":
-            languageSuffix = "-fr"
-        case "zh-Hans":
-            languageSuffix = "-zh"
-        default:
-            languageSuffix = "" // fallback sem sufixo
-        }
-        
-        // Retorna o nome da imagem
-        switch stage {
-        case 1: return "selo-cidade-estagio-01\(languageSuffix)"
-        case 2: return "selo-cidade-estagio-02\(languageSuffix)"
-        case 3: return "selo-cidade-estagio-03\(languageSuffix)"
-        case 4: return "selo-cidade-estagio-04\(languageSuffix)"
-        case 5: return "selo-cidade-estagio-05\(languageSuffix)"
-        default: return "selo-cidade-estagio-01\(languageSuffix)"
-        }
-    }
-    
-    private func colorForStage(_ stage: Int) -> Color {
-        switch stage {
-        case 1...2: return .green
-        case 3: return .yellow
-        case 4: return .orange
-        case 5: return .red
-        default: return .gray
-        }
-    }
-}
-
-struct PlayStationTrophy: View {
-    let stage: Int
-    let currentStage: Int
-    let onTap: () -> Void
-    
-    private var stageColor: Color {
-        if stage > currentStage { return .gray }
-        switch stage {
-        case 1...2: return .green
-        case 3: return .yellow
-        case 4: return .orange
-        case 5: return .red
-        default: return .gray
-        }
-    }
-    
-    private let localizationManager = LocalizationManager.shared
-
-    
-    var body: some View {
-        Button(action: onTap) {
-            VStack(spacing: 10) {
-                // Ícone minimalista
-                ZStack {
-                    // Círculo simples de fundo
-                    Circle()
-                        .fill(Color.white.opacity(0.05))
-                        .frame(width: 60, height: 60)
-                    
-                    // Borda circular fina
-                    Circle()
-                        .stroke(
-                            stage <= currentStage
-                                ? stageColor
-                                : Color.white.opacity(0.2),
-                            lineWidth: stage == currentStage ? 2 : 1
-                        )
-                        .frame(width: 60, height: 60)
-                    
-                    // Imagem do estágio (simplificada)
-                    getImageForStage(stage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 55, height: 55)
-                        .opacity(stage <= currentStage ? 0.9 : 0.3)
-                        .grayscale(stage <= currentStage ? 0.0 : 1.0)
-                }
-            }
-        }
-        .buttonStyle(PlainButtonStyle())
-        .scaleEffect(stage == currentStage ? 1.05 : 1.0)
-        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: currentStage)
-    }
-    
-    private func getImageForStage(_ stage: Int) -> Image {
-        let imageName = getImageName(for: stage)
-        if let uiImage = UIImage(named: imageName) {
-            return Image(uiImage: uiImage)
-        }
-        return Image(systemName: "shield.fill")
-    }
-    
-    private func getImageName(for stage: Int) -> String {
-        let languageCode = localizationManager.currentLanguage
-        
-        // Define o sufixo do idioma
-        let languageSuffix: String
-        switch languageCode {
-        case "pt-BR":
-            languageSuffix = "" // Sem sufixo para português
-        case "en":
-            languageSuffix = "-en"
-        case "es":
-            languageSuffix = "-es"
-        case "fr":
-            languageSuffix = "-fr"
-        case "zh-Hans":
-            languageSuffix = "-zh"
-        default:
-            languageSuffix = "" // fallback sem sufixo
-        }
-        
-        // Retorna o nome da imagem
-        switch stage {
-        case 1: return "selo-cidade-estagio-01\(languageSuffix)"
-        case 2: return "selo-cidade-estagio-02\(languageSuffix)"
-        case 3: return "selo-cidade-estagio-03\(languageSuffix)"
-        case 4: return "selo-cidade-estagio-04\(languageSuffix)"
-        case 5: return "selo-cidade-estagio-05\(languageSuffix)"
-        default: return "selo-cidade-estagio-01\(languageSuffix)"
-        }
-    }
-}
-
-struct TrophyDetailView: View {
-    let stage: Int
-    @ObservedObject private var localizationManager = LocalizationManager.shared
-    
-    private var stageInfo: (title: String, when: String, impact: String) {
-        let title = localizationManager.string(for: "stage_\(stage)_title")
-        let when = localizationManager.string(for: "stage_\(stage)_when")
-        let impact = localizationManager.string(for: "stage_\(stage)_impact")
-        return (title, when, impact)
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(stageInfo.title.uppercased())
-                .font(.system(size: 12, weight: .medium))
-                .foregroundColor(.white.opacity(0.7))
-                .tracking(1)
-            
-            Text("\(localizationManager.string(for: "stage_when"))\n\(stageInfo.when)\n\n\(localizationManager.string(for: "stage_impact"))\n\(stageInfo.impact)")
-                .font(.system(size: 14))
-                .foregroundColor(.white.opacity(0.9))
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 24)
-        .padding(.vertical, 16)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(0.08))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                )
-        )
-        .padding(.horizontal, 20)
-    }
-}
-
-//====================================================================//
-// MARK: - View do Card de Alertas
-//====================================================================//
-
-struct AlertasCardView: View {
-    let alertas: [Alerta]
-    let isLoading: Bool
-    @ObservedObject private var localizationManager = LocalizationManager.shared
-    
-    @State private var alertaSelecionado: Alerta?
-    @State private var isVisible: Bool = false
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // Cabeçalho
-            HStack {
-                Image(systemName: "bell.badge.fill").foregroundColor(.white)
-                Text(localizationManager.string(for: "alerts"))
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.white)
-                Spacer()
-            }
-            .padding(.vertical, 12).padding(.horizontal)
-            
-            // Lógica de Loading / Vazio
-            if isLoading {
-                BrandedLoadingView().frame(height: 150)
-            } else if alertas.isEmpty {
-                EmptyStateView(
-                    icon: "checkmark.circle",
-                    message: localizationManager.string(for: "no_alerts")
-                )
-            } else {
-                // Lista de Alertas
-                VStack(spacing: 12) {
-                    ForEach(Array(alertas.enumerated()), id: \.element.id) { index, alerta in
-                        AlertaRow(alerta: alerta)
-                            .onTapGesture {
-                                alertaSelecionado = alerta
-                            }
-                            .opacity(isVisible ? 1 : 0)
-                            .offset(x: isVisible ? 0 : -20)
-                            .animation(.easeOut.delay(Double(index) * 0.1), value: isVisible)
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 12)
-            }
-        }
-        .background(cardGradient)
-        .cornerRadius(12)
-        .overlay(cardBorder)
-        .shadow(color: Color.black.opacity(0.8), radius: 4, x: 0, y: 1)
-        .padding(.horizontal, 16)
-        .sheet(item: $alertaSelecionado) { alerta in
-            AlertaDetalhesView(alerta: alerta)
-        }
-        .onAppear {
-            isVisible = true
-        }
-        .id("alertasSection")
-    }
-}
-
-struct AlertaRow: View {
-    let alerta: Alerta
-    @ObservedObject private var localizationManager = LocalizationManager.shared
-
-    var body: some View {
-        HStack(spacing: 15) {
-            // Ícone contextual
-            Image(systemName: iconFor(alerta: alerta))
-                .font(.title2)
-                .foregroundColor(.white)
-                .frame(width: 40)
-                .fontWeight(.bold)
-
-            // Título e Data
-            VStack(alignment: .leading, spacing: 2) {
-                Text(alerta.nome ?? localizationManager.string(for: "alert_no_title"))
-                    .font(.system(size: 16, weight: .bold))
-                    .lineLimit(2)
-                
-                if let data = alerta.data {
-                    Text(data)
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
-                }
-            }
-            
-            Spacer()
-            Image(systemName: "chevron.right").foregroundColor(.white.opacity(0.5))
-        }
-        .foregroundColor(.white)
-        .padding()
-        .background(Color.white.opacity(0.1))
-        .cornerRadius(10)
-    }
-    
-    private func iconFor(alerta: Alerta) -> String {
-        let texto = (alerta.nome ?? "").lowercased()
-        
-        if texto.contains("acidente") {
-            return "car.2.fill"
-        }
-        
-        if texto.contains("pista") || texto.contains("avenida") || texto.contains("rua") {
-            return "road.lanes"
-        }
-        
-        if texto.contains("trânsito") || texto.contains("via") {
-            return "arrow.triangle.swap"
-        }
-        
-        if texto.contains("sirene") {
-            return "siren.fill"
-        }
-        
-        if texto.contains("ressaca") {
-            return "water.waves"
-        }
-        
-        if texto.contains("chuva") {
-            return "cloud.rain.fill"
-        }
-        
-        if texto.contains("vento") {
-            return "wind"
-        }
-        
-        return "exclamationmark.triangle.fill"
-    }
-}
-
-struct AlertaDetalhesView: View {
-    let alerta: Alerta
-    @StateObject private var speechManager = SpeechManager()
-    @ObservedObject private var localizationManager = LocalizationManager.shared
-    @State private var player: AVPlayer?
-    @State private var isAudioPlaying = false
-    @State private var region = MKCoordinateRegion()
-    @State private var polygon: MKPolygon?
-    @State private var showShareSheet = false
-    
-    private var palavrasDeDestaque: [String] {
-        // Retorna as palavras localizadas
-        return [
-            localizationManager.string(for: "highlight_attention"),
-            localizationManager.string(for: "highlight_risk"),
-            localizationManager.string(for: "highlight_closed"),
-            localizationManager.string(for: "highlight_evacuate"),
-            localizationManager.string(for: "highlight_danger"),
-            localizationManager.string(for: "highlight_warning"),
-            localizationManager.string(for: "highlight_avoid"),
-            localizationManager.string(for: "highlight_forecast"),
-            localizationManager.string(for: "highlight_traffic"),
-            localizationManager.string(for: "highlight_strong"),
-            localizationManager.string(for: "highlight_moderate"),
-            localizationManager.string(for: "highlight_stage"),
-            // Adicione outras palavras específicas do português aqui se necessário
-            "fechado", "ocorrência", "avenida", "liberada", "interdições",
-            "centro de operações", "vias", "liberadas", "moderadas", "fortes",
-            "moderados", "acidentes", "reduza", "molhadas", "escorregadias",
-            "fraca", "fracos"
-        ]
-    }
-
-    var body: some View {
-        VStack(spacing: 0) {
-            VStack(spacing: 4) {
-                Capsule().fill(Color.gray.opacity(0.5)).frame(width: 40, height: 5)
-                Text(alerta.nome ?? localizationManager.string(for: "details"))
-                    .font(.headline).padding(.top, 8)
-            }.padding()
-            
-            if let polygon {
-                PolygonMapView(region: $region, polygon: polygon)
-                    .frame(height: 180).cornerRadius(12).padding(.horizontal)
-            }
-            
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    infoRow(
-                        icon: "calendar.badge.clock",
-                        title: localizationManager.string(for: "date"),
-                        value: formatarData(alerta.data)
-                    )
-                    
-                    if let mensagem = alerta.mensagem, !mensagem.isEmpty {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Image(systemName: "text.bubble.fill").foregroundColor(.accentColor)
-                                Text(localizationManager.string(for: "message"))
-                                    .font(.caption.bold()).foregroundColor(.secondary)
-                                Spacer()
-                            }
-                            HighlightedText(text: mensagem, keywords: palavrasDeDestaque).padding(.top, 4)
-                        }
-                    }
-                    
-                    if let audioURLString = alerta.audiourl, let url = URL(string: audioURLString) {
-                        Divider().padding(.horizontal, -16)
-                        audioPlayer(url: url)
-                    }
-                }.padding()
-            }
-            
-            Spacer()
-            
-            VStack {
-                Divider()
-                Button(action: { showShareSheet = true }) {
-                    HStack {
-                        Spacer()
-                        Image(systemName: "square.and.arrow.up")
-                        Text(localizationManager.string(for: "share_alert"))
-                        Spacer()
-                    }
-                    .fontWeight(.semibold).padding()
-                    .background(Color.blue.opacity(0.2)).cornerRadius(12)
-                }.padding([.horizontal, .bottom])
-            }
-        }
-        .onAppear(perform: setupMap)
-        .onDisappear(perform: speechManager.stop)
-        .sheet(isPresented: $showShareSheet) {
-            ShareSheet(activityItems: [gerarTextoCompartilhamento()])
-        }
-    }
-    
-    private func setupMap() {
-        guard let geoString = alerta.geo,
-              let coordinates = parseCoordinates(from: geoString),
-              !coordinates.isEmpty else { return }
-        let p = MKPolygon(coordinates: coordinates, count: coordinates.count)
-        self.polygon = p
-        self.region = MKCoordinateRegion(p.boundingMapRect.insetBy(
-            dx: -p.boundingMapRect.size.width*0.2,
-            dy: -p.boundingMapRect.size.height*0.2
-        ))
-    }
-    
-    private func parseCoordinates(from geoString: String) -> [CLLocationCoordinate2D]? {
-        geoString.split(separator: ";").compactMap { p in
-            let c = p.split(separator: ",")
-            guard c.count==2, let lat=Double(c[0]), let lon=Double(c[1]) else {return nil}
-            return .init(latitude: lat, longitude: lon)
-        }
-    }
-    
-    private func formatarData(_ dateString: String?) -> String? {
-        guard let dateString else { return nil }
-        let f = DateFormatter()
-        f.dateFormat = "dd/MM/yyyy HH:mm:ss"
-        guard let date = f.date(from: dateString) else { return dateString }
-        let rf = RelativeDateTimeFormatter()
-        rf.unitsStyle = .full
-        return rf.localizedString(for: date, relativeTo: Date())
-    }
-    
-    private func gerarTextoCompartilhamento() -> String {
-        "\(localizationManager.string(for: "alert_prefix")) \(alerta.nome ?? localizationManager.string(for: "not_available_short"))\n\n\(alerta.mensagem ?? "")"
-    }
-    
-    @ViewBuilder
-    private func infoRow(icon: String, title: String, value: String?) -> some View {
-        if let value=value, !value.isEmpty {
-            VStack(alignment: .leading) {
-                HStack {
-                    Image(systemName: icon).foregroundColor(.accentColor)
-                    Text(title).font(.caption.bold()).foregroundColor(.secondary)
-                }
-                Text(value).padding(.top, 2)
-            }
-        }
-    }
-    
-    private func audioPlayer(url: URL) -> some View {
-        HStack {
-            Text(localizationManager.string(for: "audio"))
-            Spacer()
-            Button(action: toggleAudioPlayback) {
-                Image(systemName: isAudioPlaying ? "pause.circle.fill" : "play.circle.fill")
-                    .font(.largeTitle)
-            }
-        }.onAppear { player = AVPlayer(url: url) }
-    }
-    
-    private func toggleAudioPlayback() {
-        guard let player else { return }
-        isAudioPlaying.toggle()
-        if isAudioPlaying {
-            player.seek(to: .zero)
-            player.play()
-        } else {
-            player.pause()
+            .cornerRadius(15)
+            .overlay(
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color.white.opacity(0.2), lineWidth: 1)
+            )
         }
     }
 }
 
 //====================================================================//
-// MARK: - Views Auxiliares e Componentes Comuns
+// MARK: - Subviews Locais (REMOVIDO: EstagioView antigo e troféus)
+//====================================================================//
+
+//====================================================================//
+// MARK: - View do Card de Alertas (mantida em outro arquivo, se necessário)
+//====================================================================//
+
+//====================================================================//
+// MARK: - ViewModel de Clima e Model (RESTAURADOS)
 //====================================================================//
 
 struct Clima {
-    // Dados completos para a tela de detalhes
     let cidade: String
     let temperatura: String
     let sensacaoTermica: String
@@ -928,20 +502,14 @@ struct Clima {
     let velocidadeVentoCompleto: String
     let umidade: String
     let chanceChuvaCompleto: String
-    
-    // Dados para a UI principal
     let iconeCondicao: String
     let nivelCalorCompleto: String
     let isChovendo: Bool
     let isNoite: Bool
-    
-    // Dados já separados para os segmentos da barra
     let chuvaTitulo: String
     let chuvaValor: String
-    
     let ventoTitulo: String
     let ventoValor: String
-    
     let calorTitulo: String
     let calorValor: String
 }
@@ -1002,19 +570,14 @@ class ClimaViewModel: ObservableObject {
                 velocidadeVentoCompleto: valorVento,
                 umidade: formatarUmidade(estacaoMetPrincipal?.umd_med),
                 chanceChuvaCompleto: valorChuva,
-                
                 iconeCondicao: iconePara(condicao: estacaoCeuPrincipal?.ceu ?? "", isNoite: noite),
                 nivelCalorCompleto: nivelCalor.situacao ?? localizationManager.string(for: "not_available_short"),
-                
                 isChovendo: isChovendo,
                 isNoite: noite,
-                
                 chuvaTitulo: tituloChuva,
                 chuvaValor: valorChuva,
-                
                 ventoTitulo: tituloVento,
                 ventoValor: valorVento,
-                
                 calorTitulo: tituloCalor,
                 calorValor: valorCalor
             )
@@ -1024,7 +587,6 @@ class ClimaViewModel: ObservableObject {
         }
     }
     
-    // Funções de formatação e lógica
     private func isNightTime(solInfo: InfoTempoSol?) -> Bool {
         guard let sol = solInfo, let nascer = sol.nascer, let por = sol.por else {
             let hour = Calendar.current.component(.hour, from: Date())
@@ -1036,10 +598,8 @@ class ClimaViewModel: ObservableObject {
         
         let horaAtual = calendar.component(.hour, from: agora)
         let minutoAtual = calendar.component(.minute, from: agora)
-        
         let horaNascer = calendar.component(.hour, from: nascer)
         let minutoNascer = calendar.component(.minute, from: nascer)
-        
         let horaPor = calendar.component(.hour, from: por)
         let minutoPor = calendar.component(.minute, from: por)
         
@@ -1050,7 +610,6 @@ class ClimaViewModel: ObservableObject {
         return minutosAtuais < minutosNascer || minutosAtuais > minutosPor
     }
     
-    // MARK: - Funções de Formatação
     private func formatarTemperatura(_ temp: Float?, isSensacao: Bool = false) -> String {
         guard let temp else { return localizationManager.string(for: "not_available_short") }
         return "\(Int(round(temp)))°" + (isSensacao ? "C" : "")
@@ -1086,7 +645,7 @@ class ClimaViewModel: ObservableObject {
         }
         if chuva1h < 5 {
             return (localizationManager.string(for: "rain"), localizationManager.string(for: "rain_light"), true)
-        }
+               }
         if chuva1h < 25 {
             return (localizationManager.string(for: "rain"), localizationManager.string(for: "rain_moderate"), true)
         }
@@ -1095,7 +654,6 @@ class ClimaViewModel: ObservableObject {
     
     private func iconePara(condicao: String, isNoite: Bool) -> String {
         let texto = condicao.lowercased()
-        print(texto)
         
         if texto.contains("chuva") { return "cloud.rain.fill" }
         if texto.contains("tempestade") { return "cloud.bolt.rain.fill" }
@@ -1115,314 +673,4 @@ class ClimaViewModel: ObservableObject {
         
         return isNoite ? "moon.fill" : "sun.max.fill"
     }
-}
-
-struct ClimaCardView: View {
-    @StateObject private var viewModel = ClimaViewModel()
-    @ObservedObject private var localizationManager = LocalizationManager.shared
-    
-    let pontosDeApoio: [PontoDeApoio]
-    let unidadesDeSaude: [PontoDeApoio]
-    let pontosDeResfriamento: [PontoDeApoio]
-    let nivelCalor: NivelCalor
-    let recomendacoes: [Recomendacao]
-    
-    @State private var activeSheet: ClimaSheet?
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Cabeçalho
-            HStack(spacing: 12) {
-                Image(systemName: "sun.max.fill").font(.system(size: 24, weight: .bold)) .foregroundColor(.white)
-                Text(localizationManager.string(for: "weather_conditions"))
-                    .font(.system(size: 24, weight: .bold)) .foregroundColor(.white)
-                Spacer()
-            }
-            .foregroundColor(.white)
-            .padding([.top, .horizontal])
-
-            // Lógica de Loading / Conteúdo / Erro
-            if viewModel.isLoading {
-                HStack { Spacer(); BrandedLoadingView(); Spacer() }.frame(height: 100)
-            } else if let condicao = viewModel.condicaoClimatica {
-                
-                HStack(spacing: 12) {
-                    // Botão 1: Nível de Calor
-                    Button(action: { activeSheet = .calor }) {
-                        InfoSegmentView(
-                            icon: "thermometer.sun.fill",
-                            value: condicao.calorValor,
-                            title: condicao.calorTitulo
-                        )
-                    }
-                    
-                    // Botão 2: Chuva
-                    Button(action: { activeSheet = .chuva }) {
-                        InfoSegmentView(
-                            icon: condicao.isChovendo ? "umbrella.fill" : "umbrella",
-                            value: condicao.chuvaValor,
-                            title: condicao.chuvaTitulo
-                        )
-                    }
-                    
-                    // Botão 3: Vento
-                    Button(action: { activeSheet = .vento }) {
-                        InfoSegmentView(
-                            icon: "wind",
-                            value: condicao.ventoValor,
-                            title: condicao.ventoTitulo
-                        )
-                    }
-                }
-                .buttonStyle(CardButtonStyle())
-                .padding([.horizontal, .bottom])
-
-            } else {
-                EmptyStateView(
-                    icon: "wifi.exclamationmark",
-                    message: localizationManager.string(for: "data_unavailable")
-                )
-            }
-        }
-        .background(cardGradient)
-        .cornerRadius(12)
-        .overlay(cardBorder)
-        .shadow(color: Color.black.opacity(0.8), radius: 4, x: 0, y: 1)
-        .padding(.horizontal, 16)
-        .task {
-            await viewModel.fetchData()
-        }
-        .sheet(item: $activeSheet) { sheet in
-            switch sheet {
-            case .calor:
-                PontosResfriamentoView(
-                    pontosUnidadesSaude: self.unidadesDeSaude,
-                    pontosResfriamento: self.pontosDeResfriamento,
-                    nivelCalor: self.nivelCalor,
-                    recomendacoes: self.recomendacoes
-                )
-            case .chuva:
-                ChuvaDetalhesView(estacoes: viewModel.estacoesChuva)
-            case .vento:
-                VentoDetalhesView(estacoes: viewModel.estacoesMet)
-            }
-        }
-    }
-}
-
-struct CardButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
-            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-    }
-}
-
-enum ClimaSheet: Identifiable {
-    case calor, chuva, vento
-    var id: Self { self }
-}
-
-private struct InfoSegmentView: View {
-    let icon: String
-    let value: String
-    let title: String
-    
-    var body: some View {
-        VStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.system(size: 32))
-                .symbolRenderingMode(.multicolor)
-                .foregroundColor(.white)
-            
-            (
-                Text(title.uppercased())
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white.opacity(0.7))
-                +
-                Text("\n" + value)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-            )
-            .multilineTextAlignment(.center)
-            .lineLimit(3)
-            .minimumScaleFactor(0.8)
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 120)
-    }
-}
-
-
-//====================================================================//
-// MARK: - Views Auxiliares e Componentes Comuns
-//====================================================================//
-
-struct HighlightedText: View {
-    let text: String
-    let keywords: [String]
-    
-    var body: some View {
-        Text(highlightedString())
-    }
-    
-    private func highlightedString() -> AttributedString {
-        var attrString = AttributedString(text)
-        for keyword in keywords {
-            if let range = attrString.range(of: keyword, options: .caseInsensitive) {
-                attrString[range].font = .body.bold()
-                attrString[range].foregroundColor = .yellow
-            }
-        }
-        return attrString
-    }
-}
-
-struct LoadingView: View {
-    let message: String
-    var body: some View {
-        HStack {
-            Spacer()
-            VStack {
-                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .white)).scaleEffect(1.5)
-                Text(message).foregroundColor(.white).padding(.top, 8)
-            }
-            Spacer()
-        }.frame(minHeight: 120).padding(.vertical, 12)
-    }
-}
-
-private let cardGradient = LinearGradient(gradient: Gradient(colors: [
-    Color(red: 0.1, green: 0.5, blue: 0.9),
-    Color(red: 0.3, green: 0.6, blue: 0.9)
-]), startPoint: .top, endPoint: .bottom)
-
-private var cardBorder: some View {
-    RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.2), lineWidth: 1)
-}
-
-struct PolygonAnnotation: Identifiable {
-    let id = UUID()
-    let polygon: MKPolygon
-    var coordinate: CLLocationCoordinate2D { polygon.coordinate }
-}
-
-//====================================================================//
-// MARK: - Helper para a Folha de Compartilhamento
-//====================================================================//
-struct ShareSheet: UIViewControllerRepresentable {
-    var activityItems: [Any]
-    var applicationActivities: [UIActivity]? = nil
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
-        return controller
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
-}
-
-struct PolygonMapView: UIViewRepresentable {
-    
-    @Binding var region: MKCoordinateRegion
-    let polygon: MKPolygon
-    
-    func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
-        mapView.delegate = context.coordinator
-        mapView.setRegion(region, animated: false)
-        mapView.addOverlay(polygon)
-        return mapView
-    }
-    
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        uiView.removeOverlays(uiView.overlays)
-        uiView.addOverlay(polygon)
-        uiView.setRegion(region, animated: true)
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    class Coordinator: NSObject, MKMapViewDelegate {
-        var parent: PolygonMapView
-        
-        init(_ parent: PolygonMapView) {
-            self.parent = parent
-        }
-        
-        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            if let polygon = overlay as? MKPolygon {
-                let renderer = MKPolygonRenderer(polygon: polygon)
-                renderer.fillColor = UIColor.red.withAlphaComponent(0.3)
-                renderer.strokeColor = UIColor.red
-                renderer.lineWidth = 2
-                return renderer
-            }
-            return MKOverlayRenderer()
-        }
-    }
-}
-
-struct GlassBackground: View {
-    var body: some View {
-        ZStack {
-            VisualEffectBlur(blurStyle: .systemUltraThinMaterialDark)
-            
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color.black.opacity(0.4),
-                    Color.black.opacity(0.2)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            
-            GeometryReader { geometry in
-                Path { path in
-                    let width = geometry.size.width
-                    let height = geometry.size.height
-                    let gridSize: CGFloat = 20
-                    
-                    for x in stride(from: 0, to: width, by: gridSize) {
-                        path.move(to: CGPoint(x: x, y: 0))
-                        path.addLine(to: CGPoint(x: x, y: height))
-                    }
-                    
-                    for y in stride(from: 0, to: height, by: gridSize) {
-                        path.move(to: CGPoint(x: 0, y: y))
-                        path.addLine(to: CGPoint(x: width, y: y))
-                    }
-                }
-                .stroke(Color.white.opacity(0.02), lineWidth: 0.5)
-            }
-            
-            VStack {
-                Spacer()
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color.white.opacity(0),
-                        Color.white.opacity(0.2),
-                        Color.white.opacity(0)
-                    ]),
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-                .frame(height: 1)
-            }
-        }
-    }
-}
-
-struct VisualEffectBlur: UIViewRepresentable {
-    let blurStyle: UIBlurEffect.Style
-    
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {}
 }

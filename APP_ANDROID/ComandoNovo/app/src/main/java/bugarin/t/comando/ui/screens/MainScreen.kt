@@ -164,11 +164,11 @@ fun setPontosApoioScreen() {
         expandedScreen = ExpandedScreen.INTERDICOES
     }
 
-fun scrollToAlerts() {
-    scope.launch {
-        try {
-            val targetIndex = 2
-            val offsetPx = with(density) { -topPadding.roundToPx() }
+    fun scrollToAlerts() {
+        scope.launch {
+            try {
+                val targetIndex = 2
+                val offsetPx = with(density) { -topPadding.roundToPx() }
                 scrollState.animateScrollToItem(
                     index = targetIndex,
                     scrollOffset = offsetPx
@@ -191,7 +191,7 @@ fun scrollToAlerts() {
     fun scrollToEvents() {
         scope.launch {
             try {
-                val targetIndex = 3
+                val targetIndex = 4
                 val offsetPx = with(density) { -topPadding.roundToPx() }
                 scrollState.animateScrollToItem(
                     index = targetIndex,
@@ -232,15 +232,11 @@ fun scrollToAlerts() {
             contentPadding = PaddingValues(top = topPadding + 16.dp, bottom = 40.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            item(key = "estagio") {
-                EstagioView(uiState.currentStage, localizationViewModel)
-            }
-
             item(key = "clima") {
                 // PERFORMANCE: Cached CondicaoClimatica computation
                 val condicaoClimatica = remember(
                     uiState.estacoesChuva,
-                    uiState.estacoesMeteorologicas,
+                    uiState.currentStage,
                     uiState.nivelCalor,
                     uiState.isDataLoaded
                 ) {
@@ -249,17 +245,14 @@ fun scrollToAlerts() {
                             estacao.chuva1 ?: 0f
                         } ?: 0f
 
-                        val ventoMax = uiState.estacoesMeteorologicas.maxOfOrNull { estacao ->
-                            estacao.velMed ?: 0f
-                        } ?: 0f
-
                         CondicaoClimatica(
                             calorValor = uiState.nivelCalor?.situacao ?: localizationViewModel.getString("status_normal"),
                             calorTitulo = localizationViewModel.getString("heat_level"),
+                            estagioValor = "ESTÁGIO ${uiState.currentStage}",
+                            estagioTitulo = localizationViewModel.getString("stage"),
+                            estagioNumero = uiState.currentStage,
                             chuvaValor = if (chuvaMax > 0) "%.1f mm".format(chuvaMax) else localizationViewModel.getString("rain_none"),
                             chuvaTitulo = localizationViewModel.getString("rain"),
-                            ventoValor = "%.1f km/h".format(ventoMax * 3.6f),
-                            ventoTitulo = localizationViewModel.getString("wind"),
                             isChovendo = chuvaMax > 0
                         )
                     } else null
@@ -272,6 +265,20 @@ fun scrollToAlerts() {
                     localizationViewModel = localizationViewModel,
                     // Passar a função de validação para o ClimaCardView
                     onHeatLevelClick = ::handleHeatLevelNavigation
+                )
+            }
+
+            item(key = "estagio") {
+                EstagioView(uiState.currentStage, localizationViewModel)
+            }
+
+            item(key = "cameras") {
+                CamerasMapView(
+                    cameras = uiState.cameras,
+                    isLocationPermissionGranted = permissionState.hasPermission,
+                    onExpand = ::expandCameras,
+                    onCameraSelected = handleCameraSelection,
+                    localizationViewModel = localizationViewModel
                 )
             }
 
@@ -305,16 +312,14 @@ fun scrollToAlerts() {
                 )
             }
 
-            item(key = "mapa_sirenes") {
-                SistemaAlarmeMapView(
-                    sirenes = uiState.sirenes,
-                    onExpand = ::setAlarmeScreen,
+            item(key = "cameras") {
+                CamerasMapView(
+                    cameras = uiState.cameras,
+                    isLocationPermissionGranted = permissionState.hasPermission,
+                    onExpand = ::expandCameras,
+                    onCameraSelected = handleCameraSelection,
                     localizationViewModel = localizationViewModel
                 )
-            }
-
-            item(key = "redes_sociais") {
-                RedesSociaisCardView()
             }
 
             item(key = "sirenes_pontos") {

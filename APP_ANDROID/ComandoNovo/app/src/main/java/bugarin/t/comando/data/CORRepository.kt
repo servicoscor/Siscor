@@ -23,8 +23,7 @@ class CORRepository @Inject constructor(
         // Limites otimizados para evitar OOM
         private const val MAX_ALERTAS = 50
         private const val MAX_EVENTOS = 100
-        // Limite mais alto que 100, mas evita travar a UI ao criar milhares de objetos de uma vez
-        private const val MAX_CAMERAS = 1200
+        private const val MAX_CAMERAS = 100
         private const val MAX_SIRENES = 100
         private const val MAX_PONTOS = 10000
         private const val MAX_ESTACOES = 100
@@ -164,7 +163,6 @@ class CORRepository @Inject constructor(
             val cameras = response.lines()
                 .asSequence()
                 .filter { it.isNotBlank() }
-                .take(MAX_CAMERAS)
                 .mapNotNull { line ->
                     parseCameraSafely(line)
                 }
@@ -181,8 +179,7 @@ class CORRepository @Inject constructor(
     // Câmeras mais próximas
     suspend fun getCamerasNearby(
         userLat: Double? = null,
-        userLon: Double? = null,
-        maxCameras: Int = MAX_CAMERAS
+        userLon: Double? = null
     ): List<Camera> = withContext(Dispatchers.IO) {
         try {
             Log.d(TAG, "Buscando câmeras próximas de ($userLat, $userLon)...")
@@ -203,8 +200,8 @@ class CORRepository @Inject constructor(
             Log.d(TAG, "Total de câmeras disponíveis: ${allCameras.size}")
 
             if (userLat == null || userLon == null) {
-                Log.d(TAG, "Sem localização do usuário, retornando primeiras $maxCameras câmeras")
-                return@withContext allCameras.take(maxCameras)
+                Log.d(TAG, "Sem localização do usuário, retornando todas as câmeras")
+                return@withContext allCameras
             }
 
             val camerasWithDistance = allCameras
@@ -219,7 +216,6 @@ class CORRepository @Inject constructor(
                     CameraWithDistance(camera, distance)
                 }
                 .sortedBy { it.distance }
-                .take(maxCameras)
                 .map { it.camera }
 
             Log.d(TAG, "Câmeras próximas carregadas: ${camerasWithDistance.size}")
@@ -235,8 +231,7 @@ class CORRepository @Inject constructor(
     suspend fun getCamerasWithinRadius(
         userLat: Double,
         userLon: Double,
-        radiusKm: Float = 50f,
-        maxCameras: Int = MAX_CAMERAS
+        radiusKm: Float = 50f
     ): List<Camera> = withContext(Dispatchers.IO) {
         try {
             Log.d(TAG, "Buscando câmeras dentro de ${radiusKm}km...")
@@ -266,7 +261,6 @@ class CORRepository @Inject constructor(
                 }
                 .filter { it.distance <= radiusMeters }
                 .sortedBy { it.distance }
-                .take(maxCameras)
                 .map { it.camera }
                 .toList()
 

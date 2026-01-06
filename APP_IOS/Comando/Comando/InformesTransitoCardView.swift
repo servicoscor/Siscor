@@ -48,7 +48,15 @@ struct InformesTransitoCardView: View {
             }.padding([.top, .horizontal])
             
             if isLoading {
-                LoadingView(message: localizationManager.string(for: "loading_reports"))
+                VStack(spacing: 8) {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                    Text(localizationManager.string(for: "loading_reports"))
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
             } else if informes.isEmpty {
                 EmptyStateView(
                     icon: "checkmark.seal",

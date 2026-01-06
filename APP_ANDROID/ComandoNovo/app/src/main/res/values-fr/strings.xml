@@ -103,6 +103,7 @@
     <string name="community">Communauté</string>
     <string name="distance">Distance</string>
     <string name="get_directions">Obtenir directions</string>
+    <string name="support_points_subtitle"> </string>
 
     <!-- Événements -->
     <string name="events">Événements</string>
@@ -125,27 +126,27 @@
     <string name="stage_impact">Impact:</string>
 
     <!-- Stade 1 -->
-    <string name="stage_1_title">Stade 1 - Normalité</string>
+    <string name="stage_1_title">Stade 1</string>
     <string name="stage_1_when">Routine opérationnelle normale</string>
     <string name="stage_1_impact">Fonctionnement régulier de tous les services</string>
 
     <!-- Stade 2 -->
-    <string name="stage_2_title">Stade 2 - Mobilisation</string>
+    <string name="stage_2_title">Stade 2</string>
     <string name="stage_2_when">Prévision de pluie modérée/forte dans les prochaines heures</string>
     <string name="stage_2_impact">Équipes en état d\'alerte</string>
 
     <!-- Stade 3 -->
-    <string name="stage_3_title">Stade 3 - Attention</string>
+    <string name="stage_3_title">Stade 3</string>
     <string name="stage_3_when">Pluie modérée dans au moins une région</string>
     <string name="stage_3_impact">Possibilité d\'inondations ponctuelles</string>
 
     <!-- Stade 4 -->
-    <string name="stage_4_title">Stade 4 - Alerte</string>
+    <string name="stage_4_title">Stade 4</string>
     <string name="stage_4_when">Pluie forte dans au moins une région</string>
     <string name="stage_4_impact">Haut risque d\'inondations et glissements de terrain</string>
 
     <!-- Stade 5 -->
-    <string name="stage_5_title">Stade 5 - Crise</string>
+    <string name="stage_5_title">Stade 5</string>
     <string name="stage_5_when">Pluie très forte avec multiples incidents graves</string>
     <string name="stage_5_impact">Mobilisation maximale de tous les organismes</string>
 

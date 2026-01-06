@@ -253,6 +253,15 @@ struct CamerasMapView: View {
     @State private var updateTimer: Timer?
     @State private var showFavorites = false
     
+    // Controle da busca via lupa
+    @State private var isSearchVisible: Bool = false
+    
+    // Favoritos por slot (2 visualizadores)
+    @State private var favoriteSlot1Id: UUID?
+    @State private var favoriteSlot2Id: UUID?
+    @State private var showSlotPicker: Bool = false
+    @State private var slotToConfigure: Int = 1
+    
     private let clusteringService = ClusteringService()
     
     var body: some View {
@@ -266,12 +275,28 @@ struct CamerasMapView: View {
                     .environmentObject(favoritesManager)
                     .environmentObject(localizationManager)
             }
-            // ✅✅✅ 1ª CORREÇÃO APLICADA AQUI ✅✅✅
             .fullScreenCover(item: $selectedCamera) { camera in
                 CameraDetailView(camera: camera)
                     .environmentObject(favoritesManager)
                     .environmentObject(localizationManager)
             }
+            // Seletor de câmera por slot
+            .sheet(isPresented: $showSlotPicker) {
+                CameraSlotPickerView(
+                    allCameras: cameras,
+                    onPick: { picked in
+                        if slotToConfigure == 1 {
+                            favoriteSlot1Id = picked.id
+                            saveFavoriteSlots()
+                        } else {
+                            favoriteSlot2Id = picked.id
+                            saveFavoriteSlots()
+                        }
+                    }
+                )
+                .environmentObject(localizationManager)
+            }
+            // Lista de favoritos (já existente)
             .sheet(isPresented: $showFavorites) {
                 FavoriteCamerasView(allCameras: cameras)
                     .environmentObject(favoritesManager)
@@ -280,6 +305,7 @@ struct CamerasMapView: View {
             .onAppear {
                 orientationManager.lockToPortrait()
                 locationManager.requestLocationPermission()
+                loadFavoriteSlots()
                 updateClustering()
                 favoritesManager.printDebugInfo()
             }
@@ -304,59 +330,106 @@ struct CamerasMapView: View {
     }
     
     private var mainCardView: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Image(systemName: "camera.fill").font(.system(size: 24)).foregroundColor(.white)
-                Text(localizationManager.string(for: "cameras")).font(.system(size: 24, weight: .bold)).foregroundColor(.white)
+        VStack(alignment: .leading, spacing: 8) { // reduzido de 10
+            // TopBar
+            HStack(spacing: 10) { // reduzido de 12
+                Image(systemName: "camera.fill").font(.system(size: 22)).foregroundColor(.white) // 24 -> 22
+                Text(localizationManager.string(for: "cameras")).font(.system(size: 22, weight: .bold)).foregroundColor(.white) // 24 -> 22
                 Spacer()
                 
+                // Favoritos
                 Button(action: { showFavorites = true }) {
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)
-                        .font(.system(size: 18))
+                        .font(.system(size: 16)) // 18 -> 16
                 }
                 .accessibilityLabel(localizationManager.string(for: "view_favorites"))
-                .padding(.trailing, 8)
                 
+                // Lupa
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        isSearchVisible.toggle()
+                    }
+                }) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(isSearchVisible ? .blue : .white)
+                        .font(.system(size: 16)) // 18 -> 16
+                }
+                .accessibilityLabel(localizationManager.string(for: "search"))
+                
+                // Expandir
                 Button(action: { isMapExpanded = true }) {
                     Image(systemName: "arrow.up.left.and.arrow.down.right")
                         .foregroundColor(.white)
+                        .font(.system(size: 16))
                 }
                 .accessibilityLabel(localizationManager.string(for: "expand_map"))
             }
-            .padding([.top, .horizontal])
+            .padding(.top, 10) // top reduzido
+            .padding(.horizontal, 12) // horizontal levemente menor
             
-            HStack {
-                Image(systemName: "location.magnifyingglass")
-                    .foregroundColor(.gray)
-                TextField(localizationManager.string(for: "search_address"), text: $searchText)
-                    .foregroundColor(.primary)
-                    .onSubmit { searchAddress() }
-                
-                if isSearchingAddress {
-                    ProgressView().scaleEffect(0.8)
-                } else if !searchText.isEmpty {
-                    Button(action: { searchText = "" }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.gray)
+            // Campo de busca (aparece/ some com animação)
+            if isSearchVisible {
+                HStack {
+                    Image(systemName: "location.magnifyingglass")
+                        .foregroundColor(.gray)
+                    TextField(localizationManager.string(for: "search_address"), text: $searchText)
+                        .foregroundColor(.primary)
+                        .onSubmit { searchAddressInline() }
+                    
+                    if isSearchingAddress {
+                        ProgressView().scaleEffect(0.8)
+                    } else if !searchText.isEmpty {
+                        Button(action: { searchText = "" }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                        }
+                        .accessibilityLabel(localizationManager.string(for: "clear_search"))
                     }
-                    .accessibilityLabel(localizationManager.string(for: "clear_search"))
+                    
+                    Button(action: { searchAddressInline() }) {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.white)
+                            .padding(6) // 8 -> 6
+                            .background(Color.blue)
+                            .clipShape(Circle())
+                    }
+                    .accessibilityLabel(localizationManager.string(for: "search"))
                 }
-                
-                Button(action: { searchAddress() }) {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.white)
-                        .padding(8)
-                        .background(Color.blue)
-                        .clipShape(Circle())
-                }
-                .accessibilityLabel(localizationManager.string(for: "search"))
+                .padding(8) // 10 -> 8
+                .background(Color(.systemGray6))
+                .cornerRadius(10)
+                .padding(.horizontal, 12)
+                .transition(.move(edge: .top).combined(with: .opacity))
             }
-            .padding(10)
-            .background(Color(.systemGray6))
-            .cornerRadius(10)
-            .padding(.horizontal)
             
+            // Dois visualizadores lado a lado (compactos 66–70pt)
+            HStack(spacing: 8) { // 10 -> 8
+                CameraPreviewCard(
+                    camera: cameras.first(where: { $0.id == favoriteSlot1Id }),
+                    placeholderText: localizationManager.string(for: "select_camera_slot_1"),
+                    onOpen: { cam in selectedCamera = cam },
+                    onConfigure: {
+                        slotToConfigure = 1
+                        showSlotPicker = true
+                    }
+                )
+                .frame(height: 68) // 72 -> 68
+                
+                CameraPreviewCard(
+                    camera: cameras.first(where: { $0.id == favoriteSlot2Id }),
+                    placeholderText: localizationManager.string(for: "select_camera_slot_2"),
+                    onOpen: { cam in selectedCamera = cam },
+                    onConfigure: {
+                        slotToConfigure = 2
+                        showSlotPicker = true
+                    }
+                )
+                .frame(height: 68) // 72 -> 68
+            }
+            .padding(.horizontal, 12)
+            
+            // Mapa reduzido (135–140pt)
             ZStack(alignment: .bottomTrailing) {
                 Map(
                     coordinateRegion: $region,
@@ -389,20 +462,32 @@ struct CamerasMapView: View {
                 LocationButton(userTrackingMode: $userTrackingMode) {
                     centerOnUserLocation()
                 }
-                .padding()
+                .padding(8) // 12 -> 8
             }
-            .frame(height: 400)
+            .frame(height: 138) // 180 -> 138
             .cornerRadius(12)
-            .padding([.horizontal, .bottom])
+            .padding(.horizontal, 12)
+            .padding(.bottom, 10) // reduzir padding inferior
+            
         }
         .background(cardGradient)
         .cornerRadius(12)
         .overlay(cardBorder)
         .shadow(color: Color.black.opacity(0.8), radius: 4, x: 0, y: 1)
         .padding(.horizontal, 16)
+        // Ao tocar fora do campo de busca, fecha-o
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if isSearchVisible {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    isSearchVisible = false
+                    isSearchingAddress = false
+                }
+            }
+        }
     }
 
-    private func searchAddress() {
+    private func searchAddressInline() {
         guard !searchText.isEmpty else { return }
         isSearchingAddress = true
         Task {
@@ -454,9 +539,34 @@ struct CamerasMapView: View {
             self.selectedCamera = camera
         }
     }
+    
+    // MARK: - Persistência dos slots favoritos
+    private let slot1Key = "com.cocr.favoriteCamera.slot1"
+    private let slot2Key = "com.cocr.favoriteCamera.slot2"
+    
+    private func loadFavoriteSlots() {
+        let defaults = UserDefaults.standard
+        if let s1 = defaults.string(forKey: slot1Key), let id1 = UUID(uuidString: s1) {
+            favoriteSlot1Id = id1
+        }
+        if let s2 = defaults.string(forKey: slot2Key), let id2 = UUID(uuidString: s2) {
+            favoriteSlot2Id = id2
+        }
+    }
+    
+    private func saveFavoriteSlots() {
+        let defaults = UserDefaults.standard
+        if let id1 = favoriteSlot1Id {
+            defaults.set(id1.uuidString, forKey: slot1Key)
+        }
+        if let id2 = favoriteSlot2Id {
+            defaults.set(id2.uuidString, forKey: slot2Key)
+        }
+        defaults.synchronize()
+    }
 }
 
-// MARK: - Vista de Tela Cheia
+// MARK: - Vista de Tela Cheia (sem mudanças de layout aqui)
 
 struct FullScreenCamerasMapView: View {
     let cameras: [Camera]
@@ -604,7 +714,6 @@ struct FullScreenCamerasMapView: View {
                 }
             }
         }
-        // ✅✅✅ 2ª CORREÇÃO APLICADA AQUI ✅✅✅
         .fullScreenCover(item: $selectedCamera) { camera in
             CameraDetailView(camera: camera)
                 .environmentObject(favoritesManager)
@@ -738,8 +847,8 @@ struct LocationButton: View {
     var body: some View {
         Button(action: action) {
             Image(systemName: userTrackingMode == .follow ? "location.fill" : "location")
-                .font(.title2)
-                .padding(12)
+                .font(.title3) // title2 -> title3 para caber melhor
+                .padding(10) // 12 -> 10
                 .background(.thinMaterial)
                 .clipShape(Circle())
                 .shadow(radius: 4)
@@ -762,4 +871,125 @@ private let cardGradient = LinearGradient(
 private var cardBorder: some View {
     RoundedRectangle(cornerRadius: 12)
         .stroke(Color.white.opacity(0.2), lineWidth: 1)
+}
+
+// MARK: - NOVOS COMPONENTES
+
+struct CameraPreviewCard: View {
+    let camera: Camera?
+    let placeholderText: String
+    let onOpen: (Camera) -> Void
+    let onConfigure: () -> Void
+    
+    var body: some View {
+        ZStack {
+            if let cam = camera {
+                Button {
+                    onOpen(cam)
+                } label: {
+                    VStack(spacing: 4) { // 6 -> 4
+                        Image(systemName: "video.fill")
+                            .font(.system(size: 20)) // 22 -> 20
+                            .foregroundColor(.white)
+                        Text(cam.nome ?? "Câmera")
+                            .font(.caption2.weight(.semibold)) // caption -> caption2
+                            .foregroundColor(.white)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.8)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(6) // 8 -> 6
+                    .background(Color.white.opacity(0.12))
+                    .cornerRadius(10)
+                    .overlay(
+                        HStack {
+                            Spacer()
+                            VStack {
+                                Button(action: onConfigure) {
+                                    Image(systemName: "gearshape.fill")
+                                        .font(.system(size: 11, weight: .bold)) // 12 -> 11
+                                        .foregroundColor(.white.opacity(0.9))
+                                        .padding(4)
+                                        .background(Color.black.opacity(0.3))
+                                        .clipShape(Circle())
+                                }
+                                .padding(4) // 6 -> 4
+                                Spacer()
+                            }
+                        }
+                    )
+                }
+                .buttonStyle(.plain)
+            } else {
+                VStack(spacing: 4) { // 6 -> 4
+                    Image(systemName: "video.slash.fill")
+                        .font(.system(size: 20)) // 22 -> 20
+                        .foregroundColor(.white.opacity(0.85))
+                    Text(placeholderText)
+                        .font(.caption2) // caption2
+                        .foregroundColor(.white.opacity(0.85))
+                        .multilineTextAlignment(.center)
+                        .minimumScaleFactor(0.8)
+                    Button(action: onConfigure) {
+                        Label("Selecionar", systemImage: "gearshape.fill")
+                            .font(.caption2.weight(.semibold))
+                            .padding(.vertical, 3) // 4 -> 3
+                            .padding(.horizontal, 8)
+                            .background(Color.blue.opacity(0.85))
+                            .foregroundColor(.white)
+                            .cornerRadius(6)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(6) // 8 -> 6
+                .background(Color.white.opacity(0.08))
+                .cornerRadius(10)
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct CameraSlotPickerView: View {
+    let allCameras: [Camera]
+    let onPick: (Camera) -> Void
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var localizationManager: LocalizationManager
+    
+    @State private var search: String = ""
+    
+    var filtered: [Camera] {
+        guard !search.isEmpty else { return allCameras }
+        return allCameras.filter { $0.nome?.localizedCaseInsensitiveContains(search) ?? false }
+    }
+    
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(filtered) { camera in
+                    Button {
+                        onPick(camera)
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "video.circle.fill")
+                                .foregroundColor(.blue)
+                            Text(camera.nome ?? localizationManager.string(for: "camera"))
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+            }
+            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always))
+            .navigationTitle(localizationManager.string(for: "select_camera"))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(localizationManager.string(for: "cancel")) {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
 }

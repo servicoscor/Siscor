@@ -51,7 +51,7 @@ class NativeApiService(
         private const val PONTOS_APOIO_URL = "$BASE_URL/pa_api"
         private const val UNIDADES_SAUDE_URL = "$BASE_URL/cf_api"
         private const val PONTOS_RESFRIAMENTO_URL = "$BASE_URL/ph_api"
-        private const val ESTAGIO_OPERACIONAL_URL = "$BASE_URL/estagio_api"
+        private const val ESTAGIO_OPERACIONAL_URL = "$BASE_URL/estagio_api_app"
         private const val NIVEL_CALOR_URL = "$BASE_URL/calor_api"
         private const val RECOMENDACOES_URL = "$BASE_URL/recomendacoes_api"
         private const val INTERDICOES_URL = "$BASE_URL/interdicoes_api"

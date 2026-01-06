@@ -32,7 +32,7 @@ class CacheManager @Inject constructor(
 
         // Limites específicos
         private const val MAX_MAP_ITEMS = 50 // Limite específico para mapas
-        private const val MAX_CAMERA_ITEMS = 30 // Limite para câmeras
+        // private const val MAX_CAMERA_ITEMS = 30 // REMOVIDO: Liberado todas as câmeras da API
         private const val MAX_ALERT_ITEMS = 20 // Limite para alertas críticos
     }
 
@@ -100,7 +100,7 @@ class CacheManager @Inject constructor(
             try {
                 // VALIDAÇÃO E LIMITAÇÃO
                 val limitedData = when (key) {
-                    "cameras" -> data.take(MAX_CAMERA_ITEMS)
+                    "cameras" -> data // LIBERADO: Todas as câmeras da API
                     "alertas", "alertas_pt", "alertas_en", "alertas_es", "alertas_fr", "alertas_zh" -> data.take(MAX_ALERT_ITEMS)
                     "eventos" -> data.take(MAX_MAP_ITEMS)
                     "infoTempo", "infoTempo_pt", "infoTempo_en", "infoTempo_es", "infoTempo_fr", "infoTempo_zh" -> data.take(MAX_ALERT_ITEMS)
@@ -186,7 +186,7 @@ class CacheManager @Inject constructor(
                     },
                     async {
                         delay(200)
-                        saveList("cameras", bundle.cameras.take(MAX_CAMERA_ITEMS), isOffline)
+                        saveList("cameras", bundle.cameras, isOffline) // LIBERADO: Todas as câmeras
                     },
                     async {
                         delay(300)
@@ -329,7 +329,7 @@ class CacheManager @Inject constructor(
             // Salvar dados independentes do idioma
             val generalJobs = listOf(
                 async { saveList("eventos", eventos.take(MAX_MAP_ITEMS), isOffline) },
-                async { saveList("cameras", cameras.take(MAX_CAMERA_ITEMS), isOffline) },
+                async { saveList("cameras", cameras, isOffline) }, // LIBERADO: Todas as câmeras
                 async { saveList("sirenes", sirenes.take(MAX_MAP_ITEMS), isOffline) },
                 async { saveList("estagio", listOf(estagio), isOffline) }
             )

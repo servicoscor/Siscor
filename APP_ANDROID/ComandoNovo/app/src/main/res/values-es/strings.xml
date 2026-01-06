@@ -95,6 +95,7 @@
     <string name="community">Comunidad</string>
     <string name="distance">Distancia</string>
     <string name="get_directions">Obtener direcciones</string>
+    <string name="support_points_subtitle"> </string>
 
     <!-- Eventos -->
     <string name="events">Eventos</string>
@@ -117,27 +118,27 @@
     <string name="stage_impact">Impacto:</string>
 
     <!-- Etapa 1 -->
-    <string name="stage_1_title">Etapa 1 - Normalidad</string>
+    <string name="stage_1_title">Etapa 1</string>
     <string name="stage_1_when">Rutina operacional normal</string>
     <string name="stage_1_impact">Funcionamiento regular de todos los servicios</string>
 
     <!-- Etapa 2 -->
-    <string name="stage_2_title">Etapa 2 - Movilización</string>
+    <string name="stage_2_title">Etapa 2</string>
     <string name="stage_2_when">Previsión de lluvia moderada/fuerte en las próximas horas</string>
     <string name="stage_2_impact">Equipos en estado de alerta</string>
 
     <!-- Etapa 3 -->
-    <string name="stage_3_title">Etapa 3 - Atención</string>
+    <string name="stage_3_title">Etapa 3</string>
     <string name="stage_3_when">Lluvia moderada en al menos una región</string>
     <string name="stage_3_impact">Posibilidad de inundaciones puntuales</string>
 
     <!-- Etapa 4 -->
-    <string name="stage_4_title">Etapa 4 - Alerta</string>
+    <string name="stage_4_title">Etapa 4</string>
     <string name="stage_4_when">Lluvia fuerte en al menos una región</string>
     <string name="stage_4_impact">Alto riesgo de inundaciones y deslizamientos</string>
 
     <!-- Etapa 5 -->
-    <string name="stage_5_title">Etapa 5 - Crisis</string>
+    <string name="stage_5_title">Etapa 5</string>
     <string name="stage_5_when">Lluvia muy fuerte con múltiples incidentes graves</string>
     <string name="stage_5_impact">Movilización máxima de todos los organismos</string>
 
