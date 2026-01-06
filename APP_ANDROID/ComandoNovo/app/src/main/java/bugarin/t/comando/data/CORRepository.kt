@@ -23,7 +23,7 @@ class CORRepository @Inject constructor(
         // Limites otimizados para evitar OOM
         private const val MAX_ALERTAS = 50
         private const val MAX_EVENTOS = 100
-        private const val MAX_CAMERAS = 100
+        private const val MAX_CAMERAS = 1200
         private const val MAX_SIRENES = 100
         private const val MAX_PONTOS = 10000
         private const val MAX_ESTACOES = 100
