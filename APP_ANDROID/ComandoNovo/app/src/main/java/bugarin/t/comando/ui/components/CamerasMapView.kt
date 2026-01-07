@@ -1,4 +1,4 @@
-﻿@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package bugarin.t.comando.ui.components
 
@@ -6,67 +6,24 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.MyLocation
-import androidx.compose.material.icons.filled.OpenInFull
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material.icons.filled.VideocamOff
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -80,23 +37,14 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import bugarin.t.comando.data.Camera
 import bugarin.t.comando.viewmodel.LocalizationViewModel
-import android.location.Location
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapEffect
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.MarkerComposable
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.*
 import kotlinx.coroutines.delay
 import java.util.Locale
-import kotlin.math.pow
-import kotlin.math.sqrt
 
-// Componente de icone customizado para pins do mapa
+// Componente de ícone customizado para pins do mapa
 @Composable
 fun CameraMapPin(
     modifier: Modifier = Modifier,
@@ -147,7 +95,7 @@ data class CameraClusterItem(
     override fun getZIndex(): Float? = null
 }
 
-// FUNCAO PRINCIPAL QUE O MAINSCREEN USA
+// ✅ FUNÇÃO PRINCIPAL QUE O MAINSCREEN USA
 @Composable
 fun CamerasMapView(
     cameras: List<Camera>,
@@ -169,23 +117,13 @@ fun CamerasMapView(
     var showCameraSelectionDialog by remember { mutableStateOf(false) }
     var cameraForModal by remember { mutableStateOf<Camera?>(null) }
 
-    // Raio usado para filtro dinâmico; recalculado conforme zoom
-
     val validCameras = remember(cameras) {
         cameras.filter { camera ->
             camera.coordinate != null &&
-                camera.coordinate!!.latitude != 0.0 &&
-                camera.coordinate!!.longitude != 0.0
+                    camera.coordinate!!.latitude != 0.0 &&
+                    camera.coordinate!!.longitude != 0.0
         }
     }
-
-    // ⚡ OTIMIZAÇÃO: Filtrar câmeras por bounds visíveis com debouncing
-    var visibleCameras by remember { mutableStateOf(validCameras) }
-    var lastBoundsUpdate by remember { mutableStateOf(0L) }
-    val DEBOUNCE_DELAY = 500L // 500ms de debounce
-
-    var mapCenter by remember { mutableStateOf<LatLng?>(null) }
-    var visibleCameras by remember(validCameras) { mutableStateOf(validCameras) }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -209,129 +147,227 @@ fun CamerasMapView(
         )
     }
 
-    // Atualiza câmeras visíveis com base em um raio de 200m a partir do centro do mapa
-    LaunchedEffect(mapCenter, validCameras) {
-        val center = mapCenter
-        visibleCameras = if (center != null) {
-            validCameras.filter { camera ->
-                camera.coordinate?.let { distanceMeters(center, it) <= 200f } ?: false
-            }
-        } else {
-            validCameras
-        }
-    }
-
     val contentColor = MaterialTheme.colorScheme.onPrimary
 
-    BaseCard(
-        onClick = {
-            kotlin.runCatching {
-                onExpand()
-            }.onFailure { e ->
-                android.util.Log.e("CamerasMapView", "Error expanding map: ${e.message}")
-            }
-        },
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        gradient = cardGradient
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Icon(Icons.Default.Videocam, null, tint = contentColor, modifier = Modifier.size(24.dp))
-                Text(
-                    localizationViewModel.getString("traffic_cameras"),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = contentColor
+    if (showCameraSelectionDialog) {
+        CameraSelectionDialog(
+            cameras = validCameras,
+            favoriteCameraIds = favoriteCameraIds,
+            onCameraSelected = { camera ->
+                onToggleFavorite(camera.id)
+                showCameraSelectionDialog = false
+            },
+            onDismiss = { showCameraSelectionDialog = false },
+            localizationViewModel = localizationViewModel
+        )
+    }
+
+    Card(
+        onClick = { onExpand() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        border = BorderStroke(
+            width = 1.5.dp,
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color.White.copy(alpha = 0.4f),
+                    Color.White.copy(alpha = 0.1f)
                 )
-                Spacer(modifier = Modifier.weight(1f))
-                if (validCameras.isNotEmpty()) {
-                    Surface(shape = RoundedCornerShape(12.dp), color = contentColor.copy(alpha = 0.2f)) {
-                        Text(
-                            "${validCameras.size}",
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                            style = MaterialTheme.typography.labelLarge,
-                            color = contentColor,
-                            fontWeight = FontWeight.Bold
+            )
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.White.copy(alpha = 0.08f),
+                            Color.White.copy(alpha = 0.04f)
                         )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
+                    )
+                )
+        ) {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.Black.copy(alpha = 0.3f))
+                    .padding(16.dp)
             ) {
-                when {
-                    validCameras.isEmpty() -> {
-                        EmptyCamerasState(localizationViewModel, contentColor)
-                    }
-                    !shouldShowMap -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Videocam,
+                        null,
+                        tint = contentColor,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(
+                        text = localizationViewModel.getString("traffic_cameras"),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = contentColor
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    if (cameras.isNotEmpty()) {
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = contentColor.copy(alpha = 0.2f)
                         ) {
-                            CircularProgressIndicator(
+                            Text(
+                                "${cameras.size}",
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                                style = MaterialTheme.typography.labelLarge,
                                 color = contentColor,
-                                modifier = Modifier.size(32.dp)
+                                fontWeight = FontWeight.Bold
                             )
                         }
                     }
-                    mapError -> {
-                        ErrorMapState(
-                            localizationViewModel = localizationViewModel,
-                            contentColor = contentColor,
-                            onRetry = {
-                                mapError = false
-                                shouldShowMap = false
-                                shouldShowMap = true
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(110.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    FavoriteCameraCard(
+                        modifier = Modifier.weight(1f),
+                        camera = favoriteCameraIds.getOrNull(0)?.let { id ->
+                            cameras.find { it.id == id || it.apiId == id }
+                        },
+                        slotNumber = 1,
+                        onCardClick = { camera ->
+                            if (camera != null) {
+                                cameraForModal = camera
+                            } else {
+                                showCameraSelectionDialog = true
                             }
-                        )
-                    }
-                    else -> {
-                        GoogleMap(
-                            modifier = Modifier.fillMaxSize(),
-                            cameraPositionState = cameraPositionState,
-                            properties = MapProperties(
-                                isMyLocationEnabled = isLocationPermissionGranted,
-                                isTrafficEnabled = false,
-                                isIndoorEnabled = false
-                            ),
-                            uiSettings = MapUiSettings(
-                                scrollGesturesEnabled = false,
-                                zoomGesturesEnabled = false,
-                                myLocationButtonEnabled = false,
-                                mapToolbarEnabled = false,
-                                tiltGesturesEnabled = false,
-                                rotationGesturesEnabled = false,
-                                compassEnabled = false
-                            ),
-                            onMapLoaded = {
-                                kotlin.runCatching {
-                                    isMapReady = true
-                                    android.util.Log.d("CamerasMapView", "Map loaded successfully")
-                                    if (isLocationPermissionGranted) {
-                                        localizationViewModel.startLocationUpdates()
+                        },
+                        onRemoveClick = { cam ->
+                            onToggleFavorite(cam.id)
+                        }
+                    )
+
+                    FavoriteCameraCard(
+                        modifier = Modifier.weight(1f),
+                        camera = favoriteCameraIds.getOrNull(1)?.let { id ->
+                            cameras.find { it.id == id || it.apiId == id }
+                        },
+                        slotNumber = 2,
+                        onCardClick = { camera ->
+                            if (camera != null) {
+                                cameraForModal = camera
+                            } else {
+                                showCameraSelectionDialog = true
+                            }
+                        },
+                        onRemoveClick = { cam ->
+                            onToggleFavorite(cam.id)
+                        }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(350.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        when {
+                            cameras.isEmpty() -> {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        CircularProgressIndicator(
+                                            color = contentColor,
+                                            modifier = Modifier.size(32.dp)
+                                        )
+                                        Text(
+                                            text = "Carregando câmeras...",
+                                            color = contentColor.copy(alpha = 0.8f),
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
                                     }
-                                }.onFailure { e ->
-                                    android.util.Log.e("CamerasMapView", "Error in onMapLoaded: ${e.message}")
-                                    mapError = true
                                 }
                             }
-                        ) {
-                            // Renderizar marcadores com verificações null mais seguras
-                            if (isMapReady && validCameras.isNotEmpty()) {
-                                validCameras.forEach { camera ->
-                                    kotlin.runCatching {
+
+                            validCameras.isEmpty() -> {
+                                EmptyCamerasState(localizationViewModel, contentColor)
+                            }
+
+                            !shouldShowMap -> {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(
+                                        color = contentColor,
+                                        modifier = Modifier.size(32.dp)
+                                    )
+                                }
+                            }
+
+                            mapError -> {
+                                ErrorMapState(
+                                    localizationViewModel = localizationViewModel,
+                                    contentColor = contentColor,
+                                    onRetry = {
+                                        mapError = false
+                                        shouldShowMap = false
+                                        shouldShowMap = true
+                                    }
+                                )
+                            }
+
+                            else -> {
+                                GoogleMap(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(12.dp)),
+                                    cameraPositionState = cameraPositionState,
+                                    properties = MapProperties(
+                                        isMyLocationEnabled = isLocationPermissionGranted,
+                                        isTrafficEnabled = false,
+                                        isIndoorEnabled = false
+                                    ),
+                                    uiSettings = MapUiSettings(
+                                        scrollGesturesEnabled = true,
+                                        zoomGesturesEnabled = true,
+                                        zoomControlsEnabled = false,
+                                        myLocationButtonEnabled = false,
+                                        mapToolbarEnabled = false,
+                                        tiltGesturesEnabled = true,
+                                        rotationGesturesEnabled = true,
+                                        compassEnabled = true
+                                    ),
+                                    onMapLoaded = {
+                                        isMapReady = true
+                                        if (isLocationPermissionGranted) {
+                                            localizationViewModel.startLocationUpdates()
+                                        }
+                                    }
+                                ) {
+                                    validCameras.forEach { camera ->
                                         val coordinate = camera.coordinate
                                         if (coordinate != null) {
                                             val isFavorite = favoriteCameraIds.contains(camera.id) ||
-                                                favoriteCameraIds.contains(camera.apiId)
+                                                    favoriteCameraIds.contains(camera.apiId)
 
                                             MarkerComposable(
                                                 state = MarkerState(position = coordinate),
@@ -378,7 +414,7 @@ fun CamerasMapView(
                                     color = Color.Black.copy(alpha = 0.7f)
                                 ) {
                                     Text(
-                                        text = "${visibleCameras.size} cameras",
+                                        text = "${validCameras.size} câmeras",
                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = Color.White
@@ -465,7 +501,7 @@ private fun FavoriteCameraCard(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = camera.nome ?: "Camera $slotNumber",
+                                text = camera.nome ?: "Câmera $slotNumber",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = Color.White,
                                 fontWeight = FontWeight.SemiBold,
@@ -553,7 +589,6 @@ private fun FavoriteCameraCard(
         }
     }
 }
-
 @Composable
 private fun CameraSelectionDialog(
     cameras: List<Camera>,
@@ -562,13 +597,203 @@ private fun CameraSelectionDialog(
     onDismiss: () -> Unit,
     localizationViewModel: LocalizationViewModel
 ) {
-    val userLocation by localizationViewModel.userLocation.collectAsStateWithLifecycle()
-    val scope = rememberCoroutineScope()
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .fillMaxHeight(0.7f),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Selecionar Câmera",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    IconButton(onClick = onDismiss) {
+                        Icon(Icons.Default.Close, contentDescription = "Fechar")
+                    }
+                }
+
+                HorizontalDivider()
+
+                if (cameras.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Nenhuma câmera disponível",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(cameras, key = { it.id }) { camera ->
+                            val isFavorite = favoriteCameraIds.contains(camera.id) ||
+                                    favoriteCameraIds.contains(camera.apiId)
+
+                            Card(
+                                onClick = {
+                                    if (!isFavorite) {
+                                        onCameraSelected(camera)
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = if (isFavorite)
+                                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                                    else
+                                        MaterialTheme.colorScheme.surfaceVariant
+                                )
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.Videocam,
+                                        contentDescription = null,
+                                        tint = if (isFavorite) Color(0xFFFFC107) else MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+
+                                    Spacer(Modifier.width(12.dp))
+
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = camera.nome ?: "Câmera sem nome",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Medium,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        if (camera.apiId != null) {
+                                            Text(
+                                                text = "ID: ${camera.apiId}",
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        }
+                                    }
+
+                                    if (isFavorite) {
+                                        Text(
+                                            text = "Favorita",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    } else {
+                                        Icon(
+                                            imageVector = Icons.Default.Add,
+                                            contentDescription = "Adicionar",
+                                            tint = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ErrorMapState(
+    localizationViewModel: LocalizationViewModel,
+    contentColor: Color,
+    onRetry: () -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Error,
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(48.dp)
+            )
+            Text(
+                text = localizationViewModel.getString("map_error"),
+                color = contentColor,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            OutlinedButton(onClick = onRetry) {
+                Text(localizationViewModel.getString("retry"))
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyCamerasState(
+    localizationViewModel: LocalizationViewModel,
+    contentColor: Color
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.VideocamOff,
+                contentDescription = null,
+                tint = contentColor.copy(alpha = 0.6f),
+                modifier = Modifier.size(48.dp)
+            )
+            Text(
+                text = localizationViewModel.getString("no_cameras_available"),
+                color = contentColor.copy(alpha = 0.8f),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+
+// ✅ FUNÇÃO QUE O MAINSCREEN USA PARA TELA CHEIA
+@Composable
+fun CamerasMapFullScreen(
+    cameras: List<Camera>,
+    isLocationPermissionGranted: Boolean,
+    onDismiss: () -> Unit,
+    onCameraSelected: (Camera) -> Unit,
+    localizationViewModel: LocalizationViewModel,
+    favoriteCameraIds: List<String>,
+    onToggleFavorite: (String) -> Unit
+) {
     var selectedCamera by remember { mutableStateOf<Camera?>(null) }
     var isMapReady by remember { mutableStateOf(false) }
-    var shouldShowMap by remember { mutableStateOf(false) }
+    var cameraForModal by remember { mutableStateOf<Camera?>(null) }
 
-    // Cached valid cameras com verificações mais rigorosas
+    val userLocation by localizationViewModel.userLocation.collectAsStateWithLifecycle()
+
     val validCameras = remember(cameras) {
         cameras.filter { camera ->
             camera.coordinate != null &&
@@ -577,105 +802,31 @@ private fun CameraSelectionDialog(
         }
     }
 
+    val initialPosition = remember {
+        LatLng(-22.908333, -43.196388)
+    }
+
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(LatLng(-22.9068, -43.1729), 12f)
+        position = CameraPosition.fromLatLngZoom(initialPosition, 12f)
     }
 
-    // Cleanup mais robusto para fullscreen
-    DisposableEffect(Unit) {
-        android.util.Log.d("CamerasMapFullScreen", "Initializing fullscreen map")
-        onDispose {
-            android.util.Log.d("CamerasMapFullScreen", "Cleaning up fullscreen map")
-            kotlin.runCatching {
-                if (isLocationPermissionGranted) {
-                    localizationViewModel.stopLocationUpdates()
-                }
-                System.gc()
-            }.onFailure { e ->
-                android.util.Log.e("CamerasMapFullScreen", "Error during cleanup: ${e.message}")
-            }
-        }
-    }
-
-    // Lazy loading do fullscreen map
-    LaunchedEffect(Unit) {
-        delay(500)
-        shouldShowMap = true
-        if (isLocationPermissionGranted) {
-            localizationViewModel.startLocationUpdates()
-        }
-    }
-
-    Dialog(onDismissRequest = {
-        kotlin.runCatching {
-            onDismiss()
-        }.onFailure { e ->
-            android.util.Log.e("CamerasMapFullScreen", "Error dismissing: ${e.message}")
-        }
-    }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(localizationViewModel.getString("traffic_cameras"), fontWeight = FontWeight.Bold) },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            kotlin.runCatching {
-                                onDismiss()
-                            }.onFailure { e ->
-                                android.util.Log.e("CamerasMapFullScreen", "Error dismissing: ${e.message}")
-                            }
-                        }) {
-                            Icon(Icons.Default.Close, null)
-                        }
-                    }
-                )
-            }
-        ) { padding ->
-            Box(modifier = Modifier.fillMaxSize().padding(padding)) {
-
-                if (!shouldShowMap) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            CircularProgressIndicator()
-                            Text(localizationViewModel.getString("loading_map"))
-                        }
-                    }
-                } else {
-                    GoogleMap(
-                        modifier = Modifier.fillMaxSize(),
-                        cameraPositionState = cameraPositionState,
-                        properties = MapProperties(
-                            isMyLocationEnabled = isLocationPermissionGranted,
-                            isTrafficEnabled = false
-                        ),
-                        uiSettings = MapUiSettings(
-                            myLocationButtonEnabled = false,
-                            zoomControlsEnabled = true,
-                            compassEnabled = false
-                        ),
-                        onMapLoaded = {
-                            kotlin.runCatching {
-                                isMapReady = true
-                                android.util.Log.d("CamerasMapFullScreen", "Fullscreen map loaded")
-                            }.onFailure { e ->
-                                android.util.Log.e("CamerasMapFullScreen", "Error in onMapLoaded: ${e.message}")
-                            }
-                        }
-                    ) {
-                        // Renderizar marcadores com verificações null mais seguras
-                        if (isMapReady && validCameras.isNotEmpty()) {
-                            validCameras.forEach { camera ->
-                                kotlin.runCatching {
-                                    val coordinate = camera.coordinate
-                                    if (coordinate != null &&
-                                        coordinate.latitude != 0.0 &&
-                                        coordinate.longitude != 0.0) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState,
+            properties = MapProperties(isMyLocationEnabled = isLocationPermissionGranted),
+            uiSettings = MapUiSettings(
+                zoomControlsEnabled = true,
+                myLocationButtonEnabled = true,
+                mapToolbarEnabled = true
+            ),
+            onMapLoaded = { isMapReady = true }
+        ) {
+            validCameras.forEach { camera ->
+                val coordinate = camera.coordinate
+                if (coordinate != null) {
+                    val isFavorite = favoriteCameraIds.contains(camera.id) ||
+                            favoriteCameraIds.contains(camera.apiId)
 
                     MarkerComposable(
                         state = MarkerState(position = coordinate),
@@ -715,7 +866,7 @@ private fun CameraSelectionDialog(
             color = Color.Black.copy(alpha = 0.7f)
         ) {
             Text(
-                text = "${visibleCameras.size} cameras no mapa",
+                text = "${validCameras.size} câmeras no mapa",
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.White
@@ -748,7 +899,7 @@ private fun CameraSelectionDialog(
     }
 }
 
-// FUNCAO QUE O MAINSCREEN USA PARA BOTTOM SHEET
+// ✅ FUNÇÃO QUE O MAINSCREEN USA PARA BOTTOM SHEET
 @Composable
 fun CameraDetailsSheet(
     camera: Camera,
@@ -775,7 +926,7 @@ fun CameraDetailsSheet(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    camera.nome ?: "Camera",
+                    camera.nome ?: "Câmera",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
@@ -864,8 +1015,8 @@ private fun InfoRow(
 }
 
 /**
- * CAMERA MUITO MAIOR - Scale 0.50!
- * Substitui a funcao CameraPlayerFullscreenModal inteira por este codigo
+ * 🔥 CÂMERA MUITO MAIOR - Scale 0.50!
+ * Substitui a função CameraPlayerFullscreenModal inteira por este código
  */
 @Composable
 private fun CameraPlayerFullscreenModal(
@@ -902,6 +1053,7 @@ private fun CameraPlayerFullscreenModal(
                 .background(Color.Black)
                 .systemBarsPadding()
         ) {
+            // CÂMERA
             if (cameraUrl != null) {
                 AndroidView(
                     factory = { context ->
@@ -912,7 +1064,7 @@ private fun CameraPlayerFullscreenModal(
                                 mediaPlaybackRequiresUserGesture = false
                                 loadWithOverviewMode = false
                                 useWideViewPort = false
-                                setInitialScale(30)
+                                setInitialScale(30)  // ✅ FIXO! Não mexe!
                                 setSupportZoom(false)
                                 builtInZoomControls = false
                                 displayZoomControls = false
@@ -978,15 +1130,16 @@ private fun CameraPlayerFullscreenModal(
                         .fillMaxSize()
                         .graphicsLayer(
                             rotationZ = 90f,
-                            scaleX = 2.3f,
+                            scaleX = 2.3f,         // ainda mais zoom para preencher
                             scaleY = 2.3f,
                             clip = false,
-                            translationX = -1375f,
-                            translationY = 220f
+                            translationX = -1375f, // volta mais um pouco para a direita
+                            translationY = 220f    // ajuste fino vertical
                         )
                 )
             }
 
+            // HEADER COM NOME + X + ESTRELA
             Surface(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -1014,6 +1167,7 @@ private fun CameraPlayerFullscreenModal(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        // BOTÃO X
                         IconButton(
                             onClick = onDismiss,
                             modifier = Modifier.size(48.dp)
@@ -1026,8 +1180,9 @@ private fun CameraPlayerFullscreenModal(
                             )
                         }
 
+                        // NOME DA CÂMERA
                         Text(
-                            text = camera.nome ?: "Camera",
+                            text = camera.nome ?: "Câmera",
                             style = MaterialTheme.typography.titleMedium,
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
@@ -1038,6 +1193,7 @@ private fun CameraPlayerFullscreenModal(
                             overflow = TextOverflow.Ellipsis
                         )
 
+                        // BOTÃO ESTRELA
                         IconButton(
                             onClick = { onToggleFavorite(camera.id) },
                             modifier = Modifier.size(48.dp)
@@ -1053,6 +1209,7 @@ private fun CameraPlayerFullscreenModal(
                 }
             }
 
+            // LOADING
             if (webViewState is CameraWebViewState.Loading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -1068,14 +1225,11 @@ private fun CameraPlayerFullscreenModal(
     }
 }
 
+
+// ✅ SEALED CLASS QUE PRECISA ESTAR NO ARQUIVO
 sealed class CameraWebViewState {
     object Loading : CameraWebViewState()
     object Success : CameraWebViewState()
     data class Error(val message: String) : CameraWebViewState()
 }
 
-private fun distanceMeters(a: LatLng, b: LatLng): Float {
-    val results = FloatArray(1)
-    Location.distanceBetween(a.latitude, a.longitude, b.latitude, b.longitude, results)
-    return results[0]
-}

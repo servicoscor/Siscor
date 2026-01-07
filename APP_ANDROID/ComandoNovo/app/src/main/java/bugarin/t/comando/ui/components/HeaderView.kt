@@ -128,14 +128,14 @@ fun HeaderView(
 }
 
 @Composable
-private fun getColorForStage(stage: Int): Color = when (stage) {
+fun getColorForStage(stage: Int): Color = when (stage) {
     // ✅ CORES DOS ESTÁGIOS conforme documentação
     1 -> Color(0xFF4CAF50) // Verde
     2 -> Color(0xFFFDD835) // Amarelo (ajustado de FFC107 para FDD835)
     3 -> Color(0xFFFF9800) // Laranja
     4 -> Color(0xFFF44336) // Vermelho
     5 -> Color(0xFF9C27B0) // Roxo
-    else -> MaterialTheme.colorScheme.outline
+    else -> Color(0xFF9E9E9E)
 }
 
 private fun getCurrentLanguageFlag(languageCode: String): String {

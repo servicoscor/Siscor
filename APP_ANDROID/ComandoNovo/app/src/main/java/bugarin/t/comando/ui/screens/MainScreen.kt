@@ -167,7 +167,7 @@ fun setPontosApoioScreen() {
     fun scrollToAlerts() {
         scope.launch {
             try {
-                val targetIndex = 2
+                val targetIndex = 4
                 val offsetPx = with(density) { -topPadding.roundToPx() }
                 scrollState.animateScrollToItem(
                     index = targetIndex,
@@ -191,7 +191,7 @@ fun setPontosApoioScreen() {
     fun scrollToEvents() {
         scope.launch {
             try {
-                val targetIndex = 4
+                val targetIndex = 5
                 val offsetPx = with(density) { -topPadding.roundToPx() }
                 scrollState.animateScrollToItem(
                     index = targetIndex,
@@ -232,6 +232,10 @@ fun setPontosApoioScreen() {
             contentPadding = PaddingValues(top = topPadding + 16.dp, bottom = 40.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
+            item(key = "estagio") {
+                EstagioView(uiState.currentStage, localizationViewModel)
+            }
+
             item(key = "clima") {
                 // PERFORMANCE: Cached CondicaoClimatica computation
                 val condicaoClimatica = remember(
@@ -268,20 +272,6 @@ fun setPontosApoioScreen() {
                 )
             }
 
-            item(key = "estagio") {
-                EstagioView(uiState.currentStage, localizationViewModel)
-            }
-
-            item(key = "cameras") {
-                CamerasMapView(
-                    cameras = uiState.cameras,
-                    isLocationPermissionGranted = permissionState.hasPermission,
-                    onExpand = ::expandCameras,
-                    onCameraSelected = handleCameraSelection,
-                    localizationViewModel = localizationViewModel
-                )
-            }
-
             item(key = "cameras") {
                 CamerasMapView(
                     cameras = uiState.cameras,
@@ -292,7 +282,7 @@ fun setPontosApoioScreen() {
                     favoriteCameraIds = favoriteCameraIds,
                     onToggleFavorite = ::toggleFavorite,
                     onFavoriteClick = handleCameraSelection,
-                    onSelectCameraForFavorite = { /* no-op placeholder */ }
+                    onSelectCameraForFavorite = handleCameraSelection
                 )
             }
 
@@ -312,14 +302,16 @@ fun setPontosApoioScreen() {
                 )
             }
 
-            item(key = "cameras") {
-                CamerasMapView(
-                    cameras = uiState.cameras,
-                    isLocationPermissionGranted = permissionState.hasPermission,
-                    onExpand = ::expandCameras,
-                    onCameraSelected = handleCameraSelection,
+            item(key = "mapa_alertas") {
+                SistemaAlarmeMapView(
+                    sirenes = uiState.sirenes,
+                    onExpand = ::setAlarmeScreen,
                     localizationViewModel = localizationViewModel
                 )
+            }
+
+            item(key = "redes_sociais") {
+                RedesSociaisCardView()
             }
 
             item(key = "sirenes_pontos") {

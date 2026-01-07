@@ -23,7 +23,8 @@ class CORRepository @Inject constructor(
         // Limites otimizados para evitar OOM
         private const val MAX_ALERTAS = 50
         private const val MAX_EVENTOS = 100
-        private const val MAX_CAMERAS = 1200
+        // Limite ajustado para 100 câmeras totais
+        private const val MAX_CAMERAS = 100
         private const val MAX_SIRENES = 100
         private const val MAX_PONTOS = 10000
         private const val MAX_ESTACOES = 100
@@ -166,6 +167,7 @@ class CORRepository @Inject constructor(
                 .mapNotNull { line ->
                     parseCameraSafely(line)
                 }
+                .take(MAX_CAMERAS)
                 .toList()
 
             Log.d(TAG, "Câmeras carregadas: ${cameras.size}")
@@ -195,6 +197,7 @@ class CORRepository @Inject constructor(
                 .mapNotNull { line ->
                     parseCameraSafely(line)
                 }
+                .take(MAX_CAMERAS)
                 .toList()
 
             Log.d(TAG, "Total de câmeras disponíveis: ${allCameras.size}")
@@ -216,6 +219,7 @@ class CORRepository @Inject constructor(
                     CameraWithDistance(camera, distance)
                 }
                 .sortedBy { it.distance }
+                .take(MAX_CAMERAS)
                 .map { it.camera }
 
             Log.d(TAG, "Câmeras próximas carregadas: ${camerasWithDistance.size}")
@@ -261,6 +265,7 @@ class CORRepository @Inject constructor(
                 }
                 .filter { it.distance <= radiusMeters }
                 .sortedBy { it.distance }
+                .take(MAX_CAMERAS)
                 .map { it.camera }
                 .toList()
 

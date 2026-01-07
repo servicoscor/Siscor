@@ -405,8 +405,16 @@
     <string name="online">online</string>
     <string name="search_camera">Search camera</string>
     <string name="view_camera" tools:ignore="ExtraTranslation">View Camera</string>
+    <string name="loading_cameras">Loading cameras...</string>
+    <string name="cameras_on_map_count">%1$d cameras on the map</string>
+    <string name="select_camera">Select camera</string>
+    <string name="camera_without_name">Camera without name</string>
+    <string name="camera_with_number">Camera %1$d</string>
+    <string name="favorite_slot_label">Favorite %1$d</string>
+    <string name="favorite">Favorite</string>
     <string name="add_to_favorites" tools:ignore="ExtraTranslation">Add to favorites</string>
     <string name="remove_from_favorites" tools:ignore="ExtraTranslation">Remove from favorites</string>
+    <string name="cameras_disabled">Camera map temporarily unavailable</string>
     <string name="invalid_camera_id" tools:ignore="ExtraTranslation">Invalid camera ID</string>
     <string name="error_loading" tools:ignore="ExtraTranslation">Error loading</string>
     <string name="error_timeout" tools:ignore="ExtraTranslation">Connection timeout</string>

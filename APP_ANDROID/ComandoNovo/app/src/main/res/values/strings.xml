@@ -423,4 +423,15 @@
 
     <string name="search_camera">Buscar câmera</string>
 
+    <string name="loading_cameras">Carregando câmeras...</string>
+    <string name="cameras_on_map_count">%1$d câmeras no mapa</string>
+    <string name="select_camera">Selecionar câmera</string>
+    <string name="camera_without_name">Câmera sem nome</string>
+    <string name="camera_with_number">Câmera %1$d</string>
+    <string name="favorite_slot_label">Favorito %1$d</string>
+    <string name="favorite">Favorita</string>
+    <string name="add_to_favorites">Adicionar aos favoritos</string>
+    <string name="remove_from_favorites">Remover dos favoritos</string>
+    <string name="cameras_disabled">Mapa de câmeras temporariamente indisponível</string>
+
 </resources>
