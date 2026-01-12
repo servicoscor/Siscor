@@ -24,7 +24,7 @@ class CORRepository @Inject constructor(
         private const val MAX_ALERTAS = 50
         private const val MAX_EVENTOS = 100
         // Limite ajustado para 100 câmeras totais
-        private const val MAX_CAMERAS = 100
+        private const val MAX_CAMERAS = 4100
         private const val MAX_SIRENES = 100
         private const val MAX_PONTOS = 10000
         private const val MAX_ESTACOES = 100

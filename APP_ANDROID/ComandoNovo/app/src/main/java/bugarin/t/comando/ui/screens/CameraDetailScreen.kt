@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import bugarin.t.comando.ui.components.ControlledWebView
+import bugarin.t.comando.ui.components.buildCameraStreamUrl
 import bugarin.t.comando.ui.components.WebViewState
 import bugarin.t.comando.viewmodel.CORViewModel
 import bugarin.t.comando.viewmodel.LocalizationViewModel
@@ -52,7 +53,7 @@ fun CameraDetailScreen(
     var webViewState by remember { mutableStateOf<WebViewState>(WebViewState.Loading) }
     var reloadTrigger by remember { mutableStateOf(0) }
 
-    val streamUrl = camera?.apiId?.let { "https://aplicativo.cocr.com.br/camera/$it" }
+    val streamUrl = buildCameraStreamUrl(camera?.apiId)
 
     val navigateBack: () -> Unit = {
         onSetOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)

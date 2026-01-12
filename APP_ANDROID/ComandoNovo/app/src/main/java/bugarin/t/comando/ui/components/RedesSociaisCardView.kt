@@ -3,6 +3,8 @@ package bugarin.t.comando.ui.components
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,9 +31,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import bugarin.t.comando.R
 
 @Composable
 fun RedesSociaisCardView() {
@@ -96,19 +100,22 @@ fun RedesSociaisCardView() {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     SocialCircle(
-                        label = "IG",
+                        iconRes = R.drawable.ic_instagram,
+                        contentDescription = "Instagram",
                         onClick = { openUrl("https://www.instagram.com/operacoesrio/?hl=pt") }
                     )
                     SocialCircle(
-                        label = "FB",
+                        iconRes = R.drawable.ic_facebook,
+                        contentDescription = "Facebook",
                         onClick = { openUrl("https://www.facebook.com/operacoesrio/?locale=pt_BR") }
                     )
                     SocialCircle(
-                        label = "X",
+                        iconRes = R.drawable.ic_x,
+                        contentDescription = "X",
                         onClick = { openUrl("https://x.com/OperacoesRio") }
                     )
                 }
@@ -119,12 +126,13 @@ fun RedesSociaisCardView() {
 
 @Composable
 private fun SocialCircle(
-    label: String,
+    @DrawableRes iconRes: Int,
+    contentDescription: String,
     onClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier
-            .size(48.dp)
+            .size(56.dp)
             .clip(CircleShape)
             .clickable(onClick = onClick),
         color = Color.White.copy(alpha = 0.15f),
@@ -136,12 +144,12 @@ private fun SocialCircle(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
+            Image(
+                painter = painterResource(iconRes),
+                contentDescription = contentDescription,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
             )
         }
     }

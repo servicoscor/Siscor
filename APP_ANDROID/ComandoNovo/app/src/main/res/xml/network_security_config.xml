@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <!-- Configuração específica para o domínio da API -->
-    <domain-config cleartextTrafficPermitted="false">
+    <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">aplicativo.cocr.com.br</domain>
         <trust-anchors>
             <certificates src="system" />

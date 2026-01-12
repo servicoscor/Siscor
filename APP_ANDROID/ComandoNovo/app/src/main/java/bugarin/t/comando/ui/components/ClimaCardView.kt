@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material.icons.filled.Umbrella
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.filled.WbSunny
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -43,11 +42,10 @@ import bugarin.t.comando.viewmodel.LocalizationViewModel
 data class CondicaoClimatica(
     val calorValor: String,
     val calorTitulo: String,
-    val estagioValor: String,
-    val estagioTitulo: String,
-    val estagioNumero: Int,
     val chuvaValor: String,
     val chuvaTitulo: String,
+    val ventoValor: String,
+    val ventoTitulo: String,
     val isChovendo: Boolean = false
 )
 
@@ -115,22 +113,21 @@ fun ClimaCardView(
                             modifier = Modifier.weight(1f)
                         )
 
-                        // Card 2: Estágio (NOVO - substituiu Vento)
-                        InfoSegmentButton(
-                            icon = Icons.Filled.Warning,
-                            value = condicaoClimatica.estagioValor,
-                            title = condicaoClimatica.estagioTitulo,
-                            backgroundColor = getColorForStage(condicaoClimatica.estagioNumero),
-                            onClick = { /* Navegar para detalhes do estágio se necessário */ },
-                            modifier = Modifier.weight(1f)
-                        )
-
-                        // Card 3: Chuva
+                        // Card 2: Chuva
                         InfoSegmentButton(
                             icon = if (condicaoClimatica.isChovendo) Icons.Filled.WaterDrop else Icons.Filled.Umbrella,
                             value = condicaoClimatica.chuvaValor,
                             title = condicaoClimatica.chuvaTitulo,
                             onClick = { navController.navigate("chuva_detalhes") },
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        // Card 3: Vento
+                        InfoSegmentButton(
+                            icon = Icons.Filled.Air,
+                            value = condicaoClimatica.ventoValor,
+                            title = condicaoClimatica.ventoTitulo,
+                            onClick = { navController.navigate("vento_detalhes") },
                             modifier = Modifier.weight(1f)
                         )
                     }

@@ -240,7 +240,7 @@ fun setPontosApoioScreen() {
                 // PERFORMANCE: Cached CondicaoClimatica computation
                 val condicaoClimatica = remember(
                     uiState.estacoesChuva,
-                    uiState.currentStage,
+                    uiState.estacoesMeteorologicas,
                     uiState.nivelCalor,
                     uiState.isDataLoaded
                 ) {
@@ -248,15 +248,20 @@ fun setPontosApoioScreen() {
                         val chuvaMax = uiState.estacoesChuva.maxOfOrNull { estacao ->
                             estacao.chuva1 ?: 0f
                         } ?: 0f
+                        val velocidadesVento = uiState.estacoesMeteorologicas.mapNotNull { estacao ->
+                            estacao.velMed
+                        }
+                        val ventoMediaKmh = velocidadesVento.takeIf { it.isNotEmpty() }?.average()?.let { it * 3.6 }
+                        val ventoValor = ventoMediaKmh?.let { "%.0f km/h".format(it) }
+                            ?: localizationViewModel.getString("not_available_short")
 
                         CondicaoClimatica(
                             calorValor = uiState.nivelCalor?.situacao ?: localizationViewModel.getString("status_normal"),
                             calorTitulo = localizationViewModel.getString("heat_level"),
-                            estagioValor = "ESTÁGIO ${uiState.currentStage}",
-                            estagioTitulo = localizationViewModel.getString("stage"),
-                            estagioNumero = uiState.currentStage,
                             chuvaValor = if (chuvaMax > 0) "%.1f mm".format(chuvaMax) else localizationViewModel.getString("rain_none"),
                             chuvaTitulo = localizationViewModel.getString("rain"),
+                            ventoValor = ventoValor,
+                            ventoTitulo = localizationViewModel.getString("wind"),
                             isChovendo = chuvaMax > 0
                         )
                     } else null
@@ -298,14 +303,6 @@ fun setPontosApoioScreen() {
                     alertas = uiState.alertas,
                     isLoading = uiState.isLoading,
                     onAlertaClick = onNavigateToAlertaDetalhes,
-                    localizationViewModel = localizationViewModel
-                )
-            }
-
-            item(key = "mapa_alertas") {
-                SistemaAlarmeMapView(
-                    sirenes = uiState.sirenes,
-                    onExpand = ::setAlarmeScreen,
                     localizationViewModel = localizationViewModel
                 )
             }

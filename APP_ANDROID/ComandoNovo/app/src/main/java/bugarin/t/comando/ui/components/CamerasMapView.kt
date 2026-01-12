@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,7 +43,34 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.compose.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.util.Locale
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+
+private const val CAMERA_STREAM_BASE_URL = "https://dev.tixxi.rio/outvideo3/"
+private const val CAMERA_STREAM_KEY = "G5325"
+private const val CAMERA_VISIBILITY_RADIUS_KM = 2.0
+
+fun buildCameraStreamUrl(code: String?): String? {
+    return code?.let { "${CAMERA_STREAM_BASE_URL}?CODE=$it&KEY=$CAMERA_STREAM_KEY" }
+}
+
+private fun distanceKm(from: LatLng, to: LatLng): Double {
+    val earthRadiusKm = 6371.0
+    val dLat = Math.toRadians(to.latitude - from.latitude)
+    val dLon = Math.toRadians(to.longitude - from.longitude)
+    val lat1 = Math.toRadians(from.latitude)
+    val lat2 = Math.toRadians(to.latitude)
+    val a = sin(dLat / 2) * sin(dLat / 2) +
+            sin(dLon / 2) * sin(dLon / 2) * cos(lat1) * cos(lat2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return earthRadiusKm * c
+}
+
 
 // Componente de ícone customizado para pins do mapa
 @Composable
@@ -124,7 +152,6 @@ fun CamerasMapView(
                     camera.coordinate!!.longitude != 0.0
         }
     }
-
     DisposableEffect(Unit) {
         onDispose {
             kotlin.runCatching {
@@ -143,10 +170,28 @@ fun CamerasMapView(
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(
             LatLng(-22.908333, -43.196388),
-            12f
+            13f
         )
     }
+    var mapCenter by remember { mutableStateOf(cameraPositionState.position.target) }
+    val visibleCameras by remember(validCameras, mapCenter) {
+        derivedStateOf {
+            validCameras.filter { camera ->
+                val coordinate = camera.coordinate!!
+                distanceKm(mapCenter, coordinate) <= CAMERA_VISIBILITY_RADIUS_KM
+            }
+        }
+    }
 
+    LaunchedEffect(cameraPositionState) {
+        snapshotFlow { cameraPositionState.isMoving }
+            .distinctUntilChanged()
+            .collectLatest { isMoving ->
+                if (!isMoving) {
+                    mapCenter = cameraPositionState.position.target
+                }
+            }
+    }
     val contentColor = MaterialTheme.colorScheme.onPrimary
 
     if (showCameraSelectionDialog) {
@@ -358,12 +403,13 @@ fun CamerasMapView(
                                     ),
                                     onMapLoaded = {
                                         isMapReady = true
+                                        mapCenter = cameraPositionState.position.target
                                         if (isLocationPermissionGranted) {
                                             localizationViewModel.startLocationUpdates()
                                         }
                                     }
                                 ) {
-                                    validCameras.forEach { camera ->
+                                    visibleCameras.forEach { camera ->
                                         val coordinate = camera.coordinate
                                         if (coordinate != null) {
                                             val isFavorite = favoriteCameraIds.contains(camera.id) ||
@@ -414,7 +460,7 @@ fun CamerasMapView(
                                     color = Color.Black.copy(alpha = 0.7f)
                                 ) {
                                     Text(
-                                        text = "${validCameras.size} câmeras",
+                                        text = "${visibleCameras.size} câmeras",
                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = Color.White
@@ -807,7 +853,26 @@ fun CamerasMapFullScreen(
     }
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(initialPosition, 12f)
+        position = CameraPosition.fromLatLngZoom(initialPosition, 13f)
+    }
+    var mapCenter by remember { mutableStateOf(cameraPositionState.position.target) }
+    val visibleCameras by remember(validCameras, mapCenter) {
+        derivedStateOf {
+            validCameras.filter { camera ->
+                val coordinate = camera.coordinate!!
+                distanceKm(mapCenter, coordinate) <= CAMERA_VISIBILITY_RADIUS_KM
+            }
+        }
+    }
+
+    LaunchedEffect(cameraPositionState) {
+        snapshotFlow { cameraPositionState.isMoving }
+            .distinctUntilChanged()
+            .collectLatest { isMoving ->
+                if (!isMoving) {
+                    mapCenter = cameraPositionState.position.target
+                }
+            }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -820,9 +885,12 @@ fun CamerasMapFullScreen(
                 myLocationButtonEnabled = true,
                 mapToolbarEnabled = true
             ),
-            onMapLoaded = { isMapReady = true }
+            onMapLoaded = {
+                isMapReady = true
+                mapCenter = cameraPositionState.position.target
+            }
         ) {
-            validCameras.forEach { camera ->
+            visibleCameras.forEach { camera ->
                 val coordinate = camera.coordinate
                 if (coordinate != null) {
                     val isFavorite = favoriteCameraIds.contains(camera.id) ||
@@ -866,7 +934,7 @@ fun CamerasMapFullScreen(
             color = Color.Black.copy(alpha = 0.7f)
         ) {
             Text(
-                text = "${validCameras.size} câmeras no mapa",
+                text = "${visibleCameras.size} câmeras no mapa",
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.White
@@ -1030,8 +1098,7 @@ private fun CameraPlayerFullscreenModal(
     var reloadTrigger by remember { mutableStateOf(0) }
 
     val cameraUrl = remember(camera.apiId, camera.id) {
-        val targetId = camera.apiId ?: camera.id
-        targetId?.let { "https://aplicativo.cocr.com.br/camera/$it" }
+        buildCameraStreamUrl(camera.apiId ?: camera.id)
     }
 
     val isFavorite = remember(favoriteCameraIds, camera) {
