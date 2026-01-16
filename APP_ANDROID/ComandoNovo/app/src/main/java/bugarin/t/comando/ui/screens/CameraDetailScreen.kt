@@ -120,7 +120,8 @@ fun CameraDetailScreen(
                             }
                         },
                         fitMode = true,
-                        rotate90 = false
+                        rotate90 = false,
+                        allowedHosts = setOf("dev.tixxi.rio", "aplicativo.cocr.com.br")
                     )
 
                     // Overlay baseado no estado

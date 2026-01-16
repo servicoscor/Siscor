@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import bugarin.t.comando.data.Alerta
 import bugarin.t.comando.data.NivelCalor
+import bugarin.t.comando.ui.components.FullScreenCarnavalView
 import bugarin.t.comando.ui.components.FullScreenRadarView
 import bugarin.t.comando.ui.components.PermissionHandler
 import bugarin.t.comando.ui.screens.*
@@ -199,6 +200,13 @@ fun CORApp(
 
         composable("radar_fullscreen") {
             FullScreenRadarView(
+                onNavigateBack = { navController.popBackStack() },
+                localizationViewModel = localizationViewModel
+            )
+        }
+
+        composable("carnaval_fullscreen") {
+            FullScreenCarnavalView(
                 onNavigateBack = { navController.popBackStack() },
                 localizationViewModel = localizationViewModel
             )

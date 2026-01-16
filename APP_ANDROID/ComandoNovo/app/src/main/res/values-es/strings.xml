@@ -392,6 +392,8 @@
     <string name="blocked_roads">Vías bloqueadas</string>
     <string name="check_interdictions">Verificar cierres</string>
     <string name="interdictions_description">Vías bloqueadas y restricciones de tráfico</string>
+    <string name="carnival_2026_title">Carnaval 2026</string>
+    <string name="carnival_2026_subtitle">Accede al sitio oficial</string>
     <string name="sirens_active">Sirenas Activas</string>
     <string name="sirens_active_count">%d sirenas activadas en este momento</string>
     <string name="no_sirens">Sin Sirenas Activas</string>

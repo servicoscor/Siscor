@@ -239,6 +239,14 @@ fun setPontosApoioScreen() {
         }
     }
 
+    fun navigateToCarnaval() {
+        try {
+            navController.navigate("carnaval_fullscreen")
+        } catch (e: Exception) {
+            android.util.Log.e("MainScreen", "Carnaval navigation failed: ${e.message}")
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         // PERFORMANCE: Background image otimizado
         Image(
@@ -331,6 +339,13 @@ fun setPontosApoioScreen() {
                     alertas = uiState.alertas,
                     isLoading = uiState.isLoading,
                     onAlertaClick = onNavigateToAlertaDetalhes,
+                    localizationViewModel = localizationViewModel
+                )
+            }
+
+            item(key = "carnaval_2026") {
+                CarnavalCardView(
+                    onOpen = ::navigateToCarnaval,
                     localizationViewModel = localizationViewModel
                 )
             }
