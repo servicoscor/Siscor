@@ -2,11 +2,18 @@
 
 package bugarin.t.comando.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.Landscape
+import androidx.compose.material.icons.filled.LocalHospital
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,6 +39,7 @@ import bugarin.t.comando.ui.components.*
 import bugarin.t.comando.ui.components.RedesSociaisCardView
 import bugarin.t.comando.ui.utils.rememberLocationPermissionState
 import bugarin.t.comando.viewmodel.CORViewModel
+import bugarin.t.comando.viewmodel.InterdicoesViewModel
 import bugarin.t.comando.viewmodel.LocalizationViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
@@ -41,6 +49,7 @@ import com.google.android.gms.maps.model.LatLng
 fun MainScreen(
     viewModel: CORViewModel,
     localizationViewModel: LocalizationViewModel,
+    interdicoesViewModel: InterdicoesViewModel,
     navController: NavController,
     onNavigateToAlertaDetalhes: (Alerta) -> Unit
 ) {
@@ -48,6 +57,7 @@ fun MainScreen(
     val scrollState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
+    val context = LocalContext.current
 
     var expandedScreen by remember { mutableStateOf<ExpandedScreen?>(null) }
     var showCamerasFullScreen by remember { mutableStateOf(false) }
@@ -188,6 +198,24 @@ fun setPontosApoioScreen() {
         loadPontosTuristicos() // Carrega quando abre a tela
     }
 
+    fun openRioturSite() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://riotur.rio/"))
+        if (context !is android.app.Activity) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    }
+
+    fun callDefesaCivil() {
+        val intent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:199")
+        }
+        if (context !is android.app.Activity) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    }
+
     fun scrollToEvents() {
         scope.launch {
             try {
@@ -311,36 +339,73 @@ fun setPontosApoioScreen() {
                 RedesSociaisCardView()
             }
 
-            item(key = "sirenes_pontos") {
-                Row(
+            item(key = "botoes_inferiores") {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Box(modifier = Modifier.weight(1f)) {
-                        SirenesStatusButton(
-                            action = ::setAlarmeScreen,
-                            sirenes = uiState.sirenes,
-                            localizationViewModel = localizationViewModel
-                        )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            FuncaoButton(
+                                iconVector = Icons.Default.Phone,
+                                labelText = localizationViewModel.getString("call_civil_defense"),
+                                onClick = ::callDefesaCivil
+                            )
+                        }
+                        Box(modifier = Modifier.weight(1f)) {
+                            PontosApoioButton(
+                                action = ::setPontosApoioScreen,
+                                localizationViewModel = localizationViewModel
+                            )
+                        }
                     }
-                    Box(modifier = Modifier.weight(1f)) {
-                        PontosApoioButton(
-                            action = ::setPontosApoioScreen,
-                            localizationViewModel = localizationViewModel
-                        )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            FuncaoButton(
+                                iconVector = Icons.Default.LocalHospital,
+                                labelText = localizationViewModel.getString("health_units"),
+                                onClick = ::setUnidadesSaudeScreen
+                            )
+                        }
+                        Box(modifier = Modifier.weight(1f)) {
+                            SirenesStatusButton(
+                                action = ::setAlarmeScreen,
+                                sirenes = uiState.sirenes,
+                                localizationViewModel = localizationViewModel
+                            )
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            FuncaoButton(
+                                iconVector = Icons.Default.Block,
+                                labelText = localizationViewModel.getString("interdictions"),
+                                onClick = ::setInterdicoesScreen,
+                                subtitleText = localizationViewModel.getString("blocked_roads")
+                            )
+                        }
+                        Box(modifier = Modifier.weight(1f)) {
+                            FuncaoButton(
+                                iconVector = Icons.Default.Landscape,
+                                labelText = localizationViewModel.getString("tourist_spots"),
+                                onClick = ::openRioturSite
+                            )
+                        }
                     }
                 }
-            }
-
-            item(key = "botoes_finais") {
-                BotoesFinaisView(
-                    onUnidadesSaudeClick = ::setUnidadesSaudeScreen,
-                    onPontosTuristicosClick = ::setPontosTuristicosScreen,
-                    onInterdicoesClick = ::setInterdicoesScreen,
-                    localizationViewModel = localizationViewModel,
-                )
             }
         }
 
@@ -452,7 +517,8 @@ fun setPontosApoioScreen() {
         ExpandedScreen.INTERDICOES -> {
             InterdicoesView(
                 onDismiss = ::dismissExpandedScreen,
-                localizationViewModel = localizationViewModel
+                localizationViewModel = localizationViewModel,
+                viewModel = interdicoesViewModel
             )
         }
 

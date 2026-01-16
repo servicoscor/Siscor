@@ -19,7 +19,6 @@ import androidx.activity.viewModels
 import android.content.res.Configuration
 import android.util.Log
 import androidx.activity.compose.LocalActivityResultRegistryOwner
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +32,7 @@ import bugarin.t.comando.ui.screens.*
 import bugarin.t.comando.ui.theme.CORTheme
 import bugarin.t.comando.ui.utils.rememberLocationPermissionState
 import bugarin.t.comando.viewmodel.CORViewModel
+import bugarin.t.comando.viewmodel.InterdicoesViewModel
 import bugarin.t.comando.viewmodel.LocalizationViewModel
 import bugarin.t.comando.viewmodel.ProvideLocalizedContext
 import com.google.android.gms.maps.MapsInitializer
@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity(), OnMapsSdkInitializedCallback {
         setContent {
             val localizationViewModel: LocalizationViewModel = viewModel()
             val corViewModel: CORViewModel = viewModel()
+            val interdicoesViewModel: InterdicoesViewModel = viewModel()
 
             // Garantir que o locale está correto ao iniciar
             LaunchedEffect(Unit) {
@@ -79,6 +80,7 @@ class MainActivity : ComponentActivity(), OnMapsSdkInitializedCallback {
                             CORApp(
                                 corViewModel = corViewModel,
                                 localizationViewModel = localizationViewModel,
+                                interdicoesViewModel = interdicoesViewModel,
                                 onSetOrientation = ::setScreenOrientation // Passa a referência da função
                             )
                         }
@@ -103,6 +105,7 @@ class MainActivity : ComponentActivity(), OnMapsSdkInitializedCallback {
 fun CORApp(
     corViewModel: CORViewModel,
     localizationViewModel: LocalizationViewModel,
+    interdicoesViewModel: InterdicoesViewModel,
     onSetOrientation: (Int) -> Unit // Adiciona o parâmetro
 ) {
     val navController = rememberNavController()
@@ -147,6 +150,7 @@ fun CORApp(
             MainScreen(
                 viewModel = corViewModel,
                 localizationViewModel = localizationViewModel,
+                interdicoesViewModel = interdicoesViewModel,
                 navController = navController,
                 onNavigateToAlertaDetalhes = { alerta ->
                     // Opção 1: Navegação simplificada (recomendada)

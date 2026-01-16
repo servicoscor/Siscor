@@ -36,6 +36,7 @@ fun ControlledWebView(
     onStateChange: (WebViewState) -> Unit,
     fitMode: Boolean = false,
     rotate90: Boolean = false,
+    allowedHosts: Set<String> = setOf("aplicativo.cocr.com.br"),
 ) {
     val TAG = "ControlledWebView-$sessionId"
     val context = LocalContext.current
@@ -149,11 +150,25 @@ fun ControlledWebView(
 
                 override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                     val url = request?.url?.toString()
-                    return if (url?.startsWith("https://aplicativo.cocr.com.br") == true) {
-                        false // Permitir carregamento
+                    val host = request?.url?.host?.lowercase()
+
+                    if (url == null || url.startsWith("about:")) {
+                        return false
+                    }
+
+                    if (allowedHosts.isEmpty()) {
+                        return false
+                    }
+
+                    val isAllowedHost = host != null && allowedHosts.any { allowed ->
+                        host == allowed.lowercase() || host.endsWith(".${allowed.lowercase()}")
+                    }
+
+                    return if (isAllowedHost) {
+                        false
                     } else {
-                        Log.w(TAG, "ðŸš« URL bloqueada: $url")
-                        true // Bloquear
+                        Log.w(TAG, "ÐYs® URL bloqueada: $url")
+                        true
                     }
                 }
 
@@ -380,3 +395,4 @@ private fun getMemoryOptimizedScript(): String = """
         }
     })();
 """.trimIndent()
+

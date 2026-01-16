@@ -22,9 +22,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import bugarin.t.comando.data.Interdicao
 import bugarin.t.comando.viewmodel.InterdicoesViewModel
@@ -35,7 +35,7 @@ import bugarin.t.comando.viewmodel.LocalizationViewModel
 fun InterdicoesView(
     onDismiss: () -> Unit,
     localizationViewModel: LocalizationViewModel,
-    viewModel: InterdicoesViewModel = hiltViewModel()
+    viewModel: InterdicoesViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -162,7 +162,13 @@ private fun InterdicoesListView(interdicoes: List<Interdicao>, localizationViewM
 @Composable
 private fun InterdicaoCard(interdicao: Interdicao, index: Int, localizationViewModel: LocalizationViewModel) {
     var isExpanded by remember { mutableStateOf(false) }
-    val fullText = interdicao.nor ?: interdicao.via ?: ""
+    val rawText = interdicao.nor ?: interdicao.via ?: ""
+    val formattedText = remember(rawText) { formatInterdicaoText(rawText) }
+    val paragraphs = remember(formattedText) {
+        formattedText.split("\n")
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+    }
 
     Card(elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
         Column(
@@ -180,7 +186,7 @@ private fun InterdicaoCard(interdicao: Interdicao, index: Int, localizationViewM
                     Text(extractTitle(interdicao), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     interdicao.poli?.let { Text(it, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Medium) }
                 }
-                if (fullText.length > 120) { // Limite para mostrar botão de expandir
+                if (formattedText.length > 120) { // Limite para mostrar botão de expandir
                     IconButton(onClick = { isExpanded = !isExpanded }) {
                         Icon(if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, null)
                     }
@@ -194,8 +200,18 @@ private fun InterdicaoCard(interdicao: Interdicao, index: Int, localizationViewM
                 }
             }
 
-            AnimatedVisibility(visible = isExpanded || fullText.length <= 120) {
-                Text(fullText, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 4.dp))
+            AnimatedVisibility(visible = isExpanded || formattedText.length <= 120) {
+                Column(
+                    modifier = Modifier.padding(top = 4.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    paragraphs.forEach { paragraph ->
+                        Text(
+                            text = paragraph,
+                            style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 20.sp)
+                        )
+                    }
+                }
             }
         }
     }
@@ -257,3 +273,22 @@ private fun shareContent(interdicoes: List<Interdicao>, context: Context, locali
 // O backend ou repository deveria idealmente fornecer dados mais estruturados (ex: enums, chaves de tradução).
 // Para este caso, a UI simplesmente exibirá os dados como eles vêm ("Programada", "Segunda"),
 // e o app deve ter as traduções correspondentes em seus arquivos de strings.xml.
+
+
+private fun formatInterdicaoText(text: String): String {
+    if (text.isBlank()) return text
+
+    var formatted = text.trim()
+    formatted = formatted.replace(Regex("^\\s*\\d+\\s*;\\s*"), "")
+    formatted = formatted.replace("jumpline", "\n", ignoreCase = true)
+    formatted = formatted.replace("jump_line", "\n", ignoreCase = true)
+    formatted = formatted.replace(";", "\n")
+    formatted = formatted.replace(Regex("[ \\t]{2,}"), " ")
+    val urlRegex = Regex("(https?://|www\\.|\\b[a-z0-9.-]+\\.[a-z]{2,})(/\\S*)?", RegexOption.IGNORE_CASE)
+
+    return formatted
+        .split("\n")
+        .map { it.trim() }
+        .filter { it.isNotEmpty() && !urlRegex.containsMatchIn(it) }
+        .joinToString("\n")
+}

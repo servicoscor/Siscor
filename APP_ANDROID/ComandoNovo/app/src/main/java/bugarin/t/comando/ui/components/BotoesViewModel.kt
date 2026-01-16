@@ -249,13 +249,17 @@ fun BotoesFinaisView(
 fun FuncaoButton(
     iconVector: ImageVector,
     labelText: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    subtitleText: String? = null
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val haptic = LocalHapticFeedback.current
 
     val contentColor = MaterialTheme.colorScheme.onPrimary
+    val hasSubtitle = !subtitleText.isNullOrBlank()
+    val iconSize = if (hasSubtitle) 32.dp else 40.dp
+    val labelSpacing = if (hasSubtitle) 8.dp else 12.dp
 
     Card(
         onClick = {
@@ -303,10 +307,10 @@ fun FuncaoButton(
                 Icon(
                     iconVector,
                     contentDescription = null,
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(iconSize),
                     tint = contentColor
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(labelSpacing))
                 Text(
                     text = labelText,
                     style = MaterialTheme.typography.titleMedium.copy(
@@ -322,6 +326,17 @@ fun FuncaoButton(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
+                if (hasSubtitle) {
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = subtitleText.orEmpty(),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = contentColor.copy(alpha = 0.9f),
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
 
             // Efeito de brilho no topo
