@@ -34,8 +34,8 @@ android {
         applicationId = "bugarin.t.comando"
         minSdk = 24
         targetSdk = 35
-        versionCode = 415 // Considere incrementar o versionCode para a nova release
-        versionName = "4.0.13" // Considere incrementar o versionName (ex: "4.0.9")
+        versionCode = 419 // Considere incrementar o versionCode para a nova release
+        versionName = "4.0.19" // Considere incrementar o versionName (ex: "4.0.9")
         manifestPlaceholders["MAPS_API_KEY"] = localProperties.getProperty("MAPS_API_KEY") ?: ""
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

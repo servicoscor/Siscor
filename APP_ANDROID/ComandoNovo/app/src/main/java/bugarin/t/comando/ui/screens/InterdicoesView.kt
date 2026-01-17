@@ -254,6 +254,7 @@ private fun extractTitle(interdicao: Interdicao): String {
     }
 }
 
+// ✅ CORRIGIDO: Adiciona FLAG_ACTIVITY_NEW_TASK quando não está em Activity
 private fun shareContent(interdicoes: List<Interdicao>, context: Context, localizationViewModel: LocalizationViewModel) {
     val title = localizationViewModel.getString("scheduled_interdictions")
     val shareText = interdicoes.joinToString("\n\n") {
@@ -261,19 +262,22 @@ private fun shareContent(interdicoes: List<Interdicao>, context: Context, locali
         val reg = it.reg ?: ""
         "- $via ($reg)"
     }
-    val intent = Intent(Intent.ACTION_SEND).apply {
+    val sendIntent = Intent().apply {
+        action = Intent.ACTION_SEND
         type = "text/plain"
         putExtra(Intent.EXTRA_SUBJECT, title)
         putExtra(Intent.EXTRA_TEXT, "$title\n\n$shareText")
     }
-    context.startActivity(Intent.createChooser(intent, localizationViewModel.getString("share")))
+
+    val shareIntent = Intent.createChooser(sendIntent, localizationViewModel.getString("share"))
+
+    // ✅ Adiciona a flag se não for uma Activity
+    if (context !is android.app.Activity) {
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+
+    context.startActivity(shareIntent)
 }
-
-// ❌ REMOVIDO: Funções de tradução hardcoded. A UI deve usar chaves do sistema de strings.
-// O backend ou repository deveria idealmente fornecer dados mais estruturados (ex: enums, chaves de tradução).
-// Para este caso, a UI simplesmente exibirá os dados como eles vêm ("Programada", "Segunda"),
-// e o app deve ter as traduções correspondentes em seus arquivos de strings.xml.
-
 
 private fun formatInterdicaoText(text: String): String {
     if (text.isBlank()) return text
