@@ -59,6 +59,11 @@ fun buildCameraStreamUrl(code: String?): String? {
     return code?.let { "${CAMERA_STREAM_BASE_URL}?CODE=$it&KEY=$CAMERA_STREAM_KEY" }
 }
 
+// ✅ FUNÇÃO HELPER PARA ID ÚNICO E CONSISTENTE
+private fun getCameraUniqueId(camera: Camera): String {
+    return camera.apiId ?: camera.id
+}
+
 private fun distanceKm(from: LatLng, to: LatLng): Double {
     val earthRadiusKm = 6371.0
     val dLat = Math.toRadians(to.latitude - from.latitude)
@@ -199,7 +204,7 @@ fun CamerasMapView(
             cameras = validCameras,
             favoriteCameraIds = favoriteCameraIds,
             onCameraSelected = { camera ->
-                onToggleFavorite(camera.id)
+                onToggleFavorite(getCameraUniqueId(camera))
                 showCameraSelectionDialog = false
             },
             onDismiss = { showCameraSelectionDialog = false },
@@ -286,7 +291,7 @@ fun CamerasMapView(
                     FavoriteCameraCard(
                         modifier = Modifier.weight(1f),
                         camera = favoriteCameraIds.getOrNull(0)?.let { id ->
-                            cameras.find { it.id == id || it.apiId == id }
+                            cameras.find { getCameraUniqueId(it) == id }
                         },
                         slotNumber = 1,
                         onCardClick = { camera ->
@@ -297,14 +302,14 @@ fun CamerasMapView(
                             }
                         },
                         onRemoveClick = { cam ->
-                            onToggleFavorite(cam.id)
+                            onToggleFavorite(getCameraUniqueId(cam))
                         }
                     )
 
                     FavoriteCameraCard(
                         modifier = Modifier.weight(1f),
                         camera = favoriteCameraIds.getOrNull(1)?.let { id ->
-                            cameras.find { it.id == id || it.apiId == id }
+                            cameras.find { getCameraUniqueId(it) == id }
                         },
                         slotNumber = 2,
                         onCardClick = { camera ->
@@ -315,7 +320,7 @@ fun CamerasMapView(
                             }
                         },
                         onRemoveClick = { cam ->
-                            onToggleFavorite(cam.id)
+                            onToggleFavorite(getCameraUniqueId(cam))
                         }
                     )
                 }
@@ -412,8 +417,7 @@ fun CamerasMapView(
                                     visibleCameras.forEach { camera ->
                                         val coordinate = camera.coordinate
                                         if (coordinate != null) {
-                                            val isFavorite = favoriteCameraIds.contains(camera.id) ||
-                                                    favoriteCameraIds.contains(camera.apiId)
+                                            val isFavorite = favoriteCameraIds.contains(getCameraUniqueId(camera))
 
                                             MarkerComposable(
                                                 state = MarkerState(position = coordinate),
@@ -690,9 +694,8 @@ private fun CameraSelectionDialog(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(cameras, key = { it.id }) { camera ->
-                            val isFavorite = favoriteCameraIds.contains(camera.id) ||
-                                    favoriteCameraIds.contains(camera.apiId)
+                        items(cameras, key = { getCameraUniqueId(it) }) { camera ->
+                            val isFavorite = favoriteCameraIds.contains(getCameraUniqueId(camera))
 
                             Card(
                                 onClick = {
@@ -893,8 +896,7 @@ fun CamerasMapFullScreen(
             visibleCameras.forEach { camera ->
                 val coordinate = camera.coordinate
                 if (coordinate != null) {
-                    val isFavorite = favoriteCameraIds.contains(camera.id) ||
-                            favoriteCameraIds.contains(camera.apiId)
+                    val isFavorite = favoriteCameraIds.contains(getCameraUniqueId(camera))
 
                     MarkerComposable(
                         state = MarkerState(position = coordinate),
@@ -978,7 +980,7 @@ fun CameraDetailsSheet(
     favoriteCameraIds: List<String>
 ) {
     val isFavorite = remember(favoriteCameraIds, camera) {
-        favoriteCameraIds.contains(camera.id) || favoriteCameraIds.contains(camera.apiId)
+        favoriteCameraIds.contains(getCameraUniqueId(camera))
     }
 
     ModalBottomSheet(onDismissRequest = onDismiss) {
@@ -999,7 +1001,7 @@ fun CameraDetailsSheet(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
                 )
-                IconButton(onClick = { onToggleFavorite(camera.id) }) {
+                IconButton(onClick = { onToggleFavorite(getCameraUniqueId(camera)) }) {
                     Icon(
                         imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
                         contentDescription = if (isFavorite) "Remover dos favoritos" else "Adicionar aos favoritos",
@@ -1082,10 +1084,6 @@ private fun InfoRow(
     }
 }
 
-/**
- * 🔥 CÂMERA MUITO MAIOR - Scale 0.50!
- * Substitui a função CameraPlayerFullscreenModal inteira por este código
- */
 @Composable
 private fun CameraPlayerFullscreenModal(
     camera: Camera,
@@ -1102,7 +1100,7 @@ private fun CameraPlayerFullscreenModal(
     }
 
     val isFavorite = remember(favoriteCameraIds, camera) {
-        favoriteCameraIds.contains(camera.id) || favoriteCameraIds.contains(camera.apiId)
+        favoriteCameraIds.contains(getCameraUniqueId(camera))
     }
 
     Dialog(
@@ -1131,7 +1129,7 @@ private fun CameraPlayerFullscreenModal(
                                 mediaPlaybackRequiresUserGesture = false
                                 loadWithOverviewMode = false
                                 useWideViewPort = false
-                                setInitialScale(30)  // ✅ FIXO! Não mexe!
+                                setInitialScale(30)
                                 setSupportZoom(false)
                                 builtInZoomControls = false
                                 displayZoomControls = false
@@ -1197,11 +1195,11 @@ private fun CameraPlayerFullscreenModal(
                         .fillMaxSize()
                         .graphicsLayer(
                             rotationZ = 90f,
-                            scaleX = 2.3f,         // ainda mais zoom para preencher
+                            scaleX = 2.3f,
                             scaleY = 2.3f,
                             clip = false,
-                            translationX = -1375f, // volta mais um pouco para a direita
-                            translationY = 220f    // ajuste fino vertical
+                            translationX = -1375f,
+                            translationY = 220f
                         )
                 )
             }
@@ -1262,7 +1260,7 @@ private fun CameraPlayerFullscreenModal(
 
                         // BOTÃO ESTRELA
                         IconButton(
-                            onClick = { onToggleFavorite(camera.id) },
+                            onClick = { onToggleFavorite(getCameraUniqueId(camera)) },
                             modifier = Modifier.size(48.dp)
                         ) {
                             Icon(
@@ -1299,4 +1297,3 @@ sealed class CameraWebViewState {
     object Success : CameraWebViewState()
     data class Error(val message: String) : CameraWebViewState()
 }
-

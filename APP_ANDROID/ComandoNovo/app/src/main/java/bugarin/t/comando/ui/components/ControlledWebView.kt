@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 
 /**
- * Representa os possíveis estados do ControlledWebView.
+ * Representa os possi­veis estados do ControlledWebView.
  */
 sealed class WebViewState {
     data object Loading : WebViewState()
@@ -24,7 +24,7 @@ sealed class WebViewState {
 }
 
 /**
- * ✅ MEMORY OPTIMIZED: WebView com melhor gerenciamento de memória e cleanup
+ *  MEMORY OPTIMIZED: WebView com melhor gerenciamento de memoria e cleanup
  */
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -37,19 +37,24 @@ fun ControlledWebView(
     fitMode: Boolean = false,
     rotate90: Boolean = false,
     allowedHosts: Set<String> = setOf("aplicativo.cocr.com.br"),
+    allowMixedContent: Boolean = false,
+    customUserAgent: String? = null,
+    useDefaultUserAgent: Boolean = false,
+    allowThirdPartyCookies: Boolean = false,
+    enableMemoryOptimizations: Boolean = true
 ) {
     val TAG = "ControlledWebView-$sessionId"
     val context = LocalContext.current
     val latestOnStateChange by rememberUpdatedState(onStateChange)
 
-    // ✅ MEMORY: WeakReference para evitar memory leaks
+    //  MEMORY: WeakReference para evitar memory leaks
     var webViewRef by remember { mutableStateOf<WeakReference<WebView>?>(null) }
 
-    // ✅ MEMORY: WebView otimizado com cleanup adequado e configurações de memória
+    //  MEMORY: WebView otimizado com cleanup adequado e configurações de memoria
     val webView = remember {
         WebView(context).apply {
             settings.apply {
-                // ✅ PERFORMANCE: Configurações otimizadas
+                //  PERFORMANCE: Configurações otimizadas
                 javaScriptEnabled = true
                 domStorageEnabled = true
                 loadWithOverviewMode = true
@@ -57,59 +62,88 @@ fun ControlledWebView(
                 builtInZoomControls = false
                 displayZoomControls = false
 
-                // ✅ MEMORY: Configurações de cache e memória otimizadas
-                cacheMode = WebSettings.LOAD_NO_CACHE // ✅ CRITICAL: Evita acúmulo de cache
-                // ✅ FIXED: Removido setAppCacheEnabled e setAppCacheMaxSize - deprecated
-                databaseEnabled = false
+                //  MEMORY: Configurações de cache e memoria otimizadas
+                cacheMode = if (enableMemoryOptimizations) {
+                    WebSettings.LOAD_NO_CACHE
+                } else {
+                    WebSettings.LOAD_DEFAULT
+                }
+                // FIXED: Removido setAppCacheEnabled e setAppCacheMaxSize - deprecated
+                databaseEnabled = !enableMemoryOptimizations
 
-                // ✅ MEMORY: Configurações de memória específicas
-                setRenderPriority(WebSettings.RenderPriority.HIGH)
-                setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING)
+                //  MEMORY: Configurações de memoria especi­ficas
+                setRenderPriority(
+                    if (enableMemoryOptimizations) {
+                        WebSettings.RenderPriority.HIGH
+                    } else {
+                        WebSettings.RenderPriority.NORMAL
+                    }
+                )
+                if (enableMemoryOptimizations) {
+                    setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING)
+                }
 
-                // ✅ SECURITY: Configurações de segurança
-                mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
+                //  SECURITY: Configurações de segurança
+                mixedContentMode = if (allowMixedContent) {
+                    WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                } else {
+                    WebSettings.MIXED_CONTENT_NEVER_ALLOW
+                }
                 allowFileAccess = false
                 allowContentAccess = false
                 allowFileAccessFromFileURLs = false
                 allowUniversalAccessFromFileURLs = false
 
-                // ✅ MEMORY: User agent otimizado
-                userAgentString = "Mozilla/5.0 (Linux; Android 12) COR-App/1.0 Optimized"
+                //  MEMORY: User agent otimizado
+                userAgentString = when {
+                    customUserAgent != null -> customUserAgent
+                    useDefaultUserAgent -> WebSettings.getDefaultUserAgent(context)
+                    else -> "Mozilla/5.0 (Linux; Android 12) COR-App/1.0 Optimized"
+                }
                 mediaPlaybackRequiresUserGesture = false
 
-                // ✅ MEMORY: Limitar recursos
+                //  MEMORY: Limitar recursos
                 setGeolocationEnabled(false)
                 setNeedInitialFocus(false)
                 setSupportZoom(false)
                 setSupportMultipleWindows(false)
             }
 
-            // ✅ MEMORY: WebViewClient otimizado para memory management
+            //  MEMORY: WebViewClient otimizado para memory management
+            CookieManager.getInstance().setAcceptCookie(true)
+            if (allowThirdPartyCookies) {
+                CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
+            }
+
             webViewClient = object : WebViewClient() {
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                     super.onPageStarted(view, url, favicon)
-                    Log.d(TAG, "📄 Página iniciada: $url")
+                    Log.d(TAG, " Pagina iniciada: $url")
                     latestOnStateChange(WebViewState.Loading)
 
-                    // ✅ MEMORY: Força garbage collection antes de carregar nova página
-                    System.gc()
+                    // âœ… MEMORY: Força garbage collection antes de carregar nova pÃ¡gina
+                    if (enableMemoryOptimizations) {
+                        System.gc()
+                    }
                 }
 
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
-                    Log.d(TAG, "✅ Página carregada: $url")
+                    Log.d(TAG, "pagina carregada: $url")
                     latestOnStateChange(WebViewState.Success)
 
-                    // ✅ MEMORY: JavaScript otimizado e cleanup
+                    // âœ… MEMORY: JavaScript otimizado e cleanup
                     view?.post {
                         try {
-                            view.evaluateJavascript(getMemoryOptimizedScript()) { result ->
-                                Log.d(TAG, "Memory script executed: $result")
+                            if (enableMemoryOptimizations) {
+                                view.evaluateJavascript(getMemoryOptimizedScript()) { result ->
+                                    Log.d(TAG, "Memory script executed: $result")
+                                }
                             }
 
-                            // ✅ FIT TO SCREEN: Injetar script de ajuste quando necessário
+                            // âœ… FIT TO SCREEN: Injetar script de ajuste quando necessÃ¡rio
                             if (fitMode || rotate90) {
-                                Log.d(TAG, "🎥 Injetando script de fit to screen (fitMode=$fitMode, rotate90=$rotate90)")
+                                Log.d(TAG, " Injetando script de fit to screen (fitMode=$fitMode, rotate90=$rotate90)")
                                 view.evaluateJavascript(getVideoFitScript(fitMode, rotate90)) { result ->
                                     Log.d(TAG, "Fit script executed: $result")
                                 }
@@ -124,12 +158,14 @@ fun ControlledWebView(
                     super.onReceivedError(view, request, error)
                     if (request?.isForMainFrame == true) {
                         val errorMessage = "Erro ${error?.errorCode}: ${error?.description}"
-                        Log.e(TAG, "❌ $errorMessage")
+                        Log.e(TAG, "$errorMessage")
                         latestOnStateChange(WebViewState.Error(errorMessage))
 
-                        // ✅ MEMORY: Cleanup em caso de erro
-                        view?.clearHistory()
-                        view?.clearCache(true)
+                        // ?o. MEMORY: Cleanup em caso de erro
+                        if (enableMemoryOptimizations) {
+                            view?.clearHistory()
+                            view?.clearCache(true)
+                        }
                     }
                 }
 
@@ -137,14 +173,14 @@ fun ControlledWebView(
                     super.onReceivedHttpError(view, request, errorResponse)
                     if (request?.isForMainFrame == true) {
                         val errorMessage = "HTTP Error ${errorResponse?.statusCode}"
-                        Log.e(TAG, "🌐 $errorMessage")
+                        Log.e(TAG, " $errorMessage")
                         latestOnStateChange(WebViewState.Error(errorMessage))
                     }
                 }
 
                 override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-                    Log.w(TAG, "🔒 SSL Error: ${error?.primaryError}")
-                    handler?.cancel() // ✅ SECURITY: Não proceder com erros SSL
+                    Log.w(TAG, " Error: ${error?.primaryError}")
+                    handler?.cancel() // âœ… SECURITY: Não proceder com erros SSL
                     latestOnStateChange(WebViewState.Error("Erro de certificado SSL"))
                 }
 
@@ -167,25 +203,25 @@ fun ControlledWebView(
                     return if (isAllowedHost) {
                         false
                     } else {
-                        Log.w(TAG, "�Ys� URL bloqueada: $url")
+                        Log.w(TAG, " URL bloqueada: $url")
                         true
                     }
                 }
 
                 override fun onPageCommitVisible(view: WebView?, url: String?) {
                     super.onPageCommitVisible(view, url)
-                    // ✅ MEMORY: Cleanup de recursos não utilizados quando página fica visível
+                    //  MEMORY: Cleanup de recursos nÃ£o utilizados quando pagina fica visa­vel
                     view?.clearFormData()
                 }
             }
 
-            // ✅ MEMORY: WebChromeClient otimizado
+            // MEMORY: WebChromeClient otimizado
             webChromeClient = object : WebChromeClient() {
                 override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                     consoleMessage?.let {
-                        // ✅ MEMORY: Log apenas mensagens importantes para evitar spam
+                        //  MEMORY: Log apenas mensagens importantes para evitar spam
                         if (it.messageLevel() == ConsoleMessage.MessageLevel.ERROR) {
-                            Log.e(TAG, "🔴 JS Error: ${it.message()}")
+                            Log.e(TAG, " JS Error: ${it.message()}")
                         }
                     }
                     return true
@@ -194,18 +230,18 @@ fun ControlledWebView(
                 override fun onProgressChanged(view: WebView?, newProgress: Int) {
                     super.onProgressChanged(view, newProgress)
                     if (newProgress == 100) {
-                        Log.d(TAG, "📊 Carregamento completo")
-                        // ✅ MEMORY: Cleanup após carregamento completo
+                        Log.d(TAG, "Carregamento completo")
+                        //  MEMORY: Cleanup apÃ³s carregamento completo
                         view?.clearFormData()
                     }
                 }
 
                 override fun onReceivedTitle(view: WebView?, title: String?) {
                     super.onReceivedTitle(view, title)
-                    Log.d(TAG, "📝 Título recebido: $title")
+                    Log.d(TAG, " Titulo recebido: $title")
                 }
 
-                // ✅ MEMORY: Não permitir múltiplas janelas para economizar memória
+                //  MEMORY: Não permitir mÃºltiplas janelas para economizar memoria
                 override fun onCreateWindow(
                     view: WebView?,
                     isDialog: Boolean,
@@ -216,85 +252,89 @@ fun ControlledWebView(
                 }
             }
 
-            // ✅ MEMORY: Salvar referência fraca
+            // MEMORY: Salvar referÃªncia fraca
             webViewRef = WeakReference(this)
         }
     }
 
-    // ✅ MEMORY: Controle de lifecycle otimizado
+    // MEMORY: Controle de lifecycle otimizado
     LaunchedEffect(url) {
         if (url.isNotEmpty() && webView.url != url) {
-            Log.d(TAG, "🔄 Carregando URL: $url")
+            Log.d(TAG, " Carregando URL: $url")
             try {
                 withContext(Dispatchers.Main) {
-                    // ✅ MEMORY: Limpar antes de carregar nova URL
-                    webView.clearHistory()
-                    webView.clearCache(true)
-                    webView.clearFormData()
-                    System.gc() // Força GC
+                    //  MEMORY: Limpar antes de carregar nova URL
+                    if (enableMemoryOptimizations) {
+                        webView.clearHistory()
+                        webView.clearCache(true)
+                        webView.clearFormData()
+                        System.gc() // Fora GC
+                    }
                     webView.loadUrl(url)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "❌ Erro ao carregar URL: ${e.message}")
-                latestOnStateChange(WebViewState.Error("Erro ao carregar página"))
+                Log.e(TAG, " Erro ao carregar URL: ${e.message}")
+                latestOnStateChange(WebViewState.Error("Erro ao carregar pagina"))
             }
         }
     }
 
     LaunchedEffect(reloadTrigger) {
         if (reloadTrigger > 0) {
-            Log.d(TAG, "🔄 Recarregando via trigger: $reloadTrigger")
+            Log.d(TAG, " Recarregando via trigger: $reloadTrigger")
             try {
                 withContext(Dispatchers.Main) {
-                    // ✅ MEMORY: Cleanup antes de reload
-                    webView.clearHistory()
-                    webView.clearCache(true)
-                    webView.clearFormData()
-                    System.gc()
+                    // MEMORY: Cleanup antes de reload
+                    if (enableMemoryOptimizations) {
+                        webView.clearHistory()
+                        webView.clearCache(true)
+                        webView.clearFormData()
+                        System.gc()
+                    }
                     webView.reload()
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "❌ Erro ao recarregar: ${e.message}")
-                latestOnStateChange(WebViewState.Error("Erro ao recarregar página"))
+                Log.e(TAG, " Erro ao recarregar: ${e.message}")
+                latestOnStateChange(WebViewState.Error("Erro ao recarregar pagina"))
             }
         }
     }
 
-    // ✅ MEMORY: Cleanup agressivo quando o componente é removido
+    //  MEMORY: Cleanup agressivo quando o componente removido
     DisposableEffect(webView) {
         onDispose {
-            Log.d(TAG, "🗑️ Limpando WebView de forma agressiva")
+            Log.d(TAG, " Limpando WebView de forma agressiva")
             try {
                 webViewRef?.get()?.apply {
-                    // ✅ MEMORY: Cleanup completo e agressivo
+                    // MEMORY: Cleanup completo e agressivo
                     stopLoading()
-                    loadUrl("about:blank") // Limpa conteúdo
+                    loadUrl("about:blank") // Limpa conteudo
                     clearHistory()
                     clearCache(true)
                     clearFormData()
                     clearMatches()
                     clearSslPreferences()
 
-                    // ✅ FIXED: Usar implementação vazia ao invés de null
+                    //  FIXED: Usar implementação vazia ao inves de null
                     webViewClient = object : WebViewClient() {}
                     webChromeClient = object : WebChromeClient() {}
 
-                    // ✅ MEMORY: Remove views
+                    //  MEMORY: Remove views
                     removeAllViews()
 
-                    // ✅ MEMORY: Pausa/resume para liberar recursos
+                    //  MEMORY: Pausa/resume para liberar recursos
                     onPause()
 
-                    // ✅ MEMORY: Destroy final
+                    //  MEMORY: Destroy final
                     destroy()
                 }
                 webViewRef = null
 
-                // ✅ MEMORY: Força garbage collection após cleanup
+                //  MEMORY: ForÃ§a garbage collection aps cleanup
                 System.gc()
 
             } catch (e: Exception) {
-                Log.e(TAG, "❌ Erro na limpeza: ${e.message}")
+                Log.e(TAG, " Erro na limpeza: ${e.message}")
             }
         }
     }
@@ -303,7 +343,7 @@ fun ControlledWebView(
         factory = { webView },
         modifier = modifier,
         onRelease = { webViewInstance ->
-            Log.d(TAG, "🔄 AndroidView onRelease")
+            Log.d(TAG, " AndroidView onRelease")
             try {
                 webViewInstance.apply {
                     stopLoading()
@@ -314,22 +354,22 @@ fun ControlledWebView(
                     onPause()
                     destroy()
                 }
-                // ✅ MEMORY: GC após release
+                //  MEMORY: GC aps release
                 System.gc()
             } catch (e: Exception) {
-                Log.e(TAG, "❌ Erro no onRelease: ${e.message}")
+                Log.e(TAG, " Erro no onRelease: ${e.message}")
             }
         }
     )
 }
 
 /**
- * ✅ MEMORY: Script JavaScript otimizado para economia de memória
+ *  MEMORY: Script JavaScript otimizado para economia de memoria
  */
 private fun getMemoryOptimizedScript(): String = """
     (function() {
         try {
-            // ✅ MEMORY: Script mínimo e eficiente
+            //  MEMORY: Script minimo e eficiente
             if (typeof navigator !== 'undefined' && navigator.webdriver) {
                 Object.defineProperty(navigator, 'webdriver', {
                     get: () => undefined,
@@ -337,15 +377,15 @@ private fun getMemoryOptimizedScript(): String = """
                 });
             }
             
-            // ✅ MEMORY: Remover listeners desnecessários para economizar memória
+            //  MEMORY: Remover listeners desnecessÃ¡rios para economizar memoria
             document.addEventListener('DOMContentLoaded', function() {
-                // Remove event listeners que consomem memória
+                // Remove event listeners que consomem memoria
                 const elements = document.querySelectorAll('*');
                 let count = 0;
                 elements.forEach(el => {
                     if (count++ > 1000) return; // Limita processamento
                     
-                    // Remove listeners que consomem memória
+                    // Remove listeners que consomem memoria
                     if (el.onmouseover) el.onmouseover = null;
                     if (el.onmouseout) el.onmouseout = null;
                     if (el.onmousemove) el.onmousemove = null;
@@ -353,13 +393,13 @@ private fun getMemoryOptimizedScript(): String = """
                     if (el.onmouseleave) el.onmouseleave = null;
                 });
                 
-                // ✅ MEMORY: Limpar console para economizar memória
+                // âœ… MEMORY: Limpar console para economizar memoria
                 if (console && console.clear) {
                     console.clear();
                 }
             });
             
-            // ✅ MEMORY: Cleanup de timers órfãos
+            //  MEMORY: Cleanup de timers 
             const originalSetTimeout = window.setTimeout;
             const originalSetInterval = window.setInterval;
             const activeTimeouts = new Set();
@@ -395,4 +435,5 @@ private fun getMemoryOptimizedScript(): String = """
         }
     })();
 """.trimIndent()
+
 
